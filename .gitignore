@@ -35,6 +35,7 @@ temp/
 tmp/
 uploads/
 *.tmp
+*.lock
 
 # OS Files
 .DS_Store
@@ -87,6 +88,8 @@ data/captions/
 data/scripts/
 data/videos/
 data/thumbnails/
+data/instagram_browser_profile/
+*.part
 
 # Claude worktrees
 .claude/worktrees/

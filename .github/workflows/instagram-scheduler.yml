@@ -1,0 +1,47 @@
+name: Instagram Reels Cloud Auto-Publisher
+
+on:
+  schedule:
+    # 06:00 - 08:00 UTC = 11:30 AM - 1:30 PM IST. Runs every 5 mins to catch 12:00 PM IST noon prompt publish!
+    - cron: '*/5 6,7 * * *'
+    # 14:00 - 17:00 UTC = 7:30 PM - 10:30 PM IST. Evening peak checks every 10 mins
+    - cron: '*/10 14,15,16 * * *'
+    # Hourly baseline check
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-reels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Instagram Auto-Scheduler
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+        run: node scripts/instagram-auto-scheduler.js
+
+      - name: Commit & Push Queue Changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [[ -n $(git status -s data/instagram_reels_queue.json) ]]; then
+            git add data/instagram_reels_queue.json
+            git commit -m "chore: update instagram reels queue [skip ci]"
+            git pull --rebase origin master
+            git push origin master
+          else
+            echo "No queue changes to commit."
+          fi
