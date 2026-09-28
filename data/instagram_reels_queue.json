@@ -113,7 +113,7 @@
     "scheduledTimeIST": "2026-09-28 12:00:00 IST",
     "scheduledDate": "28-09-2026",
     "scheduledTime": "12:00:00",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "keywords": [
       "link",
       "scale",
@@ -124,6 +124,10 @@
     ],
     "youtubeUrl": "https://youtu.be/qYhmP1ZkCmM",
     "localVideoPath": "data/shorts/meta_scale_1lakh/Reel_1_Scaling_Myth_Final.mp4",
-    "localCoverPath": "data/shorts/meta_scale_1lakh/Reel_1_Cover.jpg"
+    "localCoverPath": "data/shorts/meta_scale_1lakh/Reel_1_Cover.jpg",
+    "processingStartedAt": "2026-09-28T11:33:56.639Z",
+    "publishedMediaId": "18147922660479847",
+    "permalink": "https://www.instagram.com/reel/Dd0jIvBgU6v/",
+    "publishedAt": "2026-09-28T06:33:05+0000"
   }
 ]
