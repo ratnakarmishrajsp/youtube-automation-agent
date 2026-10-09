@@ -2,12 +2,12 @@ name: Instagram Reels Cloud Auto-Publisher
 
 on:
   schedule:
-    # 06:00 - 08:00 UTC = 11:30 AM - 1:30 PM IST. Runs every 5 mins to catch 12:00 PM IST noon prompt publish!
-    - cron: '*/5 6,7 * * *'
-    # 14:00 - 17:00 UTC = 7:30 PM - 10:30 PM IST. Evening peak checks every 10 mins
-    - cron: '*/10 14,15,16 * * *'
-    # Hourly baseline check
-    - cron: '0 * * * *'
+    # 06:00 - 10:00 UTC = 11:30 AM - 3:30 PM IST. Runs every 5 mins to catch midday & 1:30 PM IST drops instantly!
+    - cron: '*/5 6,7,8,9 * * *'
+    # 13:00 - 17:00 UTC = 6:30 PM - 10:30 PM IST. Evening peak checks every 5 mins!
+    - cron: '*/5 13,14,15,16 * * *'
+    # Baseline 15-minute check 24/7 to catch any custom scheduled drop!
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 permissions:

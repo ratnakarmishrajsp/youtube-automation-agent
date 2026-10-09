@@ -69,23 +69,32 @@ function uploadToCatbox(filePath) {
   log(`📤 Uploading ${path.basename(filePath)} to CDN...`);
   const normalized = filePath.replace(/\\/g, '/');
   const curlBin = process.platform === 'win32' ? 'curl.exe' : 'curl';
+
+  // Try Catbox first (reliable & fast up to 200MB)
   try {
-    const cmd = `${curlBin} -s --retry 3 --retry-delay 2 -F "reqtype=fileupload" -F "time=72h" -F "fileToUpload=@${normalized}" https://litterbox.catbox.moe/resources/internals/api.php`;
+    const cmd2 = `${curlBin} -s --max-time 180 -F "reqtype=fileupload" -F "fileToUpload=@${normalized}" https://catbox.moe/user/api.php`;
+    const url2 = execSync(cmd2, { encoding: 'utf8' }).trim();
+    if (url2.startsWith('https://')) {
+      log(`✅ Uploaded to CDN (Catbox): ${url2}`);
+      return url2;
+    }
+  } catch (e) {
+    log(`⚠️ Catbox upload notice: ${e.message}. Trying Litterbox...`);
+  }
+
+  // Fallback to Litterbox
+  try {
+    const cmd = `${curlBin} -s --max-time 180 -F "reqtype=fileupload" -F "time=72h" -F "fileToUpload=@${normalized}" https://litterbox.catbox.moe/resources/internals/api.php`;
     const url = execSync(cmd, { encoding: 'utf8' }).trim();
     if (url.startsWith('https://')) {
-      log(`✅ Uploaded to CDN: ${url}`);
+      log(`✅ Uploaded to CDN (Litterbox): ${url}`);
       return url;
     }
   } catch (e) {
-    log(`⚠️ Litterbox upload notice: ${e.message}. Trying Catbox...`);
+    log(`⚠️ Litterbox upload notice: ${e.message}`);
   }
-  const cmd2 = `${curlBin} -s --retry 3 --retry-delay 2 -F "reqtype=fileupload" -F "fileToUpload=@${normalized}" https://catbox.moe/user/api.php`;
-  const url2 = execSync(cmd2, { encoding: 'utf8' }).trim();
-  if (!url2.startsWith('https://')) {
-    throw new Error(`CDN upload failed: ${url2}`);
-  }
-  log(`✅ Uploaded to CDN (Catbox): ${url2}`);
-  return url2;
+
+  throw new Error(`CDN upload failed for ${filePath}`);
 }
 
 // Convert "YYYY-MM-DD HH:mm:ss IST" or "DD-MM-YYYY HH:mm:ss" to epoch ms
@@ -335,7 +344,7 @@ async function processQueue(forceId = null) {
       continue;
     }
 
-    if (reel.status === 'READY_TO_PUBLISH') {
+    if (reel.status === 'READY_TO_PUBLISH' || reel.status === 'QUEUED') {
       const scheduledMs = parseScheduleTime(reel);
       if (scheduledMs > 0 && nowMs >= scheduledMs) {
         log(`⏰ Scheduled time reached for Reel #${reel.id} ("${reel.title}"): Scheduled ${reel.scheduledTimeIST}, Current: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST`);

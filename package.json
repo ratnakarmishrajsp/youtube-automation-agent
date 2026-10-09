@@ -11,6 +11,8 @@
     "growth:track": "node scripts/growth/track-performance.js",
     "growth:ab-status": "node scripts/growth/ab-test-thumbnails.js --status",
     "growth:ab-auto": "node scripts/growth/ab-test-thumbnails.js --auto",
+    "hyperframes:ab-status": "node scripts/growth/ab_test_hyperframes_master.js --status",
+    "hyperframes:ab-check": "node scripts/growth/ab_test_hyperframes_master.js --check",
     "growth:daemon": "node scripts/growth/growth-daemon.js",
     "scheduler": "node schedules/daily-automation.js",
     "test": "node test.js",

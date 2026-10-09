@@ -1,3 +1,7 @@
+const dns = require('dns');
+if (dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder('ipv4first');
+}
 const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
@@ -41,8 +45,8 @@ class ModernAuth {
         this.rejectAuth = reject;
         this.authTimeout = setTimeout(() => {
           this.cleanup();
-          reject(new Error('Authentication timeout (5 minutes)'));
-        }, 300000);
+          reject(new Error('Authentication timeout (60 minutes)'));
+        }, 3600000);
       });
 
       // Start a temporary local server at the exact redirect URI used in the OAuth request.
@@ -58,16 +62,7 @@ class ModernAuth {
       console.log(chalk.cyan('🔗 Please visit this URL to authorize:'));
       console.log(chalk.blue(authUrl));
 
-      // Best effort: open the URL in the default browser
-      const { exec } = require('child_process');
-      const openCommands = {
-        win32: `start "" "${authUrl}"`,
-        darwin: `open "${authUrl}"`,
-        linux: `xdg-open "${authUrl}"`
-      };
-      if (openCommands[process.platform]) {
-        exec(openCommands[process.platform], () => {});
-      }
+      // User opens URL manually in their own active browser window
       console.log(chalk.yellow(`\n⚡ A temporary server is running on port ${redirect.port}`));
       console.log(chalk.yellow('After authorization, you\'ll be redirected automatically.'));
       console.log(chalk.gray('Waiting for authorization...'));
@@ -177,7 +172,7 @@ class ModernAuth {
     
     await new Promise((resolve, reject) => {
       this.server.once('error', reject);
-      this.server.listen(redirect.port, redirect.hostname, resolve);
+      this.server.listen(redirect.port, '0.0.0.0', resolve);
     });
     console.log(chalk.gray(`Temporary OAuth server started on ${redirect.uri}`));
   }

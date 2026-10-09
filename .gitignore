@@ -93,3 +93,8 @@ data/instagram_browser_profile/
 
 # Claude worktrees
 .claude/worktrees/
+
+# Machine learning models & scratch
+yolov8n.pt
+scratch/
+*.xlsx
