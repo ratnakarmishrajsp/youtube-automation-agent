@@ -414,7 +414,12 @@
     "localCoverPath": "data/shorts/shiprocket_cover.jpg",
     "videoUrl": "https://files.catbox.moe/yoej96.mp4",
     "coverUrl": "https://files.catbox.moe/cnbrn2.jpg",
-    "status": "READY_TO_PUBLISH",
-    "createdAt": "2026-10-08T09:15:45.715Z"
+    "status": "PUBLISHED",
+    "createdAt": "2026-10-08T09:15:45.715Z",
+    "processingStartedAt": "2026-10-10T09:30:29.764Z",
+    "containerId": "17905826022570332",
+    "publishedMediaId": "17974696122154847",
+    "permalink": "https://www.instagram.com/reel/DeTxCyjCZFv/",
+    "publishedAt": "2026-10-10T09:31:09.916Z"
   }
 ]
