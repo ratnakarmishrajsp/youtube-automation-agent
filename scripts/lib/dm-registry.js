@@ -18,6 +18,10 @@ function registerPublishedReel(reel) {
       keywords: [reel.dm.keyword.toLowerCase(), 'link'],
       youtubeUrl: reel.dm.link,
       dmMessage: reel.dm.message || buildDmMessage(reel.dm.link),
+      // Having followGate marks a reel as "new system": the worker watches it forever.
+      followGate: reel.dm.followGate || 'none',
+      pdfSlug: reel.dm.pdf ? reel.dm.pdf.slug : null,
+      pdfTitle: reel.dm.pdf ? reel.dm.pdf.title : null,
     };
     registry.push(entry);
   }

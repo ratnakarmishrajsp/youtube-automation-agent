@@ -14,6 +14,11 @@ const REGISTRY_TTL_MS = 5 * 60 * 1000;
 // Kept in isolate memory so the cron does not spend KV writes (free plan: 1,000/day).
 let registryCache = { at: 0, data: null };
 
+// Tests run several registries in one process.
+export function resetRegistryCache() {
+  registryCache = { at: 0, data: null };
+}
+
 /**
  * Registry from GitHub (cached 5 min in memory). KV holds a fallback copy that is
  * rewritten only when the content changes.

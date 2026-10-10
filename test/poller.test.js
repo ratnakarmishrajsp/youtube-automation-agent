@@ -3,6 +3,9 @@ const assert = require('node:assert');
 
 const { matchesKeyword } = require('../workers/auto-dm/src/flow.js');
 const { runPoll } = require('../workers/auto-dm/src/poller.js');
+const { resetRegistryCache } = require('../workers/auto-dm/src/handlers.js');
+
+test.beforeEach(() => resetRegistryCache());
 
 function memoryKv() {
   const store = new Map();
@@ -21,9 +24,9 @@ function memoryKv() {
 const NOW = Date.now();
 const iso = (ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, '+0000');
 
-function fakeInstagram({ comments = [], conversations = [], follows = true }) {
+function fakeInstagram({ comments = [], conversations = [], follows = true, registry: customRegistry }) {
   const sent = [];
-  const registry = [{
+  const registry = customRegistry || [{
     queueId: 18, mediaId: 'M18', title: 'Claude Startups', keywords: ['claude', 'link'],
     youtubeUrl: 'https://youtu.be/x', followGate: 'all', pdfSlug: 'claude-startups', pdfTitle: 'Apply Guide',
     publishedAt: new Date(NOW - 3600e3).toISOString(),
@@ -36,8 +39,12 @@ function fakeInstagram({ comments = [], conversations = [], follows = true }) {
       sent.push({ url, body: JSON.parse(init.body) });
       return json({ id: `sent${sent.length}` });
     }
-    if (url.includes('/me/media')) return json({ data: [{ id: 'M18', comments_count: comments.length }] });
-    if (url.includes('/M18/comments')) return json({ data: comments });
+    if (url.includes('/me/media')) {
+      const ids = [...new Set(registry.map((e) => e.mediaId))];
+      return json({ data: ids.map((id) => ({ id, comments_count: comments.filter((c) => (c.media || 'M18') === id).length })) });
+    }
+    const mediaComments = url.match(/\/(M\w+)\/comments/);
+    if (mediaComments) return json({ data: comments.filter((c) => (c.media || 'M18') === mediaComments[1]) });
     if (url.includes('/me/conversations')) return json({ data: conversations });
     if (url.includes('is_user_follow_business')) return json({ username: 'tester', is_user_follow_business: follows });
     throw new Error(`unexpected fetch ${url}`);
@@ -107,4 +114,22 @@ test('poller ignores a "Done" that was sent before the follow instructions', asy
   const ig = fakeInstagram({ conversations });
   await runPoll(env(kv));
   assert.strictEqual(ig.sent.length, 0);
+});
+
+test('a reel published 2 months ago still auto-DMs a fresh comment; old legacy reels and old comments are skipped', async () => {
+  const kv = memoryKv();
+  const twoMonthsAgo = new Date(NOW - 60 * 864e5).toISOString();
+  const registry = [
+    { queueId: 30, mediaId: 'MNEW', title: 'New system reel', keywords: ['claude'], youtubeUrl: 'https://youtu.be/n', followGate: 'all', publishedAt: twoMonthsAgo },
+    { queueId: 3, mediaId: 'MOLD', title: 'Legacy reel', keywords: ['claude'], youtubeUrl: 'https://youtu.be/o', publishedAt: twoMonthsAgo },
+  ];
+  const comments = [
+    { media: 'MNEW', id: 'FRESH', text: 'CLAUDE', timestamp: iso(NOW - 60e3), from: { id: 'U2', username: 'late_fan' } },
+    { media: 'MNEW', id: 'STALE', text: 'CLAUDE', timestamp: iso(NOW - 8 * 864e5), from: { id: 'U3', username: 'too_late' } },
+    { media: 'MOLD', id: 'LEGACY', text: 'CLAUDE', timestamp: iso(NOW - 60e3), from: { id: 'U4', username: 'old_reel_fan' } },
+  ];
+  const ig = fakeInstagram({ comments, registry });
+  await runPoll(env(kv));
+  const repliedTo = ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id).map((s) => s.body.recipient.comment_id);
+  assert.deepStrictEqual([...new Set(repliedTo)], ['FRESH']);
 });

@@ -34,6 +34,7 @@ final mp4 → data/shorts/  →  manifest data/reels/<date>-<slug>.json  →  Pu
 - Queue statuses: `READY_TO_PUBLISH` → `PROCESSING` → `PUBLISHED`; 3 fail = `FAILED`; container PUBLISHED par feed pe na mile = `NEEDS_REVIEW`.
 - Auto-DM 24/7 Cloudflare Worker (`ratnakar-auto-dm`, code `workers/auto-dm/`) chalata hai. **Meta comment-webhooks sirf Advanced Access (App Review) ke baad bhejta hai**, isliye worker har minute comments + DM replies khud poll karta hai (`src/poller.js`); webhook bhi wired hai, KV keys (`c:`, `m:`) double-processing rokti hain. Laptop polling task disabled hai.
 - Worker registry **GitHub se** padhta hai (`data/auto_dm_registry.json`), KV sirf fallback hai — registry change ke baad `node scripts/publish-reel.js --sync` (ya `--push`) zaroori hai. `scripts/cloud/sync-registry-kv.js` ki zaroorat nahi.
+- **Nayi reels (registry mein `followGate` field) hamesha automated rehti hain** — koi 2 mahine baad bhi comment kare to DM jayega (Instagram rule: DM comment ke 7 din ke andar, reel ki age matter nahi karti). Purani reels (bina `followGate`) sirf pehle 7 din watch hoti hain.
 - Instagram ek comment pe **sirf ek** private reply allow karta hai — test ke liye har baar naya comment karo, purane comment pe manual test DM mat bhejo.
 - Worker deploy: `cd workers/auto-dm && npx wrangler deploy` (CLOUDFLARE_API_TOKEN `.env` se). Tests: `node --test "test/*.test.js"`.
 

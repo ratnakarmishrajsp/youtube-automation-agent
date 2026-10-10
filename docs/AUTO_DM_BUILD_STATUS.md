@@ -91,3 +91,10 @@ Spec: docs/AUTO_DM_FOLLOW_GATE_SPEC.md. Each phase appends a section here: done/
   - Weekly Windows task `Instagram_Token_Weekly_Refresh` (Sun 10:00) created.
 - **Verified live:** cron ran, picked up the "Calude" comment, marked it, tried the private reply (failed only because of the one-reply limit).
 - **Open:** real end-to-end test needs a NEW comment from @ratnakarmishra06. Replies come within ~1 min (not instant) until Meta grants Advanced Access — optional App Review later.
+
+## Phase 8 — New reels stay automated forever — DONE (2026-10-10, Claude)
+- Poller now watches every registry entry that has `followGate` (all reels published via Publish_Reel), regardless of reel age; only the comment must be < 7 days old (Instagram's private-reply rule). Legacy entries without `followGate` (reels 1–16) are still watched only for their first 7 days, as Ratnakar asked to leave old reels alone.
+- One `me/media?limit=100` call covers all posts; comments are paged newest-first until the high-water mark.
+- `scripts/lib/dm-registry.js` now writes `followGate`/`pdfSlug`/`pdfTitle` when the scheduler creates an entry.
+- Live log confirmed: quick-reply button works inside the private reply; follow check retry → resources delivered; a real follower got the follow-gate DM.
+- Tests 18/18 (`node --test "test/*.test.js"`). Worker version a3f51f1a.
