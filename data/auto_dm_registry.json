@@ -318,13 +318,19 @@
     ],
     "youtubeUrl": "https://youtu.be/Xi6JIIIO564",
     "dmMessage": "Hey! 👋 Aapne comment kiya tha, ye raha link:\n👉 https://youtu.be/Xi6JIIIO564\n\nKoi sawaal ho to reply karo! 🚀",
-    "replyComment": "Link aapke DM mein bhej diya hai! Inbox check karo 📩"
+    "replyComment": "Link aapke DM mein bhej diya hai! Inbox check karo 📩",
+    "followGate": "all",
+    "pdfSlug": "shiprocket-rto",
+    "pdfTitle": "Shiprocket 75% RTO Reduction & Verification Guide"
   },
   {
     "queueId": 18,
     "title": "Claude Startups Program Rejected? ❌ (The Truth & Reopen Update)",
     "keywords": [
       "claude",
+      "calude",
+      "clod",
+      "cluade",
       "link"
     ],
     "youtubeUrl": "https://youtu.be/_CSYp1FTjY4",
@@ -332,6 +338,9 @@
     "replyComment": "Link aapke DM mein bhej diya hai! Inbox check karo 📩",
     "mediaId": "18089381783672503",
     "permalink": "https://www.instagram.com/reel/DeUFbbkCudg/",
-    "publishedAt": "2026-10-10T14:30:09.999Z"
+    "publishedAt": "2026-10-10T14:30:02+0000",
+    "followGate": "all",
+    "pdfSlug": "claude-startups",
+    "pdfTitle": "Claude Startups Program — Apply Guide"
   }
 ]
