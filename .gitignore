@@ -98,3 +98,6 @@ data/instagram_browser_profile/
 yolov8n.pt
 scratch/
 *.xlsx
+
+# Moved-out media and old renders (see archive/README.md)
+archive/

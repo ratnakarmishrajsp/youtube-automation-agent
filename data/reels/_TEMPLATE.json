@@ -1,0 +1,24 @@
+{
+  "title": "Short internal name for this reel",
+  "video": "data/shorts/my_reel_final.mp4",
+  "cover": "data/shorts/my_reel_cover.jpg",
+  "publishAt": "2026-10-12 20:00",
+
+  "youtube": {
+    "title": "Hook Title Here! ❌ (Curiosity Gap) #Shorts",
+    "description": "2-3 lines in Hinglish.\n\n📺 Full video:\n👉 https://youtu.be/XXXXXXXXXXX\n\n#Shorts #Tag2 #Tag3",
+    "tags": ["Tag One", "Tag Two", "Tag Three", "Tag Four", "Tag Five", "Ratnakar Mishra"],
+    "categoryId": "28",
+    "thumbnail": null
+  },
+
+  "instagram": {
+    "caption": "HOOK LINE IN CAPS! ❌\n\nBody text in Hinglish.\n\n🔥 Comment \"KEYWORD\" below and I will DM you the link! 📩\n\n#Reels #Tag2 #Tag3 #Tag4 #RatnakarMishra"
+  },
+
+  "dm": {
+    "keyword": "KEYWORD",
+    "link": "https://youtu.be/XXXXXXXXXXX",
+    "note": null
+  }
+}
