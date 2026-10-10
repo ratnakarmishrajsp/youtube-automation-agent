@@ -442,7 +442,11 @@
     "videoUrl": "https://files.catbox.moe/zxu5ss.mp4",
     "coverUrl": "https://files.catbox.moe/bzgm6z.jpg",
     "containerId": "17905849791570332",
-    "status": "READY_TO_PUBLISH",
-    "createdAt": "2026-10-10T12:29:30.878Z"
+    "status": "PUBLISHED",
+    "createdAt": "2026-10-10T12:29:30.878Z",
+    "attempts": 1,
+    "publishedMediaId": "18089381783672503",
+    "permalink": "https://www.instagram.com/reel/DeUFbbkCudg/",
+    "publishedAt": "2026-10-10T14:30:09.999Z"
   }
 ]
