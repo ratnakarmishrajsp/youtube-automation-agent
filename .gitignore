@@ -101,3 +101,7 @@ scratch/
 
 # Moved-out media and old renders (see archive/README.md)
 archive/
+
+# Auto-DM: generated PDFs/audio/transcripts (served from Cloudflare KV) and wrangler cache
+data/pdfs/
+.wrangler/

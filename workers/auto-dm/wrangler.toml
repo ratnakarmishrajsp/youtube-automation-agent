@@ -1,0 +1,16 @@
+name = "ratnakar-auto-dm"
+main = "src/index.js"
+compatibility_date = "2026-10-10"
+
+# KV namespace will be linked with ID upon creation
+[[kv_namespaces]]
+binding = "AUTO_DM"
+id = "290a436ac8ff4457af26a3dd1ba500a9"
+
+# Meta sends comment webhooks only after App Review (Advanced Access), so the
+# worker also polls comments and DM replies every minute.
+[triggers]
+crons = ["* * * * *"]
+
+[vars]
+WORKER_HOST = "ratnakar-auto-dm.ratnakar-auto-dm.workers.dev"

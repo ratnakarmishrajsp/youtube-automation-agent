@@ -86,6 +86,22 @@ function validate(m, state) {
   if (m.dm) {
     if (!m.dm.keyword) errors.push('dm.keyword is missing');
     if (!/^https:\/\//.test(m.dm.link || '')) errors.push('dm.link must be a full https:// link');
+    if (m.dm.followGate && !['all', 'pdf', 'none'].includes(m.dm.followGate)) {
+      errors.push(`dm.followGate must be "all", "pdf", or "none" (received: "${m.dm.followGate}")`);
+    }
+    if (m.dm.pdf) {
+      if (!m.dm.pdf.slug) errors.push('dm.pdf.slug is missing');
+      if (!m.dm.pdf.title) errors.push('dm.pdf.title is missing');
+      const reviewPath = path.join(ig.ROOT, 'data', 'pdfs', `${m.dm.pdf.slug}.review.json`);
+      if (!fs.existsSync(reviewPath)) {
+        errors.push(`PDF "${m.dm.pdf.slug}" not generated or approved yet. Run: node scripts/pdf/make-guide.js "${rel(m._manifestPath || 'manifest.json')}" --approve`);
+      } else {
+        const review = ig.readJson(reviewPath, {});
+        if (review.status !== 'APPROVED') {
+          errors.push(`PDF "${m.dm.pdf.slug}" status is "${review.status}" (must be APPROVED). Run: node scripts/pdf/make-guide.js "${rel(m._manifestPath || 'manifest.json')}" --approve`);
+        }
+      }
+    }
   }
   return { errors, warnings, at, video, cover };
 }
@@ -190,6 +206,9 @@ function registerDm(m, state, save) {
       title: m.title,
       keywords: [m.dm.keyword.toLowerCase(), 'link'],
       youtubeUrl: m.dm.link,
+      followGate: m.dm.followGate || 'none',
+      pdfSlug: m.dm.pdf ? m.dm.pdf.slug : null,
+      pdfTitle: m.dm.pdf ? m.dm.pdf.title : null,
       dmMessage: m.dm.message || buildDmMessage(m.dm.link, m.dm.note),
       replyComment: 'Link aapke DM mein bhej diya hai! Inbox check karo 📩',
     });
@@ -222,6 +241,7 @@ async function main() {
   const manifestPath = abs(manifestArg);
   if (!fs.existsSync(manifestPath)) throw new Error(`Manifest not found: ${manifestArg}`);
   const m = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  m._manifestPath = manifestPath;
   const statePath = manifestPath.replace(/\.json$/i, '') + '.state.json';
   const state = ig.readJson(statePath, {});
   const save = () => ig.writeJson(statePath, state);

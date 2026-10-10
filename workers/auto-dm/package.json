@@ -1,0 +1,14 @@
+{
+  "name": "ratnakar-auto-dm",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker for Instagram Auto-DM Follow-Gate and PDF Delivery",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "4.149.0"
+  }
+}

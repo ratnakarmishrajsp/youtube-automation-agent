@@ -9,27 +9,33 @@ Ye folder (`Youtube/`) = **publishing + automation hub**.
 
 ```
 final mp4 → data/shorts/  →  manifest data/reels/<date>-<slug>.json  →  Publish_Reel.bat
+   ├─ PDF Guide: node scripts/pdf/make-guide.js <manifest> (--approve to upload to Cloudflare KV)
    ├─ YouTube: private + publishAt (YouTube khud time pe publish karta hai)
    ├─ Instagram: CDN upload → container → data/instagram_reels_queue.json
    │     publish: GitHub Actions (exact time, waits up to 5h) + laptop task "Instagram_Reels_Auto_Queue" (backup, +2 min)
-   └─ Auto-DM: data/auto_dm_registry.json → laptop task "Instagram_Auto_DM_Monitor" (every 5 min)
+   └─ Cloudflare Worker (24/7 Auto-DM & Follow-Gate):
+         Cron poll every minute (+ webhooks once Meta grants Advanced Access) → Private DM + Follow-Check → YouTube link + Approved PDF Guide
 ```
 
 | Kaam | Command |
 |---|---|
+| PDF Guide generate / review karo | `node scripts/pdf/make-guide.js <manifest>` |
+| PDF Guide approve karke KV upload karo | `node scripts/pdf/make-guide.js <manifest> --approve` |
 | Nayi reel schedule karo | `data/reels/_TEMPLATE.json` copy karo → `Publish_Reel.bat` (ya `node scripts/publish-reel.js <manifest> --execute --push`) |
 | Sab ka status (upcoming, failed, late, DM, publishers) | `Check_Status.bat` / `npm run status -- --live` |
 | Instagram queue manually chalao | `node scripts/instagram-auto-scheduler.js` (`--dry-run`, `--force <id>`) |
-| Auto-DM manually / test | `node scripts/growth/auto-dm-monitor.js --dry-run` |
 | Weekly growth report | `npm run report:weekly` → `reports/growth/weekly-<date>.md` |
 
 **Hard rules for agents:**
 - **Naye per-reel scripts mat banao** (`schedule_reel_N_*.js` jaisa). Har reel = ek manifest JSON. `publish-reel.js` 5–7 tags, `#Reels`, "Comment X" CTA ke saath `dm` block, duplicate caption, aur past time — sab check karta hai.
-- Caption mein "Comment X → DM" likha hai to manifest mein `dm: { keyword, link }` zaroori hai, warna follower ko kuch nahi milega.
+- Caption mein "Comment X → DM" likha hai to manifest mein `dm: { keyword, link, followGate, pdf }` zaroori hai. PDF set hai toh approval ke bina publish nahi hoga.
 - Shared code `scripts/lib/` mein hai (`instagram.js`, `youtube.js`, `dm-registry.js`). Graph API / CDN / YouTube upload code dobara copy-paste mat karo.
-- Ye repo **PUBLIC** fork hai. `git add .` kabhi mat karo. Tokens sirf `.env` mein (`META_USER_ACCESS_TOKEN`, `INSTAGRAM_ACCESS_TOKEN`), code mein kabhi nahi.
-- Queue statuses: `READY_TO_PUBLISH` → `PROCESSING` → `PUBLISHED`; 3 fail = `FAILED`; container PUBLISHED par feed pe na mile = `NEEDS_REVIEW` (Instagram manually check karo, phir status wapas `READY_TO_PUBLISH`).
-- Known blocker: Meta app Development mode mein hai → API real followers ke comments nahi dikhati, isliye auto-DM sirf test account pe chalta hai. App Live karna Ratnakar ka kaam hai (Meta App Dashboard).
+- Ye repo **PUBLIC** fork hai. `git add .` kabhi mat karo. Tokens sirf `.env` mein (`META_USER_ACCESS_TOKEN`, `INSTAGRAM_ACCESS_TOKEN`, `CLOUDFLARE_API_TOKEN`), code mein kabhi nahi.
+- Queue statuses: `READY_TO_PUBLISH` → `PROCESSING` → `PUBLISHED`; 3 fail = `FAILED`; container PUBLISHED par feed pe na mile = `NEEDS_REVIEW`.
+- Auto-DM 24/7 Cloudflare Worker (`ratnakar-auto-dm`, code `workers/auto-dm/`) chalata hai. **Meta comment-webhooks sirf Advanced Access (App Review) ke baad bhejta hai**, isliye worker har minute comments + DM replies khud poll karta hai (`src/poller.js`); webhook bhi wired hai, KV keys (`c:`, `m:`) double-processing rokti hain. Laptop polling task disabled hai.
+- Worker registry **GitHub se** padhta hai (`data/auto_dm_registry.json`), KV sirf fallback hai — registry change ke baad `node scripts/publish-reel.js --sync` (ya `--push`) zaroori hai. `scripts/cloud/sync-registry-kv.js` ki zaroorat nahi.
+- Instagram ek comment pe **sirf ek** private reply allow karta hai — test ke liye har baar naya comment karo, purane comment pe manual test DM mat bhejo.
+- Worker deploy: `cd workers/auto-dm && npx wrangler deploy` (CLOUDFLARE_API_TOKEN `.env` se). Tests: `node --test "test/*.test.js"`.
 
 ## 🎓 Ratnakar's Core Editorial Standards & Training Manual (Strict Quality Mandates)
 > **FOUNDATIONAL DIRECTIVE:** Hamesha **"Conscious Mind"** ka use karna hai. Mechanical checklist ya automated AI slop banakar nahi dena. Video ka har ek frame, sound aur caption international high-ticket creators (Iman Gadzhi, Alex Hormozi, Magnates Media, Ali Abdaal) level ka feel hona chahiye.

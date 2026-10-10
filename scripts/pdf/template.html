@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{TITLE}} - Ratnakar Mishra Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0A0F1D;
+      color: #E2E8F0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 22px;
+    }
+    .creator-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .creator-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00FF66 0%, #38BDF8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      color: #0A0F1D;
+      font-size: 16px;
+    }
+    .creator-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .creator-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+    .creator-handle {
+      font-size: 11px;
+      color: #38BDF8;
+      font-weight: 600;
+    }
+    .badge-tag {
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid #00FF66;
+      color: #00FF66;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hero-section {
+      background: linear-gradient(145deg, rgba(20, 30, 55, 0.7) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #00FF66;
+    }
+    .doc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .doc-subtitle {
+      color: #94A3B8;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .section-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFE600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+    .section-heading::before {
+      content: '■';
+      color: #00FF66;
+      font-size: 11px;
+    }
+    .bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bullets-list li {
+      position: relative;
+      padding-left: 20px;
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .bullets-list li::before {
+      content: '👉';
+      position: absolute;
+      left: 0;
+      top: 0px;
+      font-size: 12px;
+    }
+    .checklist-card {
+      background: rgba(16, 32, 28, 0.75);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .checklist-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #00FF66;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #F1F5F9;
+    }
+    .check-box {
+      min-width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      background: #00FF66;
+      color: #0A0F1D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+    .takeaway-card {
+      background: linear-gradient(135deg, rgba(255, 230, 0, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid #FFE600;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .takeaway-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 11.5px;
+      color: #FFE600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .takeaway-text {
+      font-size: 13.5px;
+      color: #FFFFFF;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .video-cta-card {
+      background: #0F172A;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .video-cta-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #38BDF8;
+    }
+    .video-cta-link {
+      background: #38BDF8;
+      color: #0A0F1D;
+      padding: 7px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .footer-bar {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="header-banner">
+      <div class="creator-brand">
+        <div class="creator-avatar">R</div>
+        <div class="creator-info">
+          <span class="creator-name">Ratnakar Mishra</span>
+          <span class="creator-handle">@ratnakarcontent</span>
+        </div>
+      </div>
+      <div class="badge-tag">{{BADGE}}</div>
+    </div>
+
+    <div class="hero-section">
+      <h1 class="doc-title">{{TITLE}}</h1>
+      <p class="doc-subtitle">{{SUBTITLE}}</p>
+    </div>
+
+    <div class="sections-container">
+      {{SECTIONS_HTML}}
+    </div>
+
+    <div class="checklist-card">
+      <div class="checklist-heading">⚡ Action Checklist</div>
+      <div class="checklist-items">
+        {{CHECKLIST_HTML}}
+      </div>
+    </div>
+
+    <div class="takeaway-card">
+      <div class="takeaway-label">💡 Key Takeaway</div>
+      <div class="takeaway-text">{{KEY_TAKEAWAY}}</div>
+    </div>
+
+    <div class="video-cta-card">
+      <div class="video-cta-text">
+        <span>📺</span>
+        <span>Watch the complete in-depth video breakdown:</span>
+      </div>
+      <a href="{{YOUTUBE_URL}}" class="video-cta-link">Watch on YouTube</a>
+    </div>
+
+    <div class="footer-bar">
+      <span>@ratnakarcontent · YouTube: Ratnakar Mishra Digital Marketing</span>
+      <span>Official Resource Guide</span>
+    </div>
+  </div>
+</body>
+</html>

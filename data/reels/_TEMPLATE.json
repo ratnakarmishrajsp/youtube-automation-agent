@@ -19,6 +19,11 @@
   "dm": {
     "keyword": "KEYWORD",
     "link": "https://youtu.be/XXXXXXXXXXX",
-    "note": null
+    "followGate": "all",
+    "pdf": {
+      "source": "data/shorts/my_reel_final.mp4",
+      "slug": "my-guide-slug",
+      "title": "Topic — Action Guide"
+    }
   }
 }

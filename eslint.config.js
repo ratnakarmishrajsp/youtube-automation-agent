@@ -14,7 +14,8 @@ module.exports = [
       'data/captions/**',
       'data/scripts/**',
       'data/videos/**',
-      'data/thumbnails/**'
+      'data/thumbnails/**',
+      'workers/**'
     ]
   },
   js.configs.recommended,

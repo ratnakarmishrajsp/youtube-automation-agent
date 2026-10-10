@@ -83,6 +83,31 @@ async function main() {
   const history = ig.readJson(path.join(ig.ROOT, 'data', 'auto_dm_history.json'), {});
   const sent = Object.values(history).filter((h) => h && h.dmSent);
   console.log(`Registered reels: ${registry.length} | waiting for media ID: ${registry.filter((e) => !e.mediaId).length} | DMs sent by API: ${sent.length}`);
+
+  const workerUrl = process.env.AUTO_DM_WORKER_URL;
+  const workerStatsKey = process.env.AUTO_DM_STATS_KEY;
+  if (workerUrl && workerStatsKey) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
+      const res = await fetch(`${workerUrl.replace(/\/$/, '')}/stats?key=${workerStatsKey}`, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (res.ok) {
+        const stats = await res.json();
+        console.log(`Cloudflare Worker: Active (${stats.total || 0} recent logged events)`);
+        if (stats.logs && stats.logs.length > 0) {
+          for (const l of stats.logs.slice(0, 3)) {
+            console.log(`   - ${l.type} [${l.user || 'system'}]: ${l.result || l.error || 'ok'} (${ago(Date.parse(l.timestamp))})`);
+          }
+        }
+      } else {
+        console.log(`Cloudflare Worker: HTTP ${res.status}`);
+      }
+    } catch {
+      console.log('Cloudflare Worker: (unreachable / offline)');
+    }
+  }
+
   const warn = lastLogLine('auto_dm_monitor.log', /Development mode/);
   const lastRun = lastLogLine('auto_dm_monitor.log', /scan complete/);
   const stamp = (line) => Date.parse(line.slice(1, 25));
