@@ -72,7 +72,9 @@ async function publishReel() {
     if (mData.permalink) {
       permalink = mData.permalink;
     }
-  } catch (e) {}
+  } catch {
+    // keep the profile URL fallback
+  }
 
   reel.status = 'PUBLISHED';
   reel.publishedMediaId = pubData.id;

@@ -256,7 +256,10 @@ async function scheduleYouTubeShort(youtube, videoConfig) {
   if (fs.existsSync(ytHistoryPath)) {
     try {
       ytHistory = JSON.parse(fs.readFileSync(ytHistoryPath, 'utf8'));
-    } catch (e) {}
+    } catch (e) {
+      // never overwrite a history file we could not read
+      throw new Error(`Cannot parse ${ytHistoryPath}: ${e.message}`);
+    }
   }
   ytHistory.push({
     videoId: videoId,
@@ -279,7 +282,10 @@ function addToInstagramQueue(videoConfig, cdnVideoUrl, cdnCoverUrl) {
   if (fs.existsSync(queuePath)) {
     try {
       queue = JSON.parse(fs.readFileSync(queuePath, 'utf8'));
-    } catch (e) {}
+    } catch (e) {
+      // never overwrite (and wipe) a queue file we could not read
+      throw new Error(`Cannot parse ${queuePath}: ${e.message}`);
+    }
   }
 
   // Check if item already exists by ID

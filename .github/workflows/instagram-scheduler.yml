@@ -2,24 +2,29 @@ name: Instagram Reels Cloud Auto-Publisher
 
 on:
   schedule:
-    # 06:00 - 10:00 UTC = 11:30 AM - 3:30 PM IST. Runs every 5 mins to catch midday & 1:30 PM IST drops instantly!
-    - cron: '*/5 6,7,8,9 * * *'
-    # 13:00 - 17:00 UTC = 6:30 PM - 10:30 PM IST. Evening peak checks every 5 mins!
-    - cron: '*/5 13,14,15,16 * * *'
-    # Baseline 15-minute check 24/7 to catch any custom scheduled drop!
+    # GitHub only fires scheduled runs a few times a day in practice, so the
+    # scheduler itself waits (up to 5 h) for the next reel and publishes on time.
     - cron: '*/15 * * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
+# Never run two publishers at once (a waiting run keeps the slot; newer ones queue).
+concurrency:
+  group: instagram-publisher
+  cancel-in-progress: false
+
 jobs:
   publish-reels:
     runs-on: ubuntu-latest
+    timeout-minutes: 330
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
+          # Latest master, not the commit that was current when this run was queued.
+          ref: master
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -31,17 +36,26 @@ jobs:
         env:
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
-        run: node scripts/instagram-auto-scheduler.js
+        run: node scripts/instagram-auto-scheduler.js --wait-window 300
 
       - name: Commit & Push Queue Changes
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if [[ -n $(git status -s data/instagram_reels_queue.json) ]]; then
-            git add data/instagram_reels_queue.json
-            git commit -m "chore: update instagram reels queue [skip ci]"
-            git pull --rebase origin master
-            git push origin master
-          else
+          FILES="data/instagram_reels_queue.json data/auto_dm_registry.json"
+          if [[ -z $(git status -s $FILES) ]]; then
             echo "No queue changes to commit."
+            exit 0
           fi
+          git add $FILES
+          git commit -m "chore: update instagram reels queue [skip ci]"
+          for attempt in 1 2 3; do
+            if git pull --rebase origin master && git push origin master; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          echo "::error::Could not push queue changes after 3 attempts"
+          exit 1
