@@ -4,13 +4,13 @@
 //   node scripts/publish-reel.js data/reels/my-reel.json                    check rules + show plan (uploads nothing)
 //   node scripts/publish-reel.js data/reels/my-reel.json --execute          YouTube schedule + Instagram queue + auto-DM
 //   node scripts/publish-reel.js data/reels/my-reel.json --execute --push   ...and push the queue so GitHub Actions publishes it
+//   node scripts/publish-reel.js --sync                                     merge laptop + cloud queue copies and push
 //
 // Progress is saved next to the manifest (<name>.state.json), so a re-run after a
 // failure continues where it stopped and never uploads the same video twice.
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const { execFileSync } = require('child_process');
 const ig = require('./lib/instagram');
 const { buildDmMessage } = require('./lib/dm-registry');
 
@@ -201,27 +201,21 @@ function registerDm(m, state, save) {
 }
 
 function pushQueue(title) {
-  const git = (...args) => execFileSync('git', args, { cwd: ig.ROOT, stdio: 'inherit' });
-  const files = ['data/instagram_reels_queue.json', 'data/auto_dm_registry.json'];
-  git('add', ...files);
-  try {
-    execFileSync('git', ['diff', '--cached', '--quiet', '--', ...files], { cwd: ig.ROOT });
-    console.log('ℹ️ Nothing new to push.');
-    return;
-  } catch {
-    // staged changes exist — commit them
-  }
-  git('commit', '-m', `feat(instagram): queue reel "${title}"`, '--', ...files);
-  git('pull', '--rebase', '--autostash', 'origin', 'master');
-  git('push', 'origin', 'master');
-  console.log('✅ Queue pushed — GitHub Actions will publish it on time.');
+  const { syncAndPush } = require('./lib/queue-sync');
+  syncAndPush(`feat(instagram): queue reel "${title}"`);
 }
 
 async function main() {
   const args = process.argv.slice(2);
+  if (args.includes('--sync')) {
+    // Merge the laptop's queue/registry with the cloud copy and push (no upload).
+    require('./lib/queue-sync').syncAndPush('chore: sync instagram queue from laptop');
+    return;
+  }
   const manifestArg = args.find((a) => !a.startsWith('--'));
   if (!manifestArg) {
     console.log('Usage: node scripts/publish-reel.js <manifest.json> [--execute] [--push]');
+    console.log('       node scripts/publish-reel.js --sync   (merge laptop queue with GitHub and push)');
     console.log('Start from: data/reels/_TEMPLATE.json');
     process.exit(1);
   }

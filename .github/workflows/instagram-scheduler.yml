@@ -43,19 +43,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          FILES="data/instagram_reels_queue.json data/auto_dm_registry.json"
-          if [[ -z $(git status -s $FILES) ]]; then
-            echo "No queue changes to commit."
-            exit 0
-          fi
-          git add $FILES
-          git commit -m "chore: update instagram reels queue [skip ci]"
-          for attempt in 1 2 3; do
-            if git pull --rebase origin master && git push origin master; then
-              exit 0
-            fi
-            git rebase --abort 2>/dev/null || true
-            sleep 10
-          done
-          echo "::error::Could not push queue changes after 3 attempts"
-          exit 1
+          # Record-by-record JSON merge with whatever the laptop pushed meanwhile (no git conflicts).
+          node -e "require('./scripts/lib/queue-sync').syncAndPush('chore: update instagram reels queue [skip ci]')"
