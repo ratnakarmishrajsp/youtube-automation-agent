@@ -294,6 +294,37 @@ async function publishSingleReel(reel, { dryRun }) {
   }
 }
 
+// Reels with manualPost are posted by Ratnakar from the phone, because Meta AI
+// voice dubbing can only be switched on in the Instagram app. We never upload
+// them; we only find the post on the feed and link it to the auto-DM registry.
+const MANUAL_WAIT_MS = 90 * 60 * 1000;
+const MANUAL_GIVE_UP_MS = 24 * 60 * 60 * 1000;
+
+async function checkManualPost(reel, at, { dryRun }) {
+  const live = await ig.findLiveMatch(reel);
+  if (live) {
+    log(`📱 Manual post found for Reel #${reel.id}: ${live.permalink}`);
+    if (!dryRun) markPublished(reel, live.id, live.permalink, live.timestamp);
+    return;
+  }
+  if (Date.now() - at > MANUAL_GIVE_UP_MS && !dryRun) {
+    reel.status = 'NEEDS_REVIEW';
+    reel.lastError = 'Manual post not found on Instagram within 24h. Was the first caption line changed? Fix the caption or set status back to READY_TO_PUBLISH.';
+    saveReel(reel);
+    log(`⚠️ Reel #${reel.id}: manual post still not found after 24h — marked NEEDS_REVIEW.`);
+    return;
+  }
+  log(`📱 Reel #${reel.id} is a manual post — not on Instagram yet (post it from the phone with the given caption).`);
+}
+
+function awaitingManualPost(queue, graceMs) {
+  return queue.some((r) => {
+    if (!r.manualPost || !isPending(r)) return false;
+    const at = ig.parseScheduleTime(r);
+    return !Number.isNaN(at) && Date.now() >= at + graceMs && Date.now() - at < MANUAL_WAIT_MS;
+  });
+}
+
 async function processDue({ forceId, graceMs, dryRun }) {
   const queue = ig.readJson(ig.QUEUE_PATH, null);
   if (!queue) {
@@ -317,6 +348,10 @@ async function processDue({ forceId, graceMs, dryRun }) {
         continue;
       }
       if (Date.now() < at + graceMs) continue;
+      if (reel.manualPost) {
+        await checkManualPost(reel, at, { dryRun });
+        continue;
+      }
       log(`⏰ Reel #${reel.id} due (scheduled ${ig.formatIST(at)} IST).`);
     }
 
@@ -385,6 +420,15 @@ async function main() {
       log(`⏳ Next reel due at ${ig.formatIST(next)} IST. Waiting ${Math.ceil(waitMs / 60000)} min to publish on time...`);
       await sleepWithHeartbeat(waitMs);
       failures += (await processDue({ forceId: null, graceMs, dryRun: args.dryRun })).failures;
+    }
+
+    // Cloud run: give a phone-posted reel up to 90 min to appear, so its auto-DM goes live quickly.
+    if (args.waitWindowMin >= 60 && awaitingManualPost(ig.readJson(ig.QUEUE_PATH, []), graceMs)) {
+      log(`📱 Waiting for the manual Instagram post (checking every 2 min, up to 90 min after the scheduled time)...`);
+      while (awaitingManualPost(ig.readJson(ig.QUEUE_PATH, []), graceMs)) {
+        await sleepWithHeartbeat(120000);
+        failures += (await processDue({ forceId: null, graceMs, dryRun: args.dryRun })).failures;
+      }
     }
 
     const upcoming = nextDueTime(ig.readJson(ig.QUEUE_PATH, []), graceMs);

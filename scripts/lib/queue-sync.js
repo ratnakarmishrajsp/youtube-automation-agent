@@ -14,6 +14,11 @@ function mergeQueues(local, remote) {
   for (const reel of local) {
     const other = byId.get(reel.id);
     if (!other || (STATUS_RANK[reel.status] || 0) > (STATUS_RANK[other.status] || 0)) byId.set(reel.id, reel);
+    // Same status: keep the cloud copy, but a laptop-side switch to phone posting
+    // (and its edited caption) must survive, or the cloud would auto-post it.
+    else if (reel.manualPost && !other.manualPost && reel.status === other.status) {
+      byId.set(reel.id, { ...other, manualPost: true, caption: reel.caption, dm: reel.dm });
+    }
   }
   return [...byId.values()].sort((a, b) => Number(a.id) - Number(b.id));
 }

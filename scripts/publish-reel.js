@@ -115,7 +115,7 @@ function printPlan(m, state, { at, video, cover }) {
     console.log(`   YouTube:   ${state.youtube ? `✅ done (${state.youtube.url})` : `"${m.youtube.title}" | ${(m.youtube.tags || []).length} tags`}`);
   }
   if (m.instagram) {
-    console.log(`   Instagram: ${state.instagram ? `✅ queued as reel #${state.instagram.queueId}` : `${hashtags(m.instagram.caption).join(' ')}`}`);
+    console.log(`   Instagram: ${state.instagram ? `✅ queued as reel #${state.instagram.queueId}` : `${hashtags(m.instagram.caption).join(' ')}`}${m.instagram.manualPost ? '  📱 you post from phone (dubbing ON)' : ''}`);
   }
   if (m.dm) console.log(`   Auto-DM:   comment "${m.dm.keyword}" → ${m.dm.link}${state.dm ? ' ✅ registered' : ''}`);
 }
@@ -159,12 +159,21 @@ async function scheduleYouTube(m, state, ctx, save) {
 }
 
 async function queueInstagram(m, state, ctx, save) {
-  console.log('\n📸 Instagram: uploading media to CDN...');
-  const videoUrl = ig.uploadToCdn(ctx.video);
-  const coverUrl = ctx.cover && fs.existsSync(ctx.cover) ? ig.uploadToCdn(ctx.cover) : null;
+  // manualPost: Ratnakar posts from the phone (Meta AI dubbing is app-only), so
+  // nothing is uploaded; the scheduler just finds the post and links auto-DM.
+  const manual = Boolean(m.instagram.manualPost);
+  let videoUrl = null;
+  let coverUrl = null;
+  if (!manual) {
+    console.log('\n📸 Instagram: uploading media to CDN...');
+    videoUrl = ig.uploadToCdn(ctx.video);
+    coverUrl = ctx.cover && fs.existsSync(ctx.cover) ? ig.uploadToCdn(ctx.cover) : null;
+  }
 
   let containerId = null;
-  if (ctx.at - Date.now() < CONTAINER_LIFETIME_MS) {
+  if (manual) {
+    console.log('\n📱 Instagram: you will post this one from the phone (dubbing ON) — nothing uploaded.');
+  } else if (ctx.at - Date.now() < CONTAINER_LIFETIME_MS) {
     console.log('📦 Pre-processing the reel on Meta so it publishes instantly at the scheduled time...');
     containerId = await ig.createReelContainer({ videoUrl, coverUrl, caption: m.instagram.caption });
     await ig.waitForContainer(containerId);
@@ -188,6 +197,7 @@ async function queueInstagram(m, state, ctx, save) {
     coverUrl,
     containerId,
     status: 'READY_TO_PUBLISH',
+    manualPost: manual || undefined,
     dm: m.dm || undefined,
     manifest: rel(ctx.manifestPath),
     createdAt: new Date().toISOString(),
@@ -196,6 +206,18 @@ async function queueInstagram(m, state, ctx, save) {
   state.instagram = { queueId: id, containerId, videoUrl };
   save();
   console.log(`✅ Instagram reel #${id} queued for ${timeString}`);
+  if (manual) printPhoneSteps(m, timeString);
+}
+
+function printPhoneSteps(m, timeString) {
+  console.log('\n━━━━━━━━━━ POST FROM YOUR PHONE ━━━━━━━━━━');
+  console.log(`1. At ${timeString}: Instagram app → new Reel → pick ${path.basename(abs(m.video))}`);
+  console.log('2. Paste the caption below EXACTLY (keep the first line unchanged — that is how the system finds your post)');
+  console.log('3. Turn ON "Translate your voice with Meta AI" → Share');
+  console.log('4. Within minutes the system links your post to auto-DM.');
+  console.log('━━━━━━━━━━━━━━━━ CAPTION ━━━━━━━━━━━━━━━━');
+  console.log(m.instagram.caption);
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 }
 
 function registerDm(m, state, save) {

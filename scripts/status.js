@@ -55,7 +55,8 @@ async function main() {
   if (!upcoming.length && !ytUpcoming.length) console.log('Nothing scheduled. Make a manifest from data/reels/_TEMPLATE.json');
   for (const { r, at } of upcoming) {
     const dm = r.caption && /comment\s+["“'‘]?\w+/i.test(r.caption) ? (dmKeys.has(r.id) ? 'DM ✅' : 'DM ❌ not registered') : '';
-    console.log(`IG #${String(r.id).padEnd(3)} ${short(ig.formatIST(at), 24)} ${short(r.status, 17)} ${short(r.title, 45)} ${dm}`);
+    const phone = r.manualPost ? '📱 post from phone' : '';
+    console.log(`IG #${String(r.id).padEnd(3)} ${short(ig.formatIST(at), 24)} ${short(r.status, 17)} ${short(r.title, 45)} ${dm} ${phone}`);
   }
   for (const { h, at } of ytUpcoming) {
     console.log(`YT     ${short(ig.formatIST(at), 24)} ${short('SCHEDULED', 17)} ${short(h.title, 45)} ${h.url || h.watchUrl || ''}`);
