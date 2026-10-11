@@ -448,5 +448,31 @@
     "publishedMediaId": "18089381783672503",
     "permalink": "https://www.instagram.com/reel/DeUFbbkCudg/",
     "publishedAt": "2026-10-10T14:30:09.999Z"
+  },
+  {
+    "id": 19,
+    "title": "Free AI Tools Trap",
+    "caption": "FREE AI TOOLS ARE A TRAP! ❌ Stop Chasing Free Claude & ChatGPT Hacks\n\n\"Use Claude for free... use ChatGPT for free... get 1 million tokens from this website...\" — all of it is noise. 🛑\n\nIf you're building a business, learn to INVEST in your tools:\n✅ Official Claude subscription\n✅ Official ChatGPT subscription\n✅ Google Antigravity — available with Jio\n\nJugaad won't take your work anywhere. When you don't even get the full version of Claude, what will you really build? 🤔\n\nReal business needs real tools. 💼\n\n🔥 Want the official route? Comment \"CLAUDE\" and I'll DM you the Claude Startups Program guide (PDF + video) 📩\n\nSave this & share it with a friend who's still hunting free AI hacks! 📌\n\n#Reels #FreeAITools #ClaudeAI #ChatGPT #AITools #RatnakarMishra",
+    "scheduledTimeIST": "11-10-2026 20:00:00 IST",
+    "scheduledDate": "11-10-2026",
+    "scheduledTime": "20:00:00",
+    "localVideoPath": "data/shorts/free_tools_trap_2.1.mp4",
+    "localCoverPath": "data/shorts/free_tools_trap_cover.jpg",
+    "videoUrl": "https://files.catbox.moe/wxu7tr.mp4",
+    "coverUrl": "https://files.catbox.moe/l7p9p2.jpg",
+    "containerId": "17905996701570332",
+    "status": "READY_TO_PUBLISH",
+    "dm": {
+      "keyword": "CLAUDE",
+      "link": "https://youtu.be/_CSYp1FTjY4",
+      "followGate": "all",
+      "pdf": {
+        "source": "data/shorts/claude_startups_reel_2.0.mp4",
+        "slug": "claude-startups",
+        "title": "Claude Startups Program — Apply Guide"
+      }
+    },
+    "manifest": "data/reels/2026-10-11-free-ai-tools-trap.json",
+    "createdAt": "2026-10-11T08:02:01.689Z"
   }
 ]
