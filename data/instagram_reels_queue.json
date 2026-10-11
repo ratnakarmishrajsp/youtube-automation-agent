@@ -461,7 +461,7 @@
     "videoUrl": "https://files.catbox.moe/wxu7tr.mp4",
     "coverUrl": "https://files.catbox.moe/l7p9p2.jpg",
     "containerId": "17905996701570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "dm": {
       "keyword": "CLAUDE",
       "link": "https://youtu.be/_CSYp1FTjY4",
@@ -473,6 +473,10 @@
       }
     },
     "manifest": "data/reels/2026-10-11-free-ai-tools-trap.json",
-    "createdAt": "2026-10-11T08:02:01.689Z"
+    "createdAt": "2026-10-11T08:02:01.689Z",
+    "attempts": 1,
+    "publishedMediaId": "18371354659215674",
+    "permalink": "https://www.instagram.com/reel/DeWLqUUAKkX/",
+    "publishedAt": "2026-10-11T14:30:13.589Z"
   }
 ]
