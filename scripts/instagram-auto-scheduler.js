@@ -340,6 +340,11 @@ async function processDue({ forceId, graceMs, dryRun }) {
         log(`ℹ️ Reel #${reel.id} is already PUBLISHED: ${reel.permalink}`);
         continue;
       }
+      // Never upload a phone-posted reel, even when forced — just look for the post.
+      if (reel.manualPost) {
+        await checkManualPost(reel, ig.parseScheduleTime(reel), { dryRun });
+        continue;
+      }
     } else {
       if (!isPending(reel)) continue;
       const at = ig.parseScheduleTime(reel);
