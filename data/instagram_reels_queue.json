@@ -487,11 +487,10 @@
     "scheduledDate": "12-10-2026",
     "scheduledTime": "20:00:00",
     "localVideoPath": "data/shorts/social_automation_freedom_v2.mp4",
-    "videoUrl": null,
+    "videoUrl": "https://files.catbox.moe/rrd891.mp4",
     "coverUrl": null,
-    "containerId": null,
+    "containerId": "17906195319570332",
     "status": "READY_TO_PUBLISH",
-    "manualPost": true,
     "dm": {
       "keyword": "PDF",
       "link": "https://www.youtube.com/@ratnakarmishra06",
