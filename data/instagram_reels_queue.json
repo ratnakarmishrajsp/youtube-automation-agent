@@ -478,5 +478,26 @@
     "publishedMediaId": "18371354659215674",
     "permalink": "https://www.instagram.com/reel/DeWLqUUAKkX/",
     "publishedAt": "2026-10-11T14:30:13.589Z"
+  },
+  {
+    "id": 20,
+    "title": "Social Media Automation Freedom",
+    "caption": "MAIN KAHIN BHI RAHUN, MERA CONTENT RUKTA NAHI! 🤖\n\nYouTube pe videos publish ho jaati hain.\nInstagram pe reels post ho jaati hain.\nYouTube videos se Shorts apne aap cut hoke upload ho jaate hain.\nMeta Ads ka workflow bhi automated hai. ⚙️\n\nBahut log apna setup share nahi karte — main karna chahta hoon. Is guide se mera maqsad paise kamana nahi hai, bas tumhe samjhana hai ki ye cheezein kaam kaise karti hain. 🙌\n\n🔥 Comment \"PDF\" and I'll DM you the full automation guide — bilkul FREE! 📩\n\nSave kar lo & us dost ko share karo jo abhi bhi sab manually karta hai! 📌\n\n#Reels #SocialMediaAutomation #AIAutomation #ContentCreator #MetaAds #RatnakarMishra",
+    "scheduledTimeIST": "12-10-2026 20:00:00 IST",
+    "scheduledDate": "12-10-2026",
+    "scheduledTime": "20:00:00",
+    "localVideoPath": "data/shorts/social_automation_freedom_v2.mp4",
+    "videoUrl": null,
+    "coverUrl": null,
+    "containerId": null,
+    "status": "READY_TO_PUBLISH",
+    "manualPost": true,
+    "dm": {
+      "keyword": "PDF",
+      "link": "https://www.youtube.com/@ratnakarmishra06",
+      "followGate": "all"
+    },
+    "manifest": "data/reels/2026-10-12-social-automation-freedom.json",
+    "createdAt": "2026-10-12T13:19:48.367Z"
   }
 ]
