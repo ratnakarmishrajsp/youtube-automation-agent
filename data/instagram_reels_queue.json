@@ -507,17 +507,16 @@
     "id": 21,
     "title": "Flow Credits Truth",
     "caption": "GOOGLE FLOW \"UNLIMITED CREDITS\" TRICK IS FAKE! ❌\n\nReels promising 48,000 or even 1 billion free Flow credits are misleading you. There is no hack anymore.\n\n✅ What actually works:\n1. Recharge with Jio → get 1,000 Flow credits\n2. Multiple SIM cards? Recharge each one\n3. Need more? Get the Google AI Ultra plan\n\nStop wasting time on fake tricks. Save this & share it with a friend who is still hunting for \"unlimited credits\" 📌\n\n#Reels #GoogleFlow #AIVideo #GoogleVeo #AITools #RatnakarMishra",
-    "scheduledTimeIST": "13-10-2026 20:15:00 IST",
+    "scheduledTimeIST": "13-10-2026 20:45:00 IST",
     "scheduledDate": "13-10-2026",
-    "scheduledTime": "20:15:00",
-    "localVideoPath": "data/shorts/flow_credits_truth_v2_ig.mp4",
+    "scheduledTime": "20:45:00",
+    "localVideoPath": "data/shorts/flow_credits_truth_v2.mp4",
     "localCoverPath": "data/shorts/flow_credits_truth_cover.jpg",
-    "videoUrl": "https://litter.catbox.moe/bbtxyv.mp4",
-    "coverUrl": "https://litter.catbox.moe/akrknb.jpg",
-    "containerId": "17906359029570332",
-    "status": "ON_HOLD",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-21-flow-credits/flow_credits_truth_v2.mp4",
+    "coverUrl": "https://litter.catbox.moe/1ipe3m.jpg",
+    "containerId": "17906361594570332",
+    "status": "READY_TO_PUBLISH",
     "manifest": "data/reels/2026-10-13-flow-credits-truth.json",
-    "createdAt": "2026-10-13T14:40:59.449Z",
-    "holdReason": "replacing with full-quality file"
+    "createdAt": "2026-10-13T14:40:59.449Z"
   }
 ]
