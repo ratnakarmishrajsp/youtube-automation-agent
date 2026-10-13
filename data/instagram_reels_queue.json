@@ -515,8 +515,12 @@
     "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-21-flow-credits/flow_credits_truth_v2.mp4",
     "coverUrl": "https://litter.catbox.moe/1ipe3m.jpg",
     "containerId": "17906361594570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "manifest": "data/reels/2026-10-13-flow-credits-truth.json",
-    "createdAt": "2026-10-13T14:40:59.449Z"
+    "createdAt": "2026-10-13T14:40:59.449Z",
+    "attempts": 1,
+    "publishedMediaId": "18123823091296607",
+    "permalink": "https://www.instagram.com/reel/DecEYYIjSJM/",
+    "publishedAt": "2026-10-13T15:22:08+0000"
   }
 ]
