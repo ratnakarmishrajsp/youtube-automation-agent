@@ -515,8 +515,9 @@
     "videoUrl": "https://litter.catbox.moe/bbtxyv.mp4",
     "coverUrl": "https://litter.catbox.moe/akrknb.jpg",
     "containerId": "17906359029570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "ON_HOLD",
     "manifest": "data/reels/2026-10-13-flow-credits-truth.json",
-    "createdAt": "2026-10-13T14:40:59.449Z"
+    "createdAt": "2026-10-13T14:40:59.449Z",
+    "holdReason": "replacing with full-quality file"
   }
 ]
