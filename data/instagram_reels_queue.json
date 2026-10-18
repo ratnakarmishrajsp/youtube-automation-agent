@@ -535,7 +535,7 @@
     "videoUrl": null,
     "coverUrl": null,
     "containerId": null,
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "manualPost": true,
     "dm": {
       "keyword": "ARGON",
@@ -548,6 +548,62 @@
       }
     },
     "manifest": "data/reels/2026-10-14-gemini4-argon.json",
-    "createdAt": "2026-10-14T16:31:46.023Z"
+    "createdAt": "2026-10-14T16:31:46.023Z",
+    "publishedMediaId": "18115890110585970",
+    "permalink": "https://www.instagram.com/reel/DegBLkgSyRP/",
+    "publishedAt": "2026-10-15T03:43:53+0000"
+  },
+  {
+    "id": 23,
+    "title": "Argon Pro trial V2",
+    "caption": "Google AI Pro hai, phir bhi Gemini 4 Argon Unavailable? 👀\n\nAntigravity mein access check karte waqt sirf “Pro” naam dekhna kaafi nahi hai. Official docs mein non-trial Pro condition hai, aur standalone IDE ki limitation alag hai.\n\nStudent offer, free trial aur discounted paid plan ko ek jaisa assume mat karo. Mere Jio wale Pro par bhi Argon Unavailable dikh raha hai — ye mera personal experience hai, sabhi Jio users ke liye final verdict nahi. Promotional plans ki eligibility in sources se clear nahi hai.\n\nTumhara kaunsa plan hai? Comment mein plan + app + Available/Unavailable batao 👇\nPractical AI updates ke liye @ratnakarcontent follow karo. Is confusion wale dost ko share karo aur reference ke liye save kar lo.\n\nSources: Google Antigravity Models docs, official Argon announcement, Google One student-offer help aur Jio offer page; checked 17 October 2026. AI-avatar B-roll used; proof screenshots actual hain.\n\n#Gemini4Argon #GoogleAIPro #Antigravity #JioGoogleAIPro #AIUpdates #Reels",
+    "scheduledTimeIST": "18-10-2026 00:11:00 IST",
+    "scheduledDate": "18-10-2026",
+    "scheduledTime": "00:11:00",
+    "localVideoPath": "argon_pro_trial_v2.mp4",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-argon-pro-trial-v2/argon_pro_trial_v2.mp4",
+    "coverUrl": null,
+    "containerId": "17907078720570332",
+    "status": "PUBLISHED",
+    "isAiGenerated": true,
+    "manifest": "data/reels/2026-10-17-argon-pro-trial-v2.json",
+    "createdAt": "2026-10-17T18:43:21.209Z",
+    "attempts": 1,
+    "publishedMediaId": "18200776708389466",
+    "permalink": "https://www.instagram.com/reel/DemxxV0DJ7I/",
+    "publishedAt": "2026-10-17T18:44:33.055Z"
+  },
+  {
+    "id": 24,
+    "title": "YouPI-PG AI setup",
+    "caption": "Apni website par apna UPI checkout, AI ki help se setup? 👀\n\nYouPI-PG ek self-hosted UPI checkout project hai: apne server par chalao, customer ko QR dikhao, aur payment bank ke SMS/email alert se confirm hota hai.\n\nSetup ke liye project ko Claude Code, Cursor ya Google Antigravity mein kholo aur AI se pehle code + setup samjho: dependencies, local run, payment button, errors.\n\n⚠️ Reality check: zero platform fee ka matlab zero kharcha nahi. Hosting aur maintenance tumhe khud sambhalna padega, aur live website par lagane se pehle poora payment flow test karna zaroori hai. Use karne se pehle repo ka README aur license zaroor padho.\n\nVideo mein checkout aur dashboards developer ke demo screenshots hain, mera live-tested payment gateway nahi. AI-avatar B-roll used.\n\n🔥 Comment \"GIT\" aur GitHub repo ka link + setup checklist PDF tumhare DM mein bhej dunga 📩\n\n#Reels #YouPIPG #UPI #ClaudeCode #SelfHosted #AIcoding",
+    "scheduledTimeIST": "18-10-2026 13:14:00 IST",
+    "scheduledDate": "18-10-2026",
+    "scheduledTime": "13:14:00",
+    "localVideoPath": "data/shorts/youpi_pg_v2_final.mp4",
+    "localCoverPath": "data/shorts/youpi_pg_cover.jpg",
+    "videoUrl": "https://files.catbox.moe/ci4fjb.mp4",
+    "coverUrl": "https://files.catbox.moe/p2fztw.jpg",
+    "containerId": "17907168726570332",
+    "status": "PUBLISHED",
+    "isAiGenerated": true,
+    "dm": {
+      "keyword": "GIT",
+      "link": "https://github.com/gxurav1710/YouPI-PG",
+      "followGate": "none",
+      "message": "Hey! 👋 Ye raha YouPI-PG ka GitHub repo:\n👉 https://github.com/gxurav1710/YouPI-PG\n\n📄 AI-assisted setup checklist (PDF):\n👉 https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/pdf/youpi-pg-ai-setup\n\nSetup se pehle current README, license aur payment-verification requirements check kar lena. Live website par lagane se pehle poora payment flow test karna zaroori hai.\n\nKoi sawaal ho to reply karo 🙂",
+      "pdf": {
+        "source": "data/shorts/youpi_pg_v2_final.mp4",
+        "slug": "youpi-pg-ai-setup",
+        "title": "YouPI-PG — AI-Assisted Setup Checklist",
+        "videoUrl": "https://www.youtube.com/@ratnakarmishra06"
+      }
+    },
+    "manifest": "data/reels/2026-10-18-youpi-pg-ai-setup.json",
+    "createdAt": "2026-10-18T07:45:58.810Z",
+    "attempts": 1,
+    "publishedMediaId": "18118285522966725",
+    "permalink": "https://www.instagram.com/reel/DeoLWEND5wS/",
+    "publishedAt": "2026-10-18T07:46:23.535Z"
   }
 ]
