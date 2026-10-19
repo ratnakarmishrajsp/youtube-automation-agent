@@ -617,10 +617,14 @@
     "videoUrl": "https://files.catbox.moe/yk1ssf.mp4",
     "coverUrl": "https://files.catbox.moe/ju2zhq.jpg",
     "containerId": "17907432042570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": true,
     "manifest": "data/reels/2026-10-19-ai-shopping-discovery.json",
     "createdAt": "2026-10-19T12:16:56.119Z",
-    "localCoverPath": "data/shorts/ai_shopping_discovery_cover.jpg"
+    "localCoverPath": "data/shorts/ai_shopping_discovery_cover.jpg",
+    "attempts": 1,
+    "publishedMediaId": "17928871104181001",
+    "permalink": "https://www.instagram.com/reel/DerQAqzFEcn/",
+    "publishedAt": "2026-10-19T14:43:27.971Z"
   }
 ]
