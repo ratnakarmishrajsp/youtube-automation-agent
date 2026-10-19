@@ -614,13 +614,13 @@
     "scheduledDate": "19-10-2026",
     "scheduledTime": "20:00:00",
     "localVideoPath": "data/shorts/ai_shopping_discovery_v1.mp4",
-    "videoUrl": null,
-    "coverUrl": null,
-    "containerId": null,
+    "videoUrl": "https://files.catbox.moe/yk1ssf.mp4",
+    "coverUrl": "https://files.catbox.moe/ju2zhq.jpg",
+    "containerId": "17907432042570332",
     "status": "READY_TO_PUBLISH",
-    "manualPost": true,
     "isAiGenerated": true,
     "manifest": "data/reels/2026-10-19-ai-shopping-discovery.json",
-    "createdAt": "2026-10-19T12:16:56.119Z"
+    "createdAt": "2026-10-19T12:16:56.119Z",
+    "localCoverPath": "data/shorts/ai_shopping_discovery_cover.jpg"
   }
 ]
