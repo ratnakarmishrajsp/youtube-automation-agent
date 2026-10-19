@@ -626,5 +626,26 @@
     "publishedMediaId": "17928871104181001",
     "permalink": "https://www.instagram.com/reel/DerQAqzFEcn/",
     "publishedAt": "2026-10-19T14:43:27.971Z"
+  },
+  {
+    "id": 26,
+    "title": "Argon waiting meme (Jailer 2 music)",
+    "caption": "Waiting for Gemini 4 Argon in Antigravity… as a Jio AI Pro user 🥲\n\nStill \"Unavailable\". Every. Single. Day.\n\n🔥 Comment \"ARGON\" and I'll DM you why it shows Unavailable 📩\n\nTag that one friend who refreshes Antigravity every hour 👇\n\n*my own Jio AI Pro account\n\n#Reels #Gemini4Argon #Antigravity #GoogleAIPro #JioAIPro #AIMemes",
+    "scheduledTimeIST": "20-10-2026 09:00:00 IST",
+    "scheduledDate": "20-10-2026",
+    "scheduledTime": "09:00:00",
+    "localVideoPath": "data/shorts/argon_waiting_jailer_v2.mp4",
+    "localCoverPath": "data/shorts/argon_waiting_jailer_cover.png",
+    "videoUrl": "https://litter.catbox.moe/v95t0m.mp4",
+    "coverUrl": "https://files.catbox.moe/2az442.png",
+    "containerId": "17907495231570332",
+    "status": "READY_TO_PUBLISH",
+    "dm": {
+      "keyword": "ARGON",
+      "link": "https://youtu.be/AE_L0aJzmTE",
+      "followGate": "all"
+    },
+    "manifest": "data/reels/2026-10-20-argon-waiting-meme.json",
+    "createdAt": "2026-10-19T19:02:43.553Z"
   }
 ]
