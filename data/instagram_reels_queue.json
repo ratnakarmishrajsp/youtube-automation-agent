@@ -605,5 +605,22 @@
     "publishedMediaId": "18118285522966725",
     "permalink": "https://www.instagram.com/reel/DeoLWEND5wS/",
     "publishedAt": "2026-10-18T07:46:23.535Z"
+  },
+  {
+    "id": 25,
+    "title": "AI shopping product discovery",
+    "caption": "Customer ne AI se bottle maangi... aur tumhara product list mein tha hi nahi? 👀\n\nAI shopping mein discover hone ke liye apne product page par ye 3 checks lagao:\n\n1️⃣ Product information: sirf \"premium bottle\" mat likho. Capacity, material aur actual features clearly likho.\n2️⃣ Updated details: price, stock, delivery aur return policy hamesha clear aur current.\n3️⃣ Sahi product feed: eligible products Shopify Catalog se ChatGPT tak, aur Google Merchant Center se Google ke AI shopping results tak pahunch sakte hain.\n\n⚠️ Reality check: listing ka matlab guaranteed recommendation ya sale nahi. Aur Shopify ke ChatGPT channel ke liye abhi US customers ko sell karna zaroori hai.\n\nBottle, product page aur AI chat sirf illustration hain. Sources: Shopify Help Center, checked 19 Oct 2026. AI-avatar B-roll used.\n\nTumhara store Shopify par hai ya kisi aur platform par? Comment mein batao 👇\nSave karo aur us dost ko bhejo jo online store chalata hai.\n\n#Reels #AIShopping #Shopify #Ecommerce #ChatGPT #GoogleMerchantCenter",
+    "scheduledTimeIST": "19-10-2026 20:00:00 IST",
+    "scheduledDate": "19-10-2026",
+    "scheduledTime": "20:00:00",
+    "localVideoPath": "data/shorts/ai_shopping_discovery_v1.mp4",
+    "videoUrl": null,
+    "coverUrl": null,
+    "containerId": null,
+    "status": "READY_TO_PUBLISH",
+    "manualPost": true,
+    "isAiGenerated": true,
+    "manifest": "data/reels/2026-10-19-ai-shopping-discovery.json",
+    "createdAt": "2026-10-19T12:16:56.119Z"
   }
 ]
