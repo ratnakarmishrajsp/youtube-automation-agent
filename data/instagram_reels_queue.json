@@ -639,13 +639,17 @@
     "videoUrl": "https://litter.catbox.moe/v95t0m.mp4",
     "coverUrl": "https://files.catbox.moe/2az442.png",
     "containerId": "17907495231570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "dm": {
       "keyword": "ARGON",
       "link": "https://youtu.be/AE_L0aJzmTE",
       "followGate": "all"
     },
     "manifest": "data/reels/2026-10-20-argon-waiting-meme.json",
-    "createdAt": "2026-10-19T19:02:43.553Z"
+    "createdAt": "2026-10-19T19:02:43.553Z",
+    "attempts": 1,
+    "publishedMediaId": "18037470911840282",
+    "permalink": "https://www.instagram.com/reel/Der9nsBj78u/",
+    "publishedAt": "2026-10-20T05:25:51.639Z"
   }
 ]
