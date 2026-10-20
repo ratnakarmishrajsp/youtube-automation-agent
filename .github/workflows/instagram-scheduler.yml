@@ -6,6 +6,11 @@ on:
     # scheduler itself waits (up to 5 h) for the next reel and publishes on time.
     - cron: '*/15 * * * *'
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Health check only: no publish, no waiting, no push'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -36,10 +41,16 @@ jobs:
         env:
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
-        run: node scripts/instagram-auto-scheduler.js --wait-window 300
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            node scripts/instagram-auto-scheduler.js --dry-run --wait-window 0
+          else
+            node scripts/instagram-auto-scheduler.js --wait-window 300
+          fi
 
       - name: Commit & Push Queue Changes
-        if: always()
+        if: always() && inputs.dry_run != true
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
