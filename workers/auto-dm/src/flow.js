@@ -1,4 +1,25 @@
 export const OWN_USERNAME = 'ratnakarcontent';
+export const PROFILE_URL = `https://www.instagram.com/${OWN_USERNAME}/`;
+
+const FOLLOWED_QUICK_REPLY = { content_type: 'text', title: 'Followed ✅', payload: 'FOLLOWED' };
+
+// Follow-gate message with two buttons: "View Profile" opens the profile (no API
+// can follow for the user), "Followed ✅" sends the FOLLOWED postback.
+export function followGateButtons(text) {
+  return {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'button',
+        text,
+        buttons: [
+          { type: 'web_url', url: PROFILE_URL, title: 'View Profile 👤' },
+          { type: 'postback', title: 'Followed ✅', payload: 'FOLLOWED' },
+        ],
+      },
+    },
+  };
+}
 
 // True when two equal-length words differ by one wrong letter or one swapped
 // adjacent pair ("calude" vs "claude"). Length changes are not allowed, so
@@ -62,15 +83,16 @@ export function isAffirmativeResponse(text, quickReplyPayload) {
 /**
  * Builds the resources delivery text message.
  */
-export function buildResourcesMessage({ pdfTitle, pdfUrl, youtubeUrl }) {
+export function buildResourcesMessage({ pdfTitle, pdfUrl, youtubeUrl, resourceLabel, lang }) {
   let msg = `✅ Thanks for following!\n\n`;
   if (pdfTitle && pdfUrl) {
     msg += `📄 ${pdfTitle}: ${pdfUrl}\n`;
   }
   if (youtubeUrl) {
-    msg += `📺 Full video: ${youtubeUrl}\n`;
+    // resourceLabel: the link is not a video (e.g. a skill download)
+    msg += resourceLabel ? `🔗 ${resourceLabel}: ${youtubeUrl}\n` : `📺 Full video: ${youtubeUrl}\n`;
   }
-  msg += `\nKoi sawaal ho to yahin reply karo 🙂`;
+  msg += lang === 'en' ? `\nAny questions? Just reply here 🙂` : `\nKoi sawaal ho to yahin reply karo 🙂`;
   return msg.trim();
 }
 
@@ -121,11 +143,15 @@ export function decideCommentAction({ comment, registry, kvState, workerHost }) 
   const pdfTitle = entry.pdfTitle || entry.dm?.pdf?.title || 'Resource Guide';
   const pdfUrl = pdfSlug ? `https://${workerHost}/pdf/${pdfSlug}` : null;
   const youtubeUrl = entry.youtubeUrl || entry.link || entry.dm?.link;
+  // Entries with lang "en" get English DMs (universal audience, 21 Oct 2026); others stay Hinglish.
+  const en = entry.lang === 'en';
+  const { resourceLabel } = entry;
+  const defaultPublicReply = en ? `@${username} Check your DMs 📩` : `@${username} DM check karo 📩`;
 
   // If followGate === "none", deliver immediately
   if (followGate === 'none') {
-    const resourcesMsg = entry.dmMessage || buildResourcesMessage({ pdfTitle, pdfUrl, youtubeUrl });
-    const replyComment = entry.replyComment || `@${username} DM check karo 📩`;
+    const resourcesMsg = entry.dmMessage || buildResourcesMessage({ pdfTitle, pdfUrl, youtubeUrl, resourceLabel, lang: entry.lang });
+    const replyComment = entry.replyComment || defaultPublicReply;
     return {
       action: 'SEND_DIRECT',
       mediaId,
@@ -139,13 +165,17 @@ export function decideCommentAction({ comment, registry, kvState, workerHost }) 
   // Follow-gate active: instruct user to follow
   const title = entry.title || 'Masterclass & Guide';
   let initialDmText;
-  if (followGate === 'pdf' && youtubeUrl) {
-    initialDmText = `Hey @${username} 👋 Ye raha video link: ${youtubeUrl}\n\nPDF guide (${pdfTitle}) unlock karne ke liye:\n1️⃣ @${OWN_USERNAME} ko follow karo\n2️⃣ Phir neeche 'Followed ✅' dabao (ya reply mein DONE likho)`;
+  if (en && followGate === 'pdf' && youtubeUrl) {
+    initialDmText = `Hey @${username} 👋 Here's the ${resourceLabel || 'link'}: ${youtubeUrl}\n\nTo unlock the PDF guide (${pdfTitle}):\n1️⃣ Tap 'View Profile' and follow @${OWN_USERNAME}\n2️⃣ Come back and tap 'Followed ✅' (or reply DONE)`;
+  } else if (en) {
+    initialDmText = `Hey @${username} 👋 Want the ${resourceLabel || title}?\n1️⃣ Tap 'View Profile' and follow @${OWN_USERNAME}\n2️⃣ Come back and tap 'Followed ✅' (or reply DONE)`;
+  } else if (followGate === 'pdf' && youtubeUrl) {
+    initialDmText = `Hey @${username} 👋 Ye raha video link: ${youtubeUrl}\n\nPDF guide (${pdfTitle}) unlock karne ke liye:\n1️⃣ 'View Profile' dabao aur @${OWN_USERNAME} ko follow karo\n2️⃣ Wapas aake 'Followed ✅' dabao (ya reply mein DONE likho)`;
   } else {
-    initialDmText = `Hey @${username} 👋 ${title} ki PDF guide + full video unlock karne ke liye:\n1️⃣ @${OWN_USERNAME} ko follow karo\n2️⃣ Phir neeche 'Followed ✅' dabao (ya reply mein DONE likho)`;
+    initialDmText = `Hey @${username} 👋 ${title} ki PDF guide + full video unlock karne ke liye:\n1️⃣ 'View Profile' dabao aur @${OWN_USERNAME} ko follow karo\n2️⃣ Wapas aake 'Followed ✅' dabao (ya reply mein DONE likho)`;
   }
 
-  const publicReply = entry.replyComment || `@${username} DM check karo 📩`;
+  const publicReply = entry.replyComment || defaultPublicReply;
 
   return {
     action: 'GATE_FOLLOW',
@@ -153,18 +183,10 @@ export function decideCommentAction({ comment, registry, kvState, workerHost }) 
     commentId,
     username,
     igsid: from?.id,
-    privateReply: {
-      text: initialDmText,
-      quick_replies: [
-        {
-          content_type: 'text',
-          title: 'Followed ✅',
-          payload: 'FOLLOWED'
-        }
-      ]
-    },
+    privateReply: followGateButtons(initialDmText),
+    quickReplyFallback: { text: initialDmText, quick_replies: [FOLLOWED_QUICK_REPLY] },
     textOnlyFallback: {
-      text: `${initialDmText}\n\n(Follow karke reply mein DONE likho)`
+      text: `${initialDmText}\n\n${en ? '(After following, reply DONE)' : '(Follow karke reply mein DONE likho)'}`
     },
     publicReply,
     pendingData: {
@@ -198,7 +220,9 @@ export function decideMessageAction({ text, quickReplyPayload, pendingState, isF
     const pdfUrl = pdfSlug ? `https://${workerHost}/pdf/${pdfSlug}` : null;
     const youtubeUrl = registryEntry?.youtubeUrl || registryEntry?.link || registryEntry?.dm?.link;
 
-    const resourcesText = buildResourcesMessage({ pdfTitle, pdfUrl, youtubeUrl });
+    const resourcesText = buildResourcesMessage({
+      pdfTitle, pdfUrl, youtubeUrl, resourceLabel: registryEntry?.resourceLabel, lang: registryEntry?.lang,
+    });
     return {
       action: 'DELIVER_RESOURCES',
       mediaId: pendingState.mediaId,
@@ -215,20 +239,14 @@ export function decideMessageAction({ text, quickReplyPayload, pendingState, isF
     };
   }
 
-  const reminderText = `Abhi follow nahi dikh raha 🙂\n@${OWN_USERNAME} ko follow karke dobara 'Followed ✅' dabao (ya reply mein DONE likho)`;
+  const reminderText = registryEntry?.lang === 'en'
+    ? `I can't see your follow yet 🙂\nTap 'View Profile', follow @${OWN_USERNAME}, then tap 'Followed ✅' again (or reply DONE)`
+    : `Abhi follow nahi dikh raha 🙂\n'View Profile' dabao, @${OWN_USERNAME} ko follow karo, phir dobara 'Followed ✅' dabao (ya reply mein DONE likho)`;
   return {
     action: 'ASK_AGAIN',
     mediaId: pendingState.mediaId,
     newTries: currentTries,
-    reply: {
-      text: reminderText,
-      quick_replies: [
-        {
-          content_type: 'text',
-          title: 'Followed ✅',
-          payload: 'FOLLOWED'
-        }
-      ]
-    }
+    reply: followGateButtons(reminderText),
+    replyFallback: { text: reminderText, quick_replies: [FOLLOWED_QUICK_REPLY] }
   };
 }

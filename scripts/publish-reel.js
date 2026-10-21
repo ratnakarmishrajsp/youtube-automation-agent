@@ -231,8 +231,11 @@ function registerDm(m, state, save) {
       followGate: m.dm.followGate || 'none',
       pdfSlug: m.dm.pdf ? m.dm.pdf.slug : null,
       pdfTitle: m.dm.pdf ? m.dm.pdf.title : null,
-      dmMessage: m.dm.message || buildDmMessage(m.dm.link, m.dm.note),
-      replyComment: 'Link aapke DM mein bhej diya hai! Inbox check karo 📩',
+      // lang "en": the worker writes English DMs itself, so no Hinglish default message here
+      dmMessage: m.dm.message || (m.dm.lang === 'en' ? null : buildDmMessage(m.dm.link, m.dm.note)),
+      replyComment: m.dm.replyComment || (m.dm.lang === 'en' ? 'Sent you a DM! Check your inbox 📩' : 'Link aapke DM mein bhej diya hai! Inbox check karo 📩'),
+      ...(m.dm.lang ? { lang: m.dm.lang } : {}),
+      ...(m.dm.resourceLabel ? { resourceLabel: m.dm.resourceLabel } : {}),
     });
     ig.writeJson(ig.REGISTRY_PATH, registry);
   }

@@ -72,7 +72,7 @@ test('poller sends the follow instructions once for a typo comment', async () =>
   await runPoll(env(kv));
   const privateReplies = ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id === 'C1');
   assert.strictEqual(privateReplies.length, 1);
-  assert.match(privateReplies[0].body.message.text, /follow karo/);
+  assert.match(privateReplies[0].body.message.attachment.payload.text, /follow karo/);
   assert.ok(ig.sent.some((s) => s.url.includes('/C1/replies')), 'public reply posted');
   assert.ok(kv.store.has('p:id:U1'), 'pending follow check stored');
 

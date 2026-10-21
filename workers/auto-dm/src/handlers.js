@@ -146,22 +146,33 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
   }
 
   if (decision.action === 'GATE_FOLLOW') {
-    let sentVariant = 'quick_reply';
-    try {
-      // Try sending with quick reply first
-      await sendPrivateReply(commentId, decision.privateReply, token);
-    } catch (qrErr) {
-      // If quick replies are rejected in private reply, fall back to text only
-      console.warn('Quick reply failed in private reply, falling back to text-only:', qrErr.message);
+    // Buttons (View Profile + Followed) first; if Instagram rejects the template
+    // in a private reply, fall back to the quick reply, then to plain text.
+    const variants = [
+      ['buttons', decision.privateReply],
+      ['quick_reply', decision.quickReplyFallback],
+      ['text_only', decision.textOnlyFallback],
+    ].filter(([, payload]) => payload);
+    let sentVariant = null;
+    const failures = [];
+    for (const [name, payload] of variants) {
       try {
-        await sendPrivateReply(commentId, decision.textOnlyFallback, token);
-        sentVariant = 'text_only';
-      } catch (textErr) {
-        await logEvent(env, { type: 'error', user: username, mediaId, error: textErr.message, firstError: qrErr.message });
-        return;
+        await sendPrivateReply(commentId, payload, token);
+        sentVariant = name;
+        break;
+      } catch (err) {
+        console.warn(`Private reply variant "${name}" failed:`, err.message);
+        failures.push(`${name}: ${err.message}`);
       }
     }
+    if (!sentVariant) {
+      await logEvent(env, { type: 'error', user: username, mediaId, error: failures.join(' | ') });
+      return;
+    }
     rememberSent();
+    if (failures.length) {
+      await logEvent(env, { type: 'variant_fallback', user: username, mediaId, sentVariant, failures });
+    }
 
     // Post public confirmation on comment
     if (decision.publicReply) {
@@ -201,13 +212,14 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
  * Process one incoming DM (quick reply tap or typed reply)
  */
 export async function handleMessagesEvent(messagingItem, env, workerHost, registry) {
-  const { sender, message } = messagingItem || {};
+  const { sender, message, postback } = messagingItem || {};
   if (message?.is_echo) return;
 
   const senderId = sender?.id;
-  const text = message?.text;
-  const quickReplyPayload = message?.quick_reply?.payload;
-  const mid = message?.mid;
+  // A "Followed ✅" button tap arrives as a postback (webhook) or as its title text (poller).
+  const text = message?.text || postback?.title;
+  const quickReplyPayload = message?.quick_reply?.payload || postback?.payload;
+  const mid = message?.mid || postback?.mid;
 
   if (!senderId) return;
 
@@ -299,7 +311,13 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
 
   if (decision.action === 'ASK_AGAIN') {
     try {
-      await sendDirectMessage(senderId, decision.reply, token);
+      try {
+        await sendDirectMessage(senderId, decision.reply, token);
+      } catch (btnErr) {
+        if (!decision.replyFallback) throw btnErr;
+        console.warn('Button reminder failed, sending quick reply:', btnErr.message);
+        await sendDirectMessage(senderId, decision.replyFallback, token);
+      }
       if (env.AUTO_DM) {
         const updated = JSON.stringify({
           ...pendingState,

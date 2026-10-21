@@ -124,8 +124,14 @@ test('decideCommentAction returns GATE_FOLLOW when followGate is enabled', () =>
   });
 
   assert.strictEqual(res.action, 'GATE_FOLLOW');
-  assert.ok(res.privateReply.text.includes('follow karo'));
-  assert.strictEqual(res.privateReply.quick_replies[0].payload, 'FOLLOWED');
+  const tpl = res.privateReply.attachment.payload;
+  assert.strictEqual(tpl.template_type, 'button');
+  assert.ok(tpl.text.includes('follow karo'));
+  assert.deepStrictEqual(tpl.buttons.map((b) => b.type), ['web_url', 'postback']);
+  assert.strictEqual(tpl.buttons[0].url, 'https://www.instagram.com/ratnakarcontent/');
+  assert.strictEqual(tpl.buttons[1].payload, 'FOLLOWED');
+  assert.ok(tpl.buttons.every((b) => b.title.length <= 20));
+  assert.strictEqual(res.quickReplyFallback.quick_replies[0].payload, 'FOLLOWED');
   assert.ok(res.publicReply.includes('@founder_abc DM check karo'));
 });
 
@@ -175,6 +181,45 @@ test('decideMessageAction asks again if not following, and stops after 3 tries',
     workerHost: 'test.workers.dev'
   });
   assert.strictEqual(res2.action, 'MAX_TRIES_EXCEEDED');
+});
+
+test('lang "en" entries get English DMs and a labelled resource link', () => {
+  const entry = {
+    mediaId: 'm9',
+    title: 'Claude Meta Ads 7 jobs (skill file)',
+    keywords: ['skill'],
+    followGate: 'all',
+    lang: 'en',
+    resourceLabel: 'Meta Ads Autopilot skill (free download)',
+    youtubeUrl: 'https://github.com/example/skill'
+  };
+  const gate = decideCommentAction({
+    comment: { id: 'c9', text: 'SKILL', from: { id: 'u9', username: 'seller_in' }, media: { id: 'm9' } },
+    registry: [entry],
+    kvState: {},
+    workerHost: 'test.workers.dev'
+  });
+  assert.strictEqual(gate.action, 'GATE_FOLLOW');
+  const text = gate.privateReply.attachment.payload.text;
+  assert.ok(text.includes('Want the Meta Ads Autopilot skill (free download)?'));
+  assert.ok(text.includes("Tap 'View Profile' and follow @ratnakarcontent"));
+  assert.ok(!/karo|dabao|PDF guide/.test(text));
+  assert.ok(gate.textOnlyFallback.text.endsWith('(After following, reply DONE)'));
+  assert.strictEqual(gate.publicReply, '@seller_in Check your DMs 📩');
+
+  const done = decideMessageAction({
+    text: 'DONE', pendingState: { mediaId: 'm9', tries: 0 }, isFollowing: true, registryEntry: entry, workerHost: 'test.workers.dev'
+  });
+  assert.strictEqual(done.action, 'DELIVER_RESOURCES');
+  assert.ok(done.messageText.includes('🔗 Meta Ads Autopilot skill (free download): https://github.com/example/skill'));
+  assert.ok(!done.messageText.includes('Full video'));
+  assert.ok(done.messageText.endsWith('Any questions? Just reply here 🙂'));
+
+  const again = decideMessageAction({
+    text: 'done', pendingState: { mediaId: 'm9', tries: 0 }, isFollowing: false, registryEntry: entry, workerHost: 'test.workers.dev'
+  });
+  assert.strictEqual(again.action, 'ASK_AGAIN');
+  assert.ok(again.replyFallback.text.startsWith("I can't see your follow yet"));
 });
 
 test('decideMessageAction ignores unrelated message text', () => {
