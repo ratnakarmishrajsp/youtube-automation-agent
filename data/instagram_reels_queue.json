@@ -651,5 +651,32 @@
     "publishedMediaId": "18037470911840282",
     "permalink": "https://www.instagram.com/reel/Der9nsBj78u/",
     "publishedAt": "2026-10-20T05:25:51.639Z"
+  },
+  {
+    "id": 27,
+    "title": "Claude Meta Ads 7 jobs (skill file)",
+    "caption": "Claude can now run your Meta Ads by itself 🤖 7 jobs it handles — #3 is the scariest 👇\n\n1. Launches a campaign from one line\n2. Daily report: spend, ROAS, CPA\n3. Real profit: ROAS minus product cost, shipping, COD & RTO\n4. Profit per product + break-even ROAS\n5. Pauses losing ads, scales the winners\n6. Hides spam comments on your ads\n7. Tracks Shopify orders + RTO\n\n🔥 Comment \"SKILL\" and I'll DM you the full setup 📩\n(DMs go to followers only, so follow first)\n\n#Reels #MetaAds #ClaudeAI #ROAS #Shopify #RTO",
+    "scheduledTimeIST": "21-10-2026 10:24:00 IST",
+    "scheduledDate": "21-10-2026",
+    "scheduledTime": "10:24:00",
+    "localVideoPath": "data/shorts/claude_meta_ads_v1.mp4",
+    "localCoverPath": "data/shorts/claude_meta_ads_cover.jpg",
+    "videoUrl": null,
+    "coverUrl": null,
+    "containerId": null,
+    "status": "PUBLISHED",
+    "manualPost": true,
+    "dm": {
+      "keyword": "SKILL",
+      "link": "https://github.com/ratnakarmishrajsp/ratnakar-meta-ads-skill",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Meta Ads Autopilot skill (free download)"
+    },
+    "manifest": "data/reels/2026-10-21-claude-meta-ads.json",
+    "createdAt": "2026-10-21T05:51:42.812Z",
+    "publishedMediaId": "18115866410012042",
+    "permalink": "https://www.instagram.com/reel/DevmH5_SU5s/",
+    "publishedAt": "2026-10-21T04:54:57+0000"
   }
 ]
