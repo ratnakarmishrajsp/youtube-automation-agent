@@ -5,6 +5,7 @@ const crypto = require('crypto');
 // Import pure decision logic
 const {
   matchesKeyword,
+  isRequestComment,
   isAffirmativeResponse,
   decideCommentAction,
   decideMessageAction
@@ -18,6 +19,28 @@ test('matchesKeyword verifies keyword boundaries correctly', () => {
   assert.strictEqual(matchesKeyword('unclaude topic', keywords), false);
   assert.strictEqual(matchesKeyword('some random comment', keywords), false);
   assert.strictEqual(matchesKeyword('', keywords), false);
+});
+
+test('isRequestComment accepts emoji-only and request comments without the keyword', () => {
+  for (const text of ['🙌', '🔥🔥🔥', '❤️', '👏 👏', '🙏', 'send pls', 'Link chahiye bhai', 'DM me', 'mujhe bhi chahiye', 'लिंक भेजो']) {
+    assert.strictEqual(isRequestComment(text), true, text);
+  }
+  for (const text of ['', '   ', '👎', '🙄🙄', 'great video', 'nice 🔥', 'sendhil', '...', '1']) {
+    assert.strictEqual(isRequestComment(text), false, text);
+  }
+});
+
+test('decideCommentAction treats an emoji-only comment like the keyword, once per user', () => {
+  const comment = { id: 'c9', text: '🙌', from: { id: 'u9', username: 'emoji_fan' }, media: { id: 'm1' } };
+  const registry = [{ mediaId: 'm1', keywords: ['skill', 'link'], followGate: 'all', youtubeUrl: 'https://x', lang: 'en' }];
+  const args = { comment, registry, workerHost: 'test.workers.dev' };
+
+  assert.strictEqual(decideCommentAction({ ...args, kvState: {} }).action, 'GATE_FOLLOW');
+  const again = decideCommentAction({ ...args, kvState: { pending: true } });
+  assert.strictEqual(again.action, 'IGNORE');
+  assert.strictEqual(again.reason, 'already_pending_for_media');
+  const praise = decideCommentAction({ ...args, comment: { ...comment, text: 'great video' }, kvState: {} });
+  assert.strictEqual(praise.reason, 'keyword_mismatch');
 });
 
 test('isAffirmativeResponse matches quick reply payload and typed words', () => {

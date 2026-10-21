@@ -116,6 +116,20 @@ test('poller ignores a "Done" that was sent before the follow instructions', asy
   assert.strictEqual(ig.sent.length, 0);
 });
 
+test('emoji-only comments get the DM; "🙌" then "Claude" from one user gets only one', async () => {
+  const kv = memoryKv();
+  const comments = [
+    { id: 'E1', text: '🙌', timestamp: iso(NOW - 50e3), from: { id: 'U5', username: 'double_tap' } },
+    { id: 'E2', text: 'Claude', timestamp: iso(NOW - 45e3), from: { id: 'U5', username: 'double_tap' } },
+    { id: 'E3', text: '🔥', timestamp: iso(NOW - 40e3), from: { id: 'U6', username: 'fire_fan' } },
+    { id: 'E4', text: 'great video', timestamp: iso(NOW - 30e3), from: { id: 'U7', username: 'just_praise' } },
+  ];
+  const ig = fakeInstagram({ comments });
+  await runPoll(env(kv));
+  const repliedTo = ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id).map((s) => s.body.recipient.comment_id);
+  assert.deepStrictEqual(repliedTo, ['E1', 'E3']);
+});
+
 test('a reel published 2 months ago still auto-DMs a fresh comment; old legacy reels and old comments are skipped', async () => {
   const kv = memoryKv();
   const twoMonthsAgo = new Date(NOW - 60 * 864e5).toISOString();

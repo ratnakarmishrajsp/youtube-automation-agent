@@ -32,6 +32,23 @@ export function matchesKeyword(text, keywords) {
   });
 }
 
+// Instagram's one-tap emoji bar (🙌 🔥 ❤️ 👏 ...) makes emoji-only comments common on
+// "Comment X" reels (21 Oct 2026: several 🙌 on the SKILL reel), so those count as asking.
+const NEGATIVE_EMOJI = /👎|😡|🤬|🤮|💩|🖕|🙄|😒/u;
+// Plain asks without the keyword: "send pls", "link chahiye" ("link" is already a keyword), "लिंक भेजो".
+const REQUEST_WORDS = /(^|[^a-z0-9])(send|dm|pls|plz|please|chahiye|chaiye|chahie|bhejo|bhej|want|need|interested)([^a-z0-9]|$)|लिंक|चाहिए|भेजो/;
+
+/**
+ * True for a comment that asks for the resource without the keyword:
+ * emoji-only (except negative emojis) or a request word.
+ */
+export function isRequestComment(text) {
+  const t = String(text || '').trim();
+  if (!t) return false;
+  if (!/[\p{L}\p{N}]/u.test(t)) return /\p{Extended_Pictographic}/u.test(t) && !NEGATIVE_EMOJI.test(t);
+  return REQUEST_WORDS.test(t.toLowerCase());
+}
+
 /**
  * Determines whether an incoming message is an affirmative follow confirmation.
  */
@@ -86,13 +103,17 @@ export function decideCommentAction({ comment, registry, kvState, workerHost }) 
 
   // 4. Keyword check
   const keywords = entry.keywords || (entry.keyword ? [entry.keyword] : []);
-  if (!matchesKeyword(text, keywords)) {
+  if (!matchesKeyword(text, keywords) && !isRequestComment(text)) {
     return { action: 'IGNORE', reason: 'keyword_mismatch' };
   }
 
   // 5. Check if user was already delivered resources for this reel
   if (kvState?.delivered) {
     return { action: 'ALREADY_DELIVERED', reason: 'already_delivered_for_media' };
+  }
+  // People often send "🙌" and "SKILL" seconds apart: one DM for both is enough.
+  if (kvState?.pending) {
+    return { action: 'IGNORE', reason: 'already_pending_for_media' };
   }
 
   const followGate = entry.followGate || 'none';

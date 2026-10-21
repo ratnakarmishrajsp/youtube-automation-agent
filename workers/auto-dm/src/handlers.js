@@ -13,10 +13,17 @@ const REGISTRY_TTL_MS = 5 * 60 * 1000;
 
 // Kept in isolate memory so the cron does not spend KV writes (free plan: 1,000/day).
 let registryCache = { at: 0, data: null };
+// A second comment from the same user on the same reel within this window ("🙌" then
+// "SKILL") gets no second DM. Later comments do: the new private reply is a reminder.
+const DUPLICATE_WINDOW_MS = 10 * 60 * 1000;
+// "mediaId:username" -> when this isolate DMed them. Covers two comments in the same
+// poll batch, where the KV write of the first may not be readable yet.
+const recentSends = new Map();
 
-// Tests run several registries in one process.
+// Tests run several registries and users in one process.
 export function resetRegistryCache() {
   registryCache = { at: 0, data: null };
+  recentSends.clear();
 }
 
 /**
@@ -75,24 +82,35 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
   // Read current KV state
   let commentHandled = false;
   let delivered = false;
+  const sentKey = `${mediaId}:${username}`;
+  const isRecent = (at) => Date.now() - (at || 0) < DUPLICATE_WINDOW_MS;
+  let pending = isRecent(recentSends.get(sentKey));
 
   if (env.AUTO_DM) {
     commentHandled = Boolean(await env.AUTO_DM.get(`c:${commentId}`));
     if (username) {
       delivered = Boolean(await env.AUTO_DM.get(`d:${mediaId}:${username}`));
+      if (!pending) {
+        const pendingState = await env.AUTO_DM.get(`p:u:${username}`, { type: 'json' });
+        pending = pendingState?.mediaId === mediaId && isRecent(pendingState.at);
+      }
     }
   }
 
   const decision = decideCommentAction({
     comment: { id: commentId, text, from, media, parent_id },
     registry,
-    kvState: { commentHandled, delivered },
+    kvState: { commentHandled, delivered, pending },
     workerHost
   });
 
   if (decision.action === 'IGNORE') {
     return;
   }
+  const rememberSent = () => {
+    if (recentSends.size > 1000) recentSends.clear();
+    recentSends.set(sentKey, Date.now());
+  };
 
   // Mark comment as processed immediately to prevent duplicate handling
   if (env.AUTO_DM) {
@@ -113,6 +131,7 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
   if (decision.action === 'SEND_DIRECT') {
     try {
       await sendPrivateReply(commentId, decision.privateReply, token);
+      rememberSent();
       if (decision.publicReply) {
         await postCommentReply(commentId, decision.publicReply, token);
       }
@@ -142,6 +161,7 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
         return;
       }
     }
+    rememberSent();
 
     // Post public confirmation on comment
     if (decision.publicReply) {
