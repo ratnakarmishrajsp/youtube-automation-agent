@@ -141,7 +141,7 @@ export function decideCommentAction({ comment, registry, kvState, workerHost }) 
   const followGate = entry.followGate || 'none';
   const pdfSlug = entry.pdfSlug || entry.dm?.pdf?.slug;
   const pdfTitle = entry.pdfTitle || entry.dm?.pdf?.title || 'Resource Guide';
-  const pdfUrl = pdfSlug ? `https://${workerHost}/pdf/${pdfSlug}` : null;
+  const pdfUrl = pdfSlug ? `https://${workerHost}/guide/${pdfSlug}` : null;
   const youtubeUrl = entry.youtubeUrl || entry.link || entry.dm?.link;
   // Entries with lang "en" get English DMs (universal audience, 21 Oct 2026); others stay Hinglish.
   const en = entry.lang === 'en';
@@ -217,7 +217,7 @@ export function decideMessageAction({ text, quickReplyPayload, pendingState, isF
   if (isFollowing === true) {
     const pdfSlug = registryEntry?.pdfSlug || registryEntry?.dm?.pdf?.slug;
     const pdfTitle = registryEntry?.pdfTitle || registryEntry?.dm?.pdf?.title || 'Resource Guide';
-    const pdfUrl = pdfSlug ? `https://${workerHost}/pdf/${pdfSlug}` : null;
+    const pdfUrl = pdfSlug ? `https://${workerHost}/guide/${pdfSlug}` : null;
     const youtubeUrl = registryEntry?.youtubeUrl || registryEntry?.link || registryEntry?.dm?.link;
 
     const resourcesText = buildResourcesMessage({

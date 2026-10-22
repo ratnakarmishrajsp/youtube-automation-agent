@@ -104,7 +104,7 @@ test('poller delivers PDF + video once after a "Done" reply from a follower', as
   await runPoll(env(kv));
   const dms = ig.sent.filter((s) => s.body.recipient && s.body.recipient.id === 'U1');
   assert.strictEqual(dms.length, 1);
-  assert.match(dms[0].body.message.text, /w\.example\/pdf\/claude-startups/);
+  assert.match(dms[0].body.message.text, /w\.example\/guide\/claude-startups/);
   assert.match(dms[0].body.message.text, /youtu\.be\/x/);
   assert.ok(kv.store.has('d:M18:tester'));
   assert.ok(!kv.store.has('p:id:U1'));

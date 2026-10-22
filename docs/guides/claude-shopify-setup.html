@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { padding: 18px 16px 96px; font-size: 16px; }
+    .page-container { max-width: 680px; }
+    .download-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(10, 15, 29, 0.96); border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; }
+    .download-bar a { display: inline-block; width: 100%; max-width: 420px; padding: 14px 18px; border-radius: 12px;
+      background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; text-decoration: none; }
+    @media (max-width: 600px) {
+      body { font-size: 15.5px; }
+      .header-banner { flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+  <title>CLAUDE × SHOPIFY: STEP-BY-STEP SETUP - Ratnakar Mishra Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0A0F1D;
+      color: #E2E8F0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 22px;
+    }
+    .creator-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .creator-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00FF66 0%, #38BDF8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      color: #0A0F1D;
+      font-size: 16px;
+    }
+    .creator-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .creator-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+    .creator-handle {
+      font-size: 11px;
+      color: #38BDF8;
+      font-weight: 600;
+    }
+    .badge-tag {
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid #00FF66;
+      color: #00FF66;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hero-section {
+      background: linear-gradient(145deg, rgba(20, 30, 55, 0.7) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #00FF66;
+    }
+    .doc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .doc-subtitle {
+      color: #94A3B8;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .section-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFE600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+    .section-heading::before {
+      content: '■';
+      color: #00FF66;
+      font-size: 11px;
+    }
+    .bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bullets-list li {
+      position: relative;
+      padding-left: 20px;
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .bullets-list li::before {
+      content: '👉';
+      position: absolute;
+      left: 0;
+      top: 0px;
+      font-size: 12px;
+    }
+    .checklist-card {
+      background: rgba(16, 32, 28, 0.75);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .checklist-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #00FF66;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #F1F5F9;
+    }
+    .check-box {
+      min-width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      background: #00FF66;
+      color: #0A0F1D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+    .takeaway-card {
+      background: linear-gradient(135deg, rgba(255, 230, 0, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid #FFE600;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .takeaway-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 11.5px;
+      color: #FFE600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .takeaway-text {
+      font-size: 13.5px;
+      color: #FFFFFF;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .video-cta-card {
+      background: #0F172A;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .video-cta-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #38BDF8;
+    }
+    .video-cta-link {
+      background: #38BDF8;
+      color: #0A0F1D;
+      padding: 7px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .footer-bar {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="header-banner">
+      <div class="creator-brand">
+        <div class="creator-avatar">R</div>
+        <div class="creator-info">
+          <span class="creator-name">Ratnakar Mishra</span>
+          <span class="creator-handle">@ratnakarcontent</span>
+        </div>
+      </div>
+      <div class="badge-tag">⚡ SETUP GUIDE</div>
+    </div>
+
+    <div class="hero-section">
+      <h1 class="doc-title">CLAUDE × SHOPIFY: STEP-BY-STEP SETUP</h1>
+      <p class="doc-subtitle">Connect Claude to your Shopify store and run it by chatting. Route A is one click for most jobs. Route B adds order actions (flag, hold, edit).</p>
+    </div>
+
+    <div class="sections-container">
+      
+    <div class="section-card">
+      <div class="section-heading">Before you start</div>
+      <ul class="bullets-list">
+        <li><b>You need:</b> a paid Claude plan, a Shopify store you own or manage, and a desktop browser for the setup.</li>
+        <li><b>Your permissions = Claude's permissions.</b> Claude can only see or change what your own Shopify staff account is allowed to.</li>
+        <li><b>Use only official tools.</b> Don't paste API tokens into random apps.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Route A: one-click connector (reports, products, sales, discounts)</div>
+      <ul class="bullets-list">
+        <li><b>Add the connector:</b> on desktop, open <b>claude.ai/directory/connectors/shopify</b> and add the Shopify connector to Claude.</li>
+        <li><b>Log in to Shopify:</b> Claude sends you to your Shopify admin. Review the access it asks for.</li>
+        <li><b>Pick the access level:</b> <b>read-only</b> (Claude can only look) or <b>write</b> (Claude can make changes). Start with read-only if you're unsure.</li>
+        <li><b>Confirm:</b> back in Claude, ask <i>"Which Shopify store is connected?"</i></li>
+        <li><b>One store at a time:</b> to switch, ask Claude to connect another store, then start a new chat.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Copy-paste prompts for Route A</div>
+      <ul class="bullets-list">
+        <li>"Show me yesterday's orders and revenue in Shopify, split by COD and prepaid."</li>
+        <li>"Create a product in Shopify from this photo. Write the title, description and price, and keep it as a draft." Then: "Make it active."</li>
+        <li>"In Shopify, put 20% off on every product in my Summer collection."</li>
+        <li>"Create a 20% off discount code called DIWALI in Shopify."</li>
+        <li><b>Tip:</b> mention Shopify by name and keep one task per message.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">What Route A can't do (Shopify blocks it)</div>
+      <ul class="bullets-list">
+        <li>It <b>reads orders but can't change them</b>: no order edits, cancellations or refunds. Customer records are read-only too.</li>
+        <li>No payments, taxes, domains, plan changes or live-theme edits.</li>
+        <li>Discount codes are percentage-off only.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Route B: order actions (flag, hold, edit) with Claude Code</div>
+      <ul class="bullets-list">
+        <li>For order jobs (tag a fishy COD order, hold its shipment, change a size) use <b>Claude Code</b> + Shopify's official <b>AI Toolkit</b> + <b>Shopify CLI</b>. No code to write: Claude writes the queries.</li>
+        <li>Install the toolkit in Claude Code: <b>claude plugin install shopify-ai-toolkit@claude-plugins-official</b></li>
+        <li>Install the Shopify CLI (guide: shopify.dev/docs/api/shopify-cli), then ask Claude Code: <i>"Connect to my Shopify store with the Shopify CLI so you can tag, hold and edit orders."</i> It runs <b>shopify store auth</b> and you approve the access in your browser.</li>
+        <li>Then just ask: <i>"Tag order #____ as CALL-VERIFY and put its shipment on hold."</i> or <i>"Change the size on order #____ from M to L."</i></li>
+        <li><b>Every change needs your OK:</b> store changes are off by default in <b>shopify store execute</b>, and Claude Code asks before it runs a command that changes your store.</li>
+      </ul>
+    </div>
+  
+    </div>
+
+    <div class="checklist-card">
+      <div class="checklist-heading">⚡ Action Checklist</div>
+      <div class="checklist-items">
+        
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Paid Claude plan active</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Official Shopify connector added from Claude (no homemade API token)</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Started read-only, switched to write only when needed</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Order actions (tag, hold, edit) done through Claude Code + Shopify CLI, approving each change</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Refunds and cancellations done by you in Shopify admin</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Access removed by uninstalling the app in Shopify admin when you stop using it</div>
+    </div>
+  
+      </div>
+    </div>
+
+    <div class="takeaway-card">
+      <div class="takeaway-label">💡 Key Takeaway</div>
+      <div class="takeaway-text">Start read-only, use only Shopify's official tools, and approve every change. Claude does the clicking, you stay in control.</div>
+    </div>
+
+    <div class="video-cta-card">
+      <div class="video-cta-text">
+        <span>📺</span>
+        <span>Watch the complete in-depth video breakdown:</span>
+      </div>
+      <a href="https://www.youtube.com/@ratnakarmishra06" class="video-cta-link">Watch on YouTube</a>
+    </div>
+
+    <div class="footer-bar">
+      <span>@ratnakarcontent · YouTube: Ratnakar Mishra Digital Marketing</span>
+      <span>Official Resource Guide</span>
+    </div>
+  </div>
+  <div class="download-bar"><a href="https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/pdf/claude-shopify-setup">⬇️ Download the PDF</a></div>
+</body>
+</html>

@@ -154,7 +154,7 @@ test('decideMessageAction delivers resources when isFollowing is true', () => {
   });
 
   assert.strictEqual(res.action, 'DELIVER_RESOURCES');
-  assert.ok(res.messageText.includes('https://ratnakar-auto-dm.workers.dev/pdf/claude-startups'));
+  assert.ok(res.messageText.includes('https://ratnakar-auto-dm.workers.dev/guide/claude-startups'));
   assert.ok(res.messageText.includes('https://youtu.be/123'));
 });
 

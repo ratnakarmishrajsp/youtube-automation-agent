@@ -2,6 +2,19 @@ import { privacyPolicyHtml, termsOfServiceHtml, dataDeletionHtml } from './pages
 import { logEvent, processWebhookPayload } from './handlers.js';
 import { runPoll } from './poller.js';
 
+const GUIDES_URL = 'https://raw.githubusercontent.com/ratnakarmishrajsp/youtube-automation-agent/master/docs/guides';
+
+// A guide with no exported page yet: one button to its PDF.
+function guideFallbackHtml(slug) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your guide - Ratnakar Mishra</title>
+<style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0A0F1D;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:24px;text-align:center}
+a{display:inline-block;margin-top:18px;padding:14px 22px;border-radius:12px;background:#00FF66;color:#0A0F1D;font-weight:800;text-decoration:none}
+p{opacity:.8;font-size:14px;max-width:360px;margin:16px auto 0}</style></head>
+<body><div><h2>Your guide is ready 📄</h2><a href="/pdf/${slug}">Open the PDF</a>
+<p>If it doesn't open inside Instagram, tap ⋮ (top right) → "Open in browser".</p></div></body></html>`;
+}
+
 /**
  * Verify Meta HMAC-SHA256 signature
  */
@@ -57,15 +70,28 @@ export default {
       });
     }
 
-    // 3. Serve PDF from KV
+    // 3a. Guide as a web page (what the DM links: Instagram's Android in-app browser
+    // cannot open PDFs). Pages live in the repo under docs/guides/<slug>.html.
+    const guideMatch = path.match(/^\/guide\/([a-zA-Z0-9_-]+)$/);
+    if (guideMatch) {
+      const slug = guideMatch[1];
+      const res = await fetch(`${GUIDES_URL}/${slug}.html`, { cf: { cacheTtl: 300 } });
+      const html = res.ok ? await res.text() : guideFallbackHtml(slug);
+      return new Response(html, {
+        status: 200,
+        headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=300' }
+      });
+    }
+
+    // 3b. Serve PDF from KV, else the copy in the repo (docs/guides/<slug>.pdf)
     const pdfMatch = path.match(/^\/pdf\/([a-zA-Z0-9_-]+)$/);
     if (pdfMatch) {
       const slug = pdfMatch[1];
-      if (!env.AUTO_DM) {
-        return new Response('KV binding AUTO_DM not configured', { status: 500 });
+      let pdfData = env.AUTO_DM ? await env.AUTO_DM.get(`pdf:${slug}`, { type: 'arrayBuffer' }) : null;
+      if (!pdfData) {
+        const res = await fetch(`${GUIDES_URL}/${slug}.pdf`, { cf: { cacheTtl: 3600 } });
+        if (res.ok) pdfData = await res.arrayBuffer();
       }
-
-      const pdfData = await env.AUTO_DM.get(`pdf:${slug}`, { type: 'arrayBuffer' });
       if (!pdfData) {
         return new Response(`PDF "${slug}" not found or not approved yet.`, { status: 404 });
       }
