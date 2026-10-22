@@ -1,9 +1,14 @@
 // Cron poller (every minute). Meta only sends comment webhooks to apps with
 // Advanced Access, so until App Review is approved this is what makes auto-DM
 // work. It reads new comments and new DM replies and feeds them to the same
-// handlers as the webhook; KV keys (c:, m:) stop anything being handled twice.
+// handlers as the webhook; the pending/delivered keys stop anything being handled twice.
+//
+// The high-water marks live in isolate memory and go to KV at most every 15 minutes
+// (free plan: 1,000 writes/day, and this used to write every active minute). After a
+// cold start the last saved marks are used, so up to 15 minutes of comments and replies
+// are read again; the handlers recognise them and send nothing new.
 import { graphGet } from './instagram.js';
-import { getRegistry, handleCommentsEvent, handleMessagesEvent, logEvent } from './handlers.js';
+import { getRegistry, handleCommentsEvent, handleMessagesEvent, logEvent, flushLogs, kvPut, hasPendingInMemory } from './handlers.js';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const COMMENT_WINDOW_MS = 7 * DAY_MS; // Instagram: private reply within 7 days of the COMMENT (reel age doesn't matter)
@@ -11,6 +16,18 @@ const LEGACY_REEL_WINDOW_MS = 7 * DAY_MS; // old reels (registered before follow
 const MAX_MEDIA_PAGES = 5;
 const MAX_COMMENT_PAGES = 10;
 const STATE_KEY = 'poll:state';
+const FLUSH_EVERY_MS = 15 * 60 * 1000;
+
+let memState = null; // poll state kept between cron runs of this isolate
+let stateDirty = false; // memState has changes not yet in KV
+let lastFlushAt = 0;
+
+// Tests simulate a cold start with this.
+export function resetPollMemory() {
+  memState = null;
+  stateDirty = false;
+  lastFlushAt = 0;
+}
 
 // Instagram timestamps look like "2026-10-10T16:16:29+0000".
 const toMs = (ts) => Date.parse(String(ts || '').replace(/([+-]\d{2})(\d{2})$/, '$1:$2')) || 0;
@@ -101,7 +118,8 @@ async function pollReplies(env, workerHost, registry, state, token) {
     const own = env.IG_ACCOUNT_ID ? String(env.IG_ACCOUNT_ID) : null;
     const other = (conv.participants?.data || []).find((p) => p.username !== 'ratnakarcontent' && p.id !== own);
     if (!other) continue;
-    const pending = await env.AUTO_DM.get(`p:id:${other.id}`) || await env.AUTO_DM.get(`p:u:${other.username}`);
+    const pending = hasPendingInMemory(other.username) ||
+      await env.AUTO_DM.get(`p:id:${other.id}`) || await env.AUTO_DM.get(`p:u:${other.username}`);
     if (!pending) continue;
 
     // Oldest first, so "followed" is checked in the order the user sent things.
@@ -124,7 +142,11 @@ export async function runPoll(env) {
   const workerHost = env.WORKER_HOST;
   const token = env.IG_ACCESS_TOKEN;
   const registry = await getRegistry(env);
-  const state = (await env.AUTO_DM.get(STATE_KEY, { type: 'json' })) || { counts: {}, hw: {}, convAt: 0 };
+  if (!memState) {
+    memState = (await env.AUTO_DM.get(STATE_KEY, { type: 'json' })) || { counts: {}, hw: {}, convAt: 0 };
+    lastFlushAt = Date.now();
+  }
+  const state = memState;
   state.counts = state.counts || {};
   state.hw = state.hw || {};
 
@@ -138,6 +160,11 @@ export async function runPoll(env) {
 
   if (state.changed) {
     delete state.changed;
-    await env.AUTO_DM.put(STATE_KEY, JSON.stringify(state));
+    stateDirty = true;
+  }
+  if (Date.now() - lastFlushAt >= FLUSH_EVERY_MS) {
+    lastFlushAt = Date.now();
+    if (stateDirty && await kvPut(env, STATE_KEY, JSON.stringify(state))) stateDirty = false;
+    await flushLogs(env);
   }
 }

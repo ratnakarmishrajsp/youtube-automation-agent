@@ -1,5 +1,11 @@
 // Event handlers shared by the webhook (instant, needs Meta Advanced Access) and
 // the cron poller (every minute, works without it). KV keys dedupe between them.
+//
+// KV write budget (free plan: 1,000 writes/day, shared by everything):
+//   - per DM only the keys that stop a second DM: p:u (follow pending) and d: (delivered),
+//     plus m: when a "not following yet" reminder goes out;
+//   - logs are buffered in memory and flushed as one key with the poll state (poller.js);
+//   - a refused write (daily limit reached) is logged and skipped, so the DM still goes out.
 import { decideCommentAction, decideMessageAction } from './flow.js';
 import {
   sendPrivateReply,
@@ -19,11 +25,67 @@ const DUPLICATE_WINDOW_MS = 10 * 60 * 1000;
 // "mediaId:username" -> when this isolate DMed them. Covers two comments in the same
 // poll batch, where the KV write of the first may not be readable yet.
 const recentSends = new Map();
+// Same isolate fallbacks for the two dedupe keys, used when a KV write was refused.
+const memPending = new Map(); // username -> pending follow check
+const memDelivered = new Set(); // "mediaId:username"
+// Log events waiting for the next flush (one KV key per flush, not per event).
+let logBuffer = [];
+const LOG_BUFFER_MAX = 200;
 
 // Tests run several registries and users in one process.
 export function resetRegistryCache() {
   registryCache = { at: 0, data: null };
   recentSends.clear();
+  memPending.clear();
+  memDelivered.clear();
+  logBuffer = [];
+}
+
+function bufferLog(entry) {
+  if (logBuffer.length >= LOG_BUFFER_MAX) logBuffer.shift();
+  logBuffer.push(entry);
+}
+
+/**
+ * KV put that never throws: when Cloudflare refuses the write (daily limit), the
+ * caller carries on with its in-memory fallback instead of dropping the DM.
+ */
+export async function kvPut(env, key, value, opts) {
+  if (!env.AUTO_DM) return false;
+  try {
+    await env.AUTO_DM.put(key, value, opts);
+    return true;
+  } catch (err) {
+    console.error(`KV put ${key} failed: ${err.message}`);
+    bufferLog({ type: 'kv_write_failed', key: key.split(':')[0], error: err.message, timestamp: new Date().toISOString() });
+    return false;
+  }
+}
+
+async function kvDelete(env, key) {
+  if (!env.AUTO_DM) return;
+  try {
+    await env.AUTO_DM.delete(key);
+  } catch (err) {
+    console.error(`KV delete ${key} failed: ${err.message}`);
+  }
+}
+
+function rememberPending(username, pending) {
+  if (!username) return;
+  if (memPending.size > 1000) memPending.clear();
+  memPending.set(username, pending);
+}
+
+// The poller asks this when the p:u write for a user was refused.
+export function hasPendingInMemory(username) {
+  return Boolean(username && memPending.has(username));
+}
+
+function rememberDelivered(mediaId, username) {
+  if (!username) return;
+  if (memDelivered.size > 5000) memDelivered.clear();
+  memDelivered.add(`${mediaId}:${username}`);
 }
 
 /**
@@ -41,7 +103,7 @@ export async function getRegistry(env) {
       registryCache = { at: Date.now(), data };
       if (env.AUTO_DM) {
         const stored = await env.AUTO_DM.get('cfg:registry');
-        if (stored !== text) await env.AUTO_DM.put('cfg:registry', text);
+        if (stored !== text) await kvPut(env, 'cfg:registry', text);
       }
       return data;
     }
@@ -58,15 +120,24 @@ export async function getRegistry(env) {
 }
 
 /**
- * Write structured log entry to KV
+ * Structured log entry: Cloudflare's worker logs right away, KV at the next flush.
  */
-export async function logEvent(env, payload) {
-  if (!env.AUTO_DM) return;
-  const logKey = `log:${new Date().toISOString()}:${Math.random().toString(36).slice(2, 7)}`;
-  await env.AUTO_DM.put(logKey, JSON.stringify({
-    ...payload,
-    timestamp: new Date().toISOString()
-  }), { expirationTtl: 30 * 86400 });
+export async function logEvent(_env, payload) {
+  const entry = { ...payload, timestamp: new Date().toISOString() };
+  console.log(JSON.stringify(entry));
+  bufferLog(entry);
+}
+
+/**
+ * Write every buffered log entry as one KV key (`log:<time>:batch`). Called by the
+ * poller every 15 minutes, so logs cost at most ~96 writes a day.
+ */
+export async function flushLogs(env) {
+  if (!env.AUTO_DM || !logBuffer.length) return;
+  const batch = logBuffer;
+  logBuffer = [];
+  const ok = await kvPut(env, `log:${new Date().toISOString()}:batch`, JSON.stringify({ batch }), { expirationTtl: 30 * 86400 });
+  if (!ok) logBuffer = batch.concat(logBuffer).slice(-LOG_BUFFER_MAX);
 }
 
 /**
@@ -86,16 +157,19 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
   const isRecent = (at) => Date.now() - (at || 0) < DUPLICATE_WINDOW_MS;
   let pending = isRecent(recentSends.get(sentKey));
 
+  let pendingState = username ? memPending.get(username) || null : null;
+  delivered = memDelivered.has(sentKey);
   if (env.AUTO_DM) {
+    // c: keys are no longer written; old ones are still honoured until they expire.
     commentHandled = Boolean(await env.AUTO_DM.get(`c:${commentId}`));
     if (username) {
-      delivered = Boolean(await env.AUTO_DM.get(`d:${mediaId}:${username}`));
-      if (!pending) {
-        const pendingState = await env.AUTO_DM.get(`p:u:${username}`, { type: 'json' });
-        pending = pendingState?.mediaId === mediaId && isRecent(pendingState.at);
-      }
+      delivered = delivered || Boolean(await env.AUTO_DM.get(`d:${mediaId}:${username}`));
+      pendingState = (await env.AUTO_DM.get(`p:u:${username}`, { type: 'json' })) || pendingState;
     }
   }
+  // The pending check carries the comment it answered, so a re-read comment is not DMed twice.
+  if (pendingState?.commentId === commentId) commentHandled = true;
+  if (!pending) pending = pendingState?.mediaId === mediaId && isRecent(pendingState.at);
 
   const decision = decideCommentAction({
     comment: { id: commentId, text, from, media, parent_id },
@@ -112,11 +186,8 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
     recentSends.set(sentKey, Date.now());
   };
 
-  // Mark comment as processed immediately to prevent duplicate handling
-  if (env.AUTO_DM) {
-    await env.AUTO_DM.put(`c:${commentId}`, JSON.stringify({ at: Date.now() }), { expirationTtl: 30 * 86400 });
-  }
-
+  // No per-comment KV marker: d: (delivered) and p:u (pending, with the comment id) already
+  // stop a second DM, and Instagram allows only one private reply per comment anyway.
   if (decision.action === 'ALREADY_DELIVERED') {
     await logEvent(env, { type: 'comment_skipped', user: username, mediaId, result: 'already_delivered' });
     return;
@@ -132,11 +203,10 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
     try {
       await sendPrivateReply(commentId, decision.privateReply, token);
       rememberSent();
+      rememberDelivered(mediaId, username);
+      if (username) await kvPut(env, `d:${mediaId}:${username}`, '1', { expirationTtl: 365 * 86400 });
       if (decision.publicReply) {
         await postCommentReply(commentId, decision.publicReply, token);
-      }
-      if (env.AUTO_DM && username) {
-        await env.AUTO_DM.put(`d:${mediaId}:${username}`, '1', { expirationTtl: 365 * 86400 });
       }
       await logEvent(env, { type: 'direct_delivered', user: username, mediaId, result: 'success' });
     } catch (err) {
@@ -183,19 +253,15 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
       }
     }
 
-    // Store pending follow check in KV
-    if (env.AUTO_DM) {
-      const pendingJson = JSON.stringify({
-        ...decision.pendingData,
-        variant: sentVariant
-      });
-      const ttl = 7 * 86400;
-      if (decision.igsid) {
-        await env.AUTO_DM.put(`p:id:${decision.igsid}`, pendingJson, { expirationTtl: ttl });
-      }
-      if (username) {
-        await env.AUTO_DM.put(`p:u:${username}`, pendingJson, { expirationTtl: ttl });
-      }
+    // Store the pending follow check: one key by username (a reply is matched to it through
+    // the sender's profile). p:id is only a fallback for a comment without a username.
+    const pendingData = { ...decision.pendingData, variant: sentVariant };
+    const ttl = 7 * 86400;
+    rememberPending(username, pendingData);
+    if (username) {
+      await kvPut(env, `p:u:${username}`, JSON.stringify(pendingData), { expirationTtl: ttl });
+    } else if (decision.igsid) {
+      await kvPut(env, `p:id:${decision.igsid}`, JSON.stringify(pendingData), { expirationTtl: ttl });
     }
 
     await logEvent(env, {
@@ -226,7 +292,7 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
   // The webhook and the poller can both see the same message; handle it once.
   if (mid && env.AUTO_DM && await env.AUTO_DM.get(`m:${mid}`)) return;
 
-  // Look up pending check
+  // Look up the pending check: legacy p:id key first, then by the sender's username.
   let pendingState = null;
   if (env.AUTO_DM) {
     pendingState = await env.AUTO_DM.get(`p:id:${senderId}`, { type: 'json' });
@@ -235,14 +301,15 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
   const token = env.IG_ACCESS_TOKEN;
   if (!token) return;
 
-  // If pending not found by IGSID, try username lookup
   let username = pendingState?.username;
-  if (!pendingState && env.AUTO_DM) {
+  // One profile call gives both the username (to find p:u) and the follow status.
+  let profile = null;
+  if (!pendingState) {
     try {
-      const profile = await checkUserFollows(senderId, token);
+      profile = await checkUserFollows(senderId, token);
       username = profile.username;
       if (username) {
-        pendingState = await env.AUTO_DM.get(`p:u:${username}`, { type: 'json' });
+        pendingState = (env.AUTO_DM && await env.AUTO_DM.get(`p:u:${username}`, { type: 'json' })) || memPending.get(username) || null;
       }
     } catch {
       // ignore
@@ -262,7 +329,7 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
   // Check if following
   let isFollowing = false;
   try {
-    const profile = await checkUserFollows(senderId, token);
+    if (!profile) profile = await checkUserFollows(senderId, token);
     isFollowing = profile.isFollowing;
     if (profile.username) username = profile.username;
   } catch (err) {
@@ -281,21 +348,21 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
 
   if (decision.action === 'IGNORE') return;
 
-  if (mid && env.AUTO_DM) {
-    await env.AUTO_DM.put(`m:${mid}`, '1', { expirationTtl: 7 * 86400 });
-  }
-
   if (decision.action === 'DELIVER_RESOURCES') {
+    // Delivery clears the pending check, so a re-read "Done" finds nothing; d: also guards
+    // the case where that delete did not go through.
+    const deliveredKey = `${pendingState.mediaId}:${username}`;
+    if (username && (memDelivered.has(deliveredKey) || (env.AUTO_DM && await env.AUTO_DM.get(`d:${deliveredKey}`)))) return;
     try {
       await sendDirectMessage(senderId, { text: decision.messageText }, token);
 
-      if (env.AUTO_DM) {
-        if (username) {
-          await env.AUTO_DM.put(`d:${pendingState.mediaId}:${username}`, '1', { expirationTtl: 365 * 86400 });
-          await env.AUTO_DM.delete(`p:u:${username}`);
-        }
-        await env.AUTO_DM.delete(`p:id:${senderId}`);
+      if (username) {
+        rememberDelivered(pendingState.mediaId, username);
+        memPending.delete(username);
+        await kvPut(env, `d:${deliveredKey}`, '1', { expirationTtl: 365 * 86400 });
+        await kvDelete(env, `p:u:${username}`);
       }
+      await kvDelete(env, `p:id:${senderId}`);
 
       await logEvent(env, {
         type: 'resources_delivered',
@@ -310,6 +377,8 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
   }
 
   if (decision.action === 'ASK_AGAIN') {
+    // A reminder is the one step that is not undone by its own result, so mark the message.
+    if (mid) await kvPut(env, `m:${mid}`, '1', { expirationTtl: 7 * 86400 });
     try {
       try {
         await sendDirectMessage(senderId, decision.reply, token);
@@ -318,15 +387,13 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
         console.warn('Button reminder failed, sending quick reply:', btnErr.message);
         await sendDirectMessage(senderId, decision.replyFallback, token);
       }
-      if (env.AUTO_DM) {
-        const updated = JSON.stringify({
-          ...pendingState,
-          tries: decision.newTries
-        });
-        await env.AUTO_DM.put(`p:id:${senderId}`, updated, { expirationTtl: 7 * 86400 });
-        if (username) {
-          await env.AUTO_DM.put(`p:u:${username}`, updated, { expirationTtl: 7 * 86400 });
-        }
+      const updated = { ...pendingState, tries: decision.newTries };
+      if (username) {
+        rememberPending(username, updated);
+        await kvPut(env, `p:u:${username}`, JSON.stringify(updated), { expirationTtl: 7 * 86400 });
+        await kvDelete(env, `p:id:${senderId}`);
+      } else {
+        await kvPut(env, `p:id:${senderId}`, JSON.stringify(updated), { expirationTtl: 7 * 86400 });
       }
       await logEvent(env, {
         type: 'follow_check_retry',
@@ -341,9 +408,10 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
   }
 
   if (decision.action === 'MAX_TRIES_EXCEEDED') {
-    if (env.AUTO_DM) {
-      await env.AUTO_DM.delete(`p:id:${senderId}`);
-      if (username) await env.AUTO_DM.delete(`p:u:${username}`);
+    await kvDelete(env, `p:id:${senderId}`);
+    if (username) {
+      memPending.delete(username);
+      await kvDelete(env, `p:u:${username}`);
     }
     await logEvent(env, {
       type: 'follow_check_abandoned',

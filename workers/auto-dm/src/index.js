@@ -103,7 +103,7 @@ export default {
         valid = await verifySignature(env.IG_APP_SECRET, rawBody, sigHeader);
       }
 
-      // Always log incoming webhook hit to KV
+      // Log every webhook hit (buffered; reaches KV with the poller's next flush)
       ctx.waitUntil(logEvent(env, {
         type: 'webhook_received',
         hasSig: Boolean(sigHeader),
@@ -136,12 +136,26 @@ export default {
         });
       }
 
-      const list = await env.AUTO_DM.list({ prefix: 'log:', limit: 50 });
-      const logs = [];
-      for (const item of list.keys) {
-        const val = await env.AUTO_DM.get(item.name, { type: 'json' });
-        if (val) logs.push({ key: item.name, ...val });
+      // Keys sort by time, oldest first: walk to the newest ones. Since 22 Oct 2026 a key
+      // holds a batch of events ({ batch: [...] }); older keys hold one event each.
+      let names = [];
+      let cursor;
+      for (let page = 0; page < 5; page++) {
+        const list = await env.AUTO_DM.list({ prefix: 'log:', cursor });
+        names = names.concat(list.keys.map((k) => k.name));
+        if (list.list_complete) break;
+        cursor = list.cursor;
       }
+      const logs = [];
+      for (const name of names.slice(-20).reverse()) {
+        const val = await env.AUTO_DM.get(name, { type: 'json' });
+        if (!val) continue;
+        const events = Array.isArray(val.batch) ? val.batch : [val];
+        for (const ev of events) logs.push({ key: name, ...ev });
+        if (logs.length >= 50) break;
+      }
+      logs.sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)));
+      logs.splice(50);
 
       return new Response(JSON.stringify({ total: logs.length, logs }, null, 2), {
         status: 200,

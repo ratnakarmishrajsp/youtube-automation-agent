@@ -12,5 +12,10 @@ id = "290a436ac8ff4457af26a3dd1ba500a9"
 [triggers]
 crons = ["* * * * *"]
 
+# Events are logged to the console first (KV only gets a batch every 15 minutes),
+# so keep Workers Logs on to read them in the dashboard or with `wrangler tail`.
+[observability]
+enabled = true
+
 [vars]
 WORKER_HOST = "ratnakar-auto-dm.ratnakar-auto-dm.workers.dev"

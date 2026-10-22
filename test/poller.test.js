@@ -2,21 +2,32 @@ const test = require('node:test');
 const assert = require('node:assert');
 
 const { matchesKeyword } = require('../workers/auto-dm/src/flow.js');
-const { runPoll } = require('../workers/auto-dm/src/poller.js');
+const { runPoll, resetPollMemory } = require('../workers/auto-dm/src/poller.js');
 const { resetRegistryCache } = require('../workers/auto-dm/src/handlers.js');
 
-test.beforeEach(() => resetRegistryCache());
+// A fresh isolate: no poll state, registry, pending/delivered fallbacks or buffered logs in memory.
+function coldStart() {
+  resetRegistryCache();
+  resetPollMemory();
+}
+test.beforeEach(coldStart);
 
-function memoryKv() {
+function memoryKv({ refuseWrites = false } = {}) {
   const store = new Map();
+  const writes = [];
   return {
     store,
+    writes,
     async get(key, opts) {
       if (!store.has(key)) return null;
       const v = store.get(key);
       return opts && opts.type === 'json' ? JSON.parse(v) : v;
     },
-    async put(key, value) { store.set(key, String(value)); },
+    async put(key, value) {
+      if (refuseWrites) throw new Error('KV put() limit exceeded for the day.');
+      writes.push(key);
+      store.set(key, String(value));
+    },
     async delete(key) { store.delete(key); },
   };
 }
@@ -74,7 +85,7 @@ test('poller sends the follow instructions once for a typo comment', async () =>
   assert.strictEqual(privateReplies.length, 1);
   assert.match(privateReplies[0].body.message.attachment.payload.text, /follow karo/);
   assert.ok(ig.sent.some((s) => s.url.includes('/C1/replies')), 'public reply posted');
-  assert.ok(kv.store.has('p:id:U1'), 'pending follow check stored');
+  assert.ok(kv.store.has('p:u:tester'), 'pending follow check stored');
 
   await runPoll(env(kv));
   assert.strictEqual(ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id === 'C1').length, 1, 'no second DM');
@@ -98,9 +109,59 @@ test('poller delivers PDF + video once after a "Done" reply from a follower', as
   assert.ok(kv.store.has('d:M18:tester'));
   assert.ok(!kv.store.has('p:id:U1'));
 
+  // Cold start with old saved marks: the same "Done" is read again.
   await kv.put('poll:state', JSON.stringify({ counts: {}, hw: {}, convAt: 0 }));
+  coldStart();
   await runPoll(env(kv));
   assert.strictEqual(ig.sent.filter((s) => s.body.recipient && s.body.recipient.id === 'U1').length, 1, 'not delivered twice');
+});
+
+test('a follow-gate DM costs one KV write; no comment marker, log or state key per minute', async () => {
+  const kv = memoryKv();
+  const comments = [{ id: 'C1', text: 'Claude', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'tester' } }];
+  const ig = fakeInstagram({ comments });
+  for (let i = 0; i < 5; i++) await runPoll(env(kv));
+  assert.strictEqual(ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id === 'C1').length, 1);
+  // cfg:registry is the fallback copy, rewritten only when the registry changes.
+  assert.deepStrictEqual(kv.writes.filter((k) => !k.startsWith('cfg:')), ['p:u:tester']);
+});
+
+test('a cold start re-reads the same comment and sends nothing new', async () => {
+  const kv = memoryKv();
+  const comments = [{ id: 'C1', text: 'Claude', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'tester' } }];
+  const ig = fakeInstagram({ comments });
+  await runPoll(env(kv));
+  coldStart();
+  await runPoll(env(kv));
+  assert.strictEqual(ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id === 'C1').length, 1);
+});
+
+test('when KV refuses writes (daily limit) the DM still goes out, once', async () => {
+  const kv = memoryKv({ refuseWrites: true });
+  const comments = [{ id: 'C1', text: 'Claude', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'tester' } }];
+  const ig = fakeInstagram({ comments });
+  await runPoll(env(kv));
+  await runPoll(env(kv));
+  assert.strictEqual(ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id === 'C1').length, 1);
+});
+
+test('poll state and buffered logs reach KV together, at most every 15 minutes', async () => {
+  const kv = memoryKv();
+  const comments = [{ id: 'C1', text: 'Claude', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'tester' } }];
+  fakeInstagram({ comments });
+  const realNow = Date.now;
+  try {
+    await runPoll(env(kv));
+    assert.ok(!kv.store.has('poll:state'), 'not written in the first minute');
+    Date.now = () => realNow() + 16 * 60e3;
+    await runPoll(env(kv));
+    assert.ok(kv.store.has('poll:state'), 'state flushed after 15 minutes');
+    const logKeys = [...kv.store.keys()].filter((k) => k.startsWith('log:'));
+    assert.strictEqual(logKeys.length, 1, 'one log key per flush');
+    assert.ok(JSON.parse(kv.store.get(logKeys[0])).batch.some((e) => e.type === 'follow_gate_sent'));
+  } finally {
+    Date.now = realNow;
+  }
 });
 
 test('poller ignores a "Done" that was sent before the follow instructions', async () => {
