@@ -691,7 +691,7 @@
     "videoUrl": null,
     "coverUrl": null,
     "containerId": null,
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "manualPost": true,
     "dm": {
       "keyword": "RATNAKAR",
@@ -701,6 +701,9 @@
       "resourceLabel": "Claude × Shopify setup guide (PDF)"
     },
     "manifest": "data/reels/2026-10-22-claude-shopify.json",
-    "createdAt": "2026-10-22T11:41:49.705Z"
+    "createdAt": "2026-10-22T11:41:49.705Z",
+    "publishedMediaId": "17959614027012153",
+    "permalink": "https://www.instagram.com/reel/Dey4GFyygVk/",
+    "publishedAt": "2026-10-22T11:29:31+0000"
   }
 ]
