@@ -678,5 +678,29 @@
     "publishedMediaId": "18115866410012042",
     "permalink": "https://www.instagram.com/reel/DevmH5_SU5s/",
     "publishedAt": "2026-10-21T04:54:57+0000"
+  },
+  {
+    "id": 28,
+    "title": "Claude x Shopify: Message to Store (setup guide)",
+    "caption": "Claude now runs my Shopify store 🤖 I just send a message, and the store updates itself 👇\n\n1️⃣ Yesterday's report: orders, revenue, COD vs prepaid\n2️⃣ Fishy COD order? Flagged + shipping on hold\n3️⃣ Customer wants L instead of M? Order edited\n4️⃣ Send a product photo, it goes live with title, description & price\n5️⃣ 20% off a whole collection in one line\n6️⃣ Diwali discount code in 10 seconds\n\n🔒 Delete or refund? Claude asks me first.\n⚡ No coding. No admin panel.\n\n🔥 Comment \"RATNAKAR\" and I'll DM you the step-by-step setup 📩\n(DMs go to followers only, so follow first)\n\n#Reels #ClaudeAI #Shopify #ShopifyAutomation #Ecommerce #AIAutomation",
+    "scheduledTimeIST": "22-10-2026 17:11:00 IST",
+    "scheduledDate": "22-10-2026",
+    "scheduledTime": "17:11:00",
+    "localVideoPath": "data/shorts/claude_shopify_v2.mp4",
+    "localCoverPath": "data/shorts/claude_shopify_cover.jpg",
+    "videoUrl": null,
+    "coverUrl": null,
+    "containerId": null,
+    "status": "READY_TO_PUBLISH",
+    "manualPost": true,
+    "dm": {
+      "keyword": "RATNAKAR",
+      "link": "https://raw.githubusercontent.com/ratnakarmishrajsp/youtube-automation-agent/master/docs/guides/claude-shopify-setup.pdf",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Claude × Shopify setup guide (PDF)"
+    },
+    "manifest": "data/reels/2026-10-22-claude-shopify.json",
+    "createdAt": "2026-10-22T11:41:49.705Z"
   }
 ]
