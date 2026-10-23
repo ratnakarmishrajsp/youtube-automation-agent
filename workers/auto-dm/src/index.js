@@ -1,6 +1,8 @@
 import { privacyPolicyHtml, termsOfServiceHtml, dataDeletionHtml } from './pages.js';
-import { logEvent, processWebhookPayload } from './handlers.js';
-import { runPoll } from './poller.js';
+import { logEvent } from './handlers.js';
+import { stateStub } from './state.js';
+
+export { AutoDmState } from './state.js';
 
 const GUIDES_URL = 'https://raw.githubusercontent.com/ratnakarmishrajsp/youtube-automation-agent/master/docs/guides';
 
@@ -37,9 +39,9 @@ async function verifySignature(secret, rawBody, signatureHeader) {
 }
 
 export default {
-  // Cron trigger (see wrangler.toml): polls comments + DM replies every minute.
+  // Cron trigger (see wrangler.toml): polls comments + DM replies inside the state object.
   async scheduled(_event, env, ctx) {
-    ctx.waitUntil(runPoll(env));
+    ctx.waitUntil(stateStub(env).poll());
   },
 
   async fetch(request, env, ctx) {
@@ -142,7 +144,7 @@ export default {
       }
 
       // Background processing via ctx.waitUntil
-      ctx.waitUntil(processWebhookPayload(rawBody, env, workerHost));
+      ctx.waitUntil(stateStub(env).webhook(rawBody, workerHost));
 
       // Immediate 200 acknowledgment required by Meta
       return new Response('EVENT_RECEIVED', { status: 200 });
@@ -155,38 +157,26 @@ export default {
         return new Response('Unauthorized', { status: 401 });
       }
 
-      if (!env.AUTO_DM) {
-        return new Response(JSON.stringify({ error: 'KV not bound' }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      }
-
-      // Keys sort by time, oldest first: walk to the newest ones. Since 22 Oct 2026 a key
-      // holds a batch of events ({ batch: [...] }); older keys hold one event each.
-      let names = [];
-      let cursor;
-      for (let page = 0; page < 5; page++) {
-        const list = await env.AUTO_DM.list({ prefix: 'log:', cursor });
-        names = names.concat(list.keys.map((k) => k.name));
-        if (list.list_complete) break;
-        cursor = list.cursor;
-      }
-      const logs = [];
-      for (const name of names.slice(-20).reverse()) {
-        const val = await env.AUTO_DM.get(name, { type: 'json' });
-        if (!val) continue;
-        const events = Array.isArray(val.batch) ? val.batch : [val];
-        for (const ev of events) logs.push({ key: name, ...ev });
-        if (logs.length >= 50) break;
-      }
-      logs.sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)));
-      logs.splice(50);
+      const logs = await stateStub(env).recentLogs(50);
 
       return new Response(JSON.stringify({ total: logs.length, logs }, null, 2), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });
+    }
+
+    // 7. Admin (same key as /stats): read one state key, copy KV records now, restore lost pending checks
+    if (path === '/state' || path === '/admin/restore-pending' || path === '/admin/import') {
+      if (!env.STATS_KEY || url.searchParams.get('key') !== env.STATS_KEY) {
+        return new Response('Unauthorized', { status: 401 });
+      }
+      const stub = stateStub(env);
+      let body = null;
+      if (path === '/state') body = await stub.peek(url.searchParams.get('k') || '');
+      else if (request.method !== 'POST') return new Response('POST only', { status: 405 });
+      else if (path === '/admin/import') body = await stub.importNow();
+      else body = await stub.restorePending(await request.json());
+      return new Response(JSON.stringify(body ?? null, null, 2), { headers: { 'Content-Type': 'application/json' } });
     }
 
     // 404 Fallback
