@@ -30,8 +30,11 @@ enabled = true
 
 [vars]
 WORKER_HOST = "ratnakar-auto-dm.ratnakar-auto-dm.workers.dev"
-# At most this many Instagram sends per poll (private replies, DMs and public comment
-# replies all count), spaced out: a burst of identical messages and comments is what
-# triggers Instagram's "we limit how often you can..." spam block. 8 per 5 min ≈ 48 DMs/hour.
+# At most this many Instagram sends per poll (private replies, DMs and, if turned on,
+# public comment replies all count), spaced out: a burst of identical messages and
+# comments is what triggers Instagram's "we limit how often you can..." spam block.
+# 8 per 5 min ≈ 96 DMs/hour.
 MAX_SENDS_PER_POLL = "8"
 SEND_SPACING_MS = "4000"
+# Identical "@user Check your DMs 📩" comments on every request look like spam; "on" brings them back.
+PUBLIC_REPLIES = "off"
