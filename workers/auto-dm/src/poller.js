@@ -163,7 +163,9 @@ export async function runPoll(env) {
   state.counts = state.counts || {};
   state.hw = state.hw || {};
 
-  for (const [name, step] of [['comments', pollComments], ['replies', pollReplies]]) {
+  // Pending resource requests take priority over new comment prompts. A Meta
+  // send limit in the comments pass must not starve people waiting for a PDF.
+  for (const [name, step] of [['replies', pollReplies], ['comments', pollComments]]) {
     if (Number(await env.AUTO_DM.get(RATE_LIMIT_KEY)) > Date.now()) break;
     try {
       await step(env, workerHost, registry, state, token);
