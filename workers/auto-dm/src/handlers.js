@@ -11,7 +11,8 @@ import {
   sendPrivateReply,
   sendDirectMessage,
   postCommentReply,
-  checkUserFollows
+  checkUserFollows,
+  isRateLimitError
 } from './instagram.js';
 
 const GITHUB_REGISTRY_URL = 'https://raw.githubusercontent.com/ratnakarmishrajsp/youtube-automation-agent/master/data/auto_dm_registry.json';
@@ -31,6 +32,15 @@ const memDelivered = new Set(); // "mediaId:username"
 // Log events waiting for the next flush (one KV key per flush, not per event).
 let logBuffer = [];
 const LOG_BUFFER_MAX = 200;
+const RATE_LIMIT_KEY = 'poll:rate-limit-until';
+const RATE_LIMIT_PAUSE_MS = 30 * 60 * 1000;
+
+async function pauseForRateLimit(env, err) {
+  if (!isRateLimitError(err)) return;
+  const until = Date.now() + RATE_LIMIT_PAUSE_MS;
+  await kvPut(env, RATE_LIMIT_KEY, String(until), { expirationTtl: 3600 });
+  await logEvent(env, { type: 'meta_rate_limit', until: new Date(until).toISOString(), error: err.message });
+}
 
 // Tests run several registries and users in one process.
 export function resetRegistryCache() {
@@ -148,7 +158,7 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
   const username = from?.username;
   const mediaId = media?.id;
 
-  if (!commentId || !mediaId) return;
+  if (!commentId || !mediaId) return true;
 
   // Read current KV state
   let commentHandled = false;
@@ -179,7 +189,7 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
   });
 
   if (decision.action === 'IGNORE') {
-    return;
+    return true;
   }
   const rememberSent = () => {
     if (recentSends.size > 1000) recentSends.clear();
@@ -189,14 +199,13 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
   // No per-comment KV marker: d: (delivered) and p:u (pending, with the comment id) already
   // stop a second DM, and Instagram allows only one private reply per comment anyway.
   if (decision.action === 'ALREADY_DELIVERED') {
-    await logEvent(env, { type: 'comment_skipped', user: username, mediaId, result: 'already_delivered' });
-    return;
+    return true;
   }
 
   const token = env.IG_ACCESS_TOKEN;
   if (!token) {
     await logEvent(env, { type: 'error', user: username, mediaId, error: 'IG_ACCESS_TOKEN missing' });
-    return;
+    return false;
   }
 
   if (decision.action === 'SEND_DIRECT') {
@@ -206,13 +215,20 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
       rememberDelivered(mediaId, username);
       if (username) await kvPut(env, `d:${mediaId}:${username}`, '1', { expirationTtl: 365 * 86400 });
       if (decision.publicReply) {
-        await postCommentReply(commentId, decision.publicReply, token);
+        try {
+          await postCommentReply(commentId, decision.publicReply, token);
+        } catch (pubErr) {
+          await pauseForRateLimit(env, pubErr);
+          await logEvent(env, { type: 'public_reply_error', user: username, mediaId, error: pubErr.message });
+        }
       }
       await logEvent(env, { type: 'direct_delivered', user: username, mediaId, result: 'success' });
     } catch (err) {
+      await pauseForRateLimit(env, err);
       await logEvent(env, { type: 'error', user: username, mediaId, error: err.message });
+      return false;
     }
-    return;
+    return true;
   }
 
   if (decision.action === 'GATE_FOLLOW') {
@@ -233,11 +249,15 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
       } catch (err) {
         console.warn(`Private reply variant "${name}" failed:`, err.message);
         failures.push(`${name}: ${err.message}`);
+        if (isRateLimitError(err)) {
+          await pauseForRateLimit(env, err);
+          break;
+        }
       }
     }
     if (!sentVariant) {
       await logEvent(env, { type: 'error', user: username, mediaId, error: failures.join(' | ') });
-      return;
+      return false;
     }
     rememberSent();
     if (failures.length) {
@@ -250,6 +270,7 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
         await postCommentReply(commentId, decision.publicReply, token);
       } catch (pubErr) {
         console.warn('Public reply failed:', pubErr.message);
+        await pauseForRateLimit(env, pubErr);
       }
     }
 
@@ -271,7 +292,9 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
       variant: sentVariant,
       result: 'success'
     });
+    return true;
   }
+  return true;
 }
 
 /**
@@ -279,7 +302,7 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
  */
 export async function handleMessagesEvent(messagingItem, env, workerHost, registry) {
   const { sender, message, postback } = messagingItem || {};
-  if (message?.is_echo) return;
+  if (message?.is_echo) return true;
 
   const senderId = sender?.id;
   // A "Followed ✅" button tap arrives as a postback (webhook) or as its title text (poller).
@@ -287,10 +310,10 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
   const quickReplyPayload = message?.quick_reply?.payload || postback?.payload;
   const mid = message?.mid || postback?.mid;
 
-  if (!senderId) return;
+  if (!senderId) return true;
 
   // The webhook and the poller can both see the same message; handle it once.
-  if (mid && env.AUTO_DM && await env.AUTO_DM.get(`m:${mid}`)) return;
+  if (mid && env.AUTO_DM && await env.AUTO_DM.get(`m:${mid}`)) return true;
 
   // Look up the pending check: legacy p:id key first, then by the sender's username.
   let pendingState = null;
@@ -299,7 +322,7 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
   }
 
   const token = env.IG_ACCESS_TOKEN;
-  if (!token) return;
+  if (!token) return false;
 
   let username = pendingState?.username;
   // One profile call gives both the username (to find p:u) and the follow status.
@@ -317,12 +340,12 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
   }
 
   if (!pendingState) {
-    return; // Ignore regular unrelated DMs
+    return true; // Ignore regular unrelated DMs
   }
 
   // Only replies sent after our follow instructions count.
   const sentAtMs = messagingItem.timestamp || 0;
-  if (sentAtMs && pendingState.at && sentAtMs < pendingState.at) return;
+  if (sentAtMs && pendingState.at && sentAtMs < pendingState.at) return true;
 
   const registryEntry = (registry || []).find(r => r.mediaId === pendingState.mediaId);
 
@@ -334,7 +357,7 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
     if (profile.username) username = profile.username;
   } catch (err) {
     await logEvent(env, { type: 'follow_check_error', user: username, senderId, error: err.message });
-    return;
+    return false;
   }
 
   const decision = decideMessageAction({
@@ -346,13 +369,13 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
     workerHost
   });
 
-  if (decision.action === 'IGNORE') return;
+  if (decision.action === 'IGNORE') return true;
 
   if (decision.action === 'DELIVER_RESOURCES') {
     // Delivery clears the pending check, so a re-read "Done" finds nothing; d: also guards
     // the case where that delete did not go through.
     const deliveredKey = `${pendingState.mediaId}:${username}`;
-    if (username && (memDelivered.has(deliveredKey) || (env.AUTO_DM && await env.AUTO_DM.get(`d:${deliveredKey}`)))) return;
+    if (username && (memDelivered.has(deliveredKey) || (env.AUTO_DM && await env.AUTO_DM.get(`d:${deliveredKey}`)))) return true;
     try {
       await sendDirectMessage(senderId, { text: decision.messageText }, token);
 
@@ -371,14 +394,14 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
         result: 'success'
       });
     } catch (err) {
+      await pauseForRateLimit(env, err);
       await logEvent(env, { type: 'error', user: username, mediaId: pendingState.mediaId, error: err.message });
+      return false;
     }
-    return;
+    return true;
   }
 
   if (decision.action === 'ASK_AGAIN') {
-    // A reminder is the one step that is not undone by its own result, so mark the message.
-    if (mid) await kvPut(env, `m:${mid}`, '1', { expirationTtl: 7 * 86400 });
     try {
       try {
         await sendDirectMessage(senderId, decision.reply, token);
@@ -387,6 +410,8 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
         console.warn('Button reminder failed, sending quick reply:', btnErr.message);
         await sendDirectMessage(senderId, decision.replyFallback, token);
       }
+      // Mark only after Meta accepted the reminder; a failed send can then retry.
+      if (mid) await kvPut(env, `m:${mid}`, '1', { expirationTtl: 7 * 86400 });
       const updated = { ...pendingState, tries: decision.newTries };
       if (username) {
         rememberPending(username, updated);
@@ -402,9 +427,11 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
         result: 'not_following'
       });
     } catch (err) {
+      await pauseForRateLimit(env, err);
       await logEvent(env, { type: 'error', user: username, error: err.message });
+      return false;
     }
-    return;
+    return true;
   }
 
   if (decision.action === 'MAX_TRIES_EXCEEDED') {
@@ -420,6 +447,7 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
       result: 'max_tries_exceeded'
     });
   }
+  return true;
 }
 
 /**

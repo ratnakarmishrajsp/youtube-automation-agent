@@ -8,11 +8,12 @@ binding = "AUTO_DM"
 id = "290a436ac8ff4457af26a3dd1ba500a9"
 
 # Meta sends comment webhooks only after App Review (Advanced Access), so the
-# worker also polls comments and DM replies every minute.
+# worker also polls comments and DM replies. Five-minute polling leaves room
+# for a durable progress write on the KV free tier and avoids hammering Meta.
 [triggers]
-crons = ["* * * * *"]
+crons = ["*/5 * * * *"]
 
-# Events are logged to the console first (KV only gets a batch every 15 minutes),
+# Events are logged to the console first (KV gets a batch per active poll),
 # so keep Workers Logs on to read them in the dashboard or with `wrangler tail`.
 [observability]
 enabled = true

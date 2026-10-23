@@ -35,7 +35,7 @@ function memoryKv({ refuseWrites = false } = {}) {
 const NOW = Date.now();
 const iso = (ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, '+0000');
 
-function fakeInstagram({ comments = [], conversations = [], follows = true, registry: customRegistry }) {
+function fakeInstagram({ comments = [], conversations = [], follows = true, registry: customRegistry, sendError = null }) {
   const sent = [];
   const registry = customRegistry || [{
     queueId: 18, mediaId: 'M18', title: 'Claude Startups', keywords: ['claude', 'link'],
@@ -48,13 +48,14 @@ function fakeInstagram({ comments = [], conversations = [], follows = true, regi
     if (url.includes('raw.githubusercontent.com')) return json(registry);
     if (init.method === 'POST') {
       sent.push({ url, body: JSON.parse(init.body) });
+      if (sendError && url.includes('/me/messages')) return json({ error: sendError });
       return json({ id: `sent${sent.length}` });
     }
     if (url.includes('/me/media')) {
       const ids = [...new Set(registry.map((e) => e.mediaId))];
       return json({ data: ids.map((id) => ({ id, comments_count: comments.filter((c) => (c.media || 'M18') === id).length })) });
     }
-    const mediaComments = url.match(/\/(M\w+)\/comments/);
+    const mediaComments = url.match(/\/([A-Za-z0-9]+)\/comments/);
     if (mediaComments) return json({ data: comments.filter((c) => (c.media || 'M18') === mediaComments[1]) });
     if (url.includes('/me/conversations')) return json({ data: conversations });
     if (url.includes('is_user_follow_business')) return json({ username: 'tester', is_user_follow_business: follows });
@@ -116,14 +117,17 @@ test('poller delivers PDF + video once after a "Done" reply from a follower', as
   assert.strictEqual(ig.sent.filter((s) => s.body.recipient && s.body.recipient.id === 'U1').length, 1, 'not delivered twice');
 });
 
-test('a follow-gate DM costs one KV write; no comment marker, log or state key per minute', async () => {
+test('a follow-gate DM persists progress so a cold cron isolate does not replay it', async () => {
   const kv = memoryKv();
   const comments = [{ id: 'C1', text: 'Claude', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'tester' } }];
   const ig = fakeInstagram({ comments });
   for (let i = 0; i < 5; i++) await runPoll(env(kv));
   assert.strictEqual(ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id === 'C1').length, 1);
-  // cfg:registry is the fallback copy, rewritten only when the registry changes.
-  assert.deepStrictEqual(kv.writes.filter((k) => !k.startsWith('cfg:')), ['p:u:tester']);
+  assert.ok(kv.store.has('poll:state'));
+  assert.ok(kv.store.has('p:u:tester'));
+  coldStart();
+  await runPoll(env(kv));
+  assert.strictEqual(ig.sent.filter((s) => s.body.recipient?.comment_id === 'C1').length, 1);
 });
 
 test('a cold start re-reads the same comment and sends nothing new', async () => {
@@ -145,23 +149,15 @@ test('when KV refuses writes (daily limit) the DM still goes out, once', async (
   assert.strictEqual(ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id === 'C1').length, 1);
 });
 
-test('poll state and buffered logs reach KV together, at most every 15 minutes', async () => {
+test('poll state and a compact log batch reach KV after the run', async () => {
   const kv = memoryKv();
   const comments = [{ id: 'C1', text: 'Claude', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'tester' } }];
   fakeInstagram({ comments });
-  const realNow = Date.now;
-  try {
-    await runPoll(env(kv));
-    assert.ok(!kv.store.has('poll:state'), 'not written in the first minute');
-    Date.now = () => realNow() + 16 * 60e3;
-    await runPoll(env(kv));
-    assert.ok(kv.store.has('poll:state'), 'state flushed after 15 minutes');
-    const logKeys = [...kv.store.keys()].filter((k) => k.startsWith('log:'));
-    assert.strictEqual(logKeys.length, 1, 'one log key per flush');
-    assert.ok(JSON.parse(kv.store.get(logKeys[0])).batch.some((e) => e.type === 'follow_gate_sent'));
-  } finally {
-    Date.now = realNow;
-  }
+  await runPoll(env(kv));
+  assert.ok(kv.store.has('poll:state'));
+  const logKeys = [...kv.store.keys()].filter((k) => k.startsWith('log:'));
+  assert.strictEqual(logKeys.length, 1);
+  assert.ok(JSON.parse(kv.store.get(logKeys[0])).batch.some((e) => e.type === 'follow_gate_sent'));
 });
 
 test('poller ignores a "Done" that was sent before the follow instructions', async () => {
@@ -207,4 +203,34 @@ test('a reel published 2 months ago still auto-DMs a fresh comment; old legacy r
   await runPoll(env(kv));
   const repliedTo = ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id).map((s) => s.body.recipient.comment_id);
   assert.deepStrictEqual([...new Set(repliedTo)], ['FRESH']);
+});
+
+test('both recent reels deliver the resource in the first private reply, including the Shopify PDF', async () => {
+  const kv = memoryKv();
+  const registry = require('../data/auto_dm_registry.json').filter((r) => [27, 28].includes(r.queueId));
+  const comments = registry.map((r, i) => ({
+    media: r.mediaId, id: `DIRECT${i}`, text: r.keywords[0],
+    timestamp: iso(NOW - 60e3 + i * 1000), from: { id: `U${i}`, username: `fan${i}` },
+  }));
+  const ig = fakeInstagram({ comments, registry });
+  await runPoll(env(kv));
+  const privateReplies = ig.sent.filter((s) => s.body.recipient?.comment_id);
+  assert.strictEqual(privateReplies.length, 2);
+  assert.match(privateReplies.find((s) => s.body.recipient.comment_id === 'DIRECT0').body.message.text, /ratnakar-meta-ads-skill/);
+  const shopifyMessage = privateReplies.find((s) => s.body.recipient.comment_id === 'DIRECT1').body.message.text;
+  assert.match(shopifyMessage, /guide\/claude-shopify-setup/);
+  assert.match(shopifyMessage, /pdf\/claude-shopify-setup/);
+  assert.ok(kv.store.has(`d:${registry[0].mediaId}:fan0`));
+  assert.ok(kv.store.has(`d:${registry[1].mediaId}:fan1`));
+});
+
+test('Meta spam limit pauses the poll instead of trying three private reply variants', async () => {
+  const kv = memoryKv();
+  const comments = [{ id: 'RATE1', text: 'Claude', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'fan' } }];
+  const ig = fakeInstagram({ comments, sendError: { code: 4, message: 'We limit how often you can post' } });
+  await runPoll(env(kv));
+  assert.strictEqual(ig.sent.filter((s) => s.body.recipient?.comment_id === 'RATE1').length, 1);
+  assert.ok(Number(kv.store.get('poll:rate-limit-until')) > Date.now());
+  await runPoll(env(kv));
+  assert.strictEqual(ig.sent.filter((s) => s.body.recipient?.comment_id === 'RATE1').length, 1);
 });
