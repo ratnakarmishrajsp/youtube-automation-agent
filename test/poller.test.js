@@ -361,7 +361,7 @@ test('repeated Meta spam limits back off longer each time', async () => {
   await runPoll(env(kv));
   const second = Number(kv.store.get('poll:rate-limit-until')) - Date.now();
   assert.ok(first > 25 * 60e3 && first <= 30 * 60e3, `first pause ~30 min, got ${first}`);
-  assert.ok(second > 55 * 60e3, `second pause ~60 min, got ${second}`);
+  assert.ok(second > 55 * 60e3 && second <= 60 * 60e3, `second pause ~60 min, got ${second}`);
   assert.strictEqual(kv.store.get('poll:rate-limit-strikes'), '2');
 });
 

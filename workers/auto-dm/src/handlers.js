@@ -35,7 +35,8 @@ const LOG_BUFFER_MAX = 200;
 const RATE_LIMIT_KEY = 'poll:rate-limit-until';
 const STRIKES_KEY = 'poll:rate-limit-strikes';
 const RATE_LIMIT_PAUSE_MS = 30 * 60 * 1000;
-const RATE_LIMIT_MAX_PAUSE_MS = 6 * 60 * 60 * 1000;
+// One test send an hour is negligible, and DMs restart within an hour of Meta lifting the block.
+const RATE_LIMIT_MAX_PAUSE_MS = 60 * 60 * 1000;
 // A send that fails for any other reason (outside the 24h window, user blocked us)
 // is tried this many times, then dropped so it cannot hold up everyone after it.
 export const MAX_SEND_FAILURES = 3;
@@ -80,7 +81,7 @@ function publicRepliesOn(env) {
   return env.PUBLIC_REPLIES === 'on';
 }
 
-// Meta's spam limit: pause 30 min, doubling on every limit in a row (max 6 h).
+// Meta's spam limit: pause 30 min, then 1 h for every further limit in a row.
 // Retrying sooner only extends the block.
 async function pauseForRateLimit(env, err) {
   if (!isRateLimitError(err)) return;
