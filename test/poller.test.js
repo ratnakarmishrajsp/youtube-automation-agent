@@ -35,7 +35,7 @@ function memoryKv({ refuseWrites = false } = {}) {
 const NOW = Date.now();
 const iso = (ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, '+0000');
 
-function fakeInstagram({ comments = [], conversations = [], follows = true, registry: customRegistry, sendError = null }) {
+function fakeInstagram({ comments = [], conversations = [], follows = true, registry: customRegistry, sendError = null, sendErrorForComments = false }) {
   const sent = [];
   const registry = customRegistry || [{
     queueId: 18, mediaId: 'M18', title: 'Claude Startups', keywords: ['claude', 'link'],
@@ -48,7 +48,7 @@ function fakeInstagram({ comments = [], conversations = [], follows = true, regi
     if (url.includes('raw.githubusercontent.com')) return json(registry);
     if (init.method === 'POST') {
       sent.push({ url, body: JSON.parse(init.body) });
-      if (sendError && url.includes('/me/messages')) return json({ error: sendError });
+      if (sendError && url.includes('/me/messages') && (!sendErrorForComments || JSON.parse(init.body).recipient?.comment_id)) return json({ error: sendError });
       return json({ id: `sent${sent.length}` });
     }
     if (url.includes('/me/media')) {
@@ -254,4 +254,22 @@ test('an old follow-prompt recipient on a direct-resource reel gets the guide af
   assert.match(delivered[0].body.message.text, /pdf\/claude-shopify-setup/);
   assert.ok(kv.store.has(`d:${mediaId}:fan`));
   assert.ok(!kv.store.has('p:u:fan'));
+});
+
+test('pending resource delivery runs before a new comment hits Meta rate limiting', async () => {
+  const kv = memoryKv();
+  const registry = require('../data/auto_dm_registry.json').filter((r) => r.queueId === 28);
+  const mediaId = registry[0].mediaId;
+  await kv.put('p:u:fan', JSON.stringify({ mediaId, commentId: 'OLD1', username: 'fan', tries: 0, at: NOW - 120e3 }));
+  const conversations = [{
+    updated_time: iso(NOW - 30e3),
+    participants: { data: [{ id: 'OWN', username: 'ratnakarcontent' }, { id: 'U1', username: 'fan' }] },
+    messages: { data: [{ id: 'MID1', message: 'done', created_time: iso(NOW - 30e3), from: { id: 'U1' } }] },
+  }];
+  const comments = [{ media: mediaId, id: 'NEW1', text: 'Ratnakar', timestamp: iso(NOW - 20e3), from: { id: 'U2', username: 'newfan' } }];
+  const ig = fakeInstagram({ conversations, comments, registry, sendErrorForComments: true, sendError: { code: 4, message: 'We limit how often you can post' } });
+  await runPoll(env(kv));
+  assert.strictEqual(ig.sent[0].body.recipient.id, 'U1');
+  assert.match(ig.sent[0].body.message.text, /pdf\/claude-shopify-setup/);
+  assert.ok(kv.store.has(`d:${mediaId}:fan`));
 });
