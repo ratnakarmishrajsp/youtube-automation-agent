@@ -81,7 +81,7 @@ test('poller sends the follow instructions once for a typo comment', async () =>
   const comments = [{ id: 'C1', text: 'Calude', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'tester' } }];
   const ig = fakeInstagram({ comments });
 
-  await runPoll(env(kv));
+  await runPoll({ ...env(kv), PUBLIC_REPLIES: 'on' });
   const privateReplies = ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id === 'C1');
   assert.strictEqual(privateReplies.length, 1);
   assert.match(privateReplies[0].body.message.attachment.payload.text, /follow karo/);
@@ -303,12 +303,12 @@ test('pending resource delivery runs before a new comment hits Meta rate limitin
   assert.ok(kv.store.has(`d:${mediaId}:fan`));
 });
 
-test('one poll makes at most MAX_SENDS_PER_POLL Instagram sends (DM + public reply); the rest go out on later runs', async () => {
+test('one poll makes at most MAX_SENDS_PER_POLL Instagram sends; the rest go out on later runs', async () => {
   const kv = memoryKv();
   const registry = [{ queueId: 27, mediaId: 'M27', keywords: ['skill'], followGate: 'none', youtubeUrl: 'https://example.com/skill', publishedAt: iso(NOW - 3600e3) }];
   const comments = Array.from({ length: 5 }, (_, i) => ({ media: 'M27', id: `B${i}`, text: 'skill', timestamp: iso(NOW - (i + 1) * 60e3), from: { id: `U${i}`, username: `fan${i}` } }));
   const ig = fakeInstagram({ comments, registry });
-  const capped = { ...env(kv), MAX_SENDS_PER_POLL: '4' }; // 2 private replies + 2 public replies
+  const capped = { ...env(kv), MAX_SENDS_PER_POLL: '4', PUBLIC_REPLIES: 'on' }; // 2 private replies + 2 public replies
   const privateReplies = () => ig.sent.filter((s) => s.body.recipient?.comment_id).length;
   await runPoll(capped);
   assert.strictEqual(privateReplies(), 2);
@@ -383,4 +383,14 @@ test('state store over Durable Object storage honours TTLs, json reads and prefi
   assert.deepStrictEqual((await kv.list({ prefix: 'p:u:' })).keys.map((k) => k.name), ['p:u:a', 'p:u:b']);
   await kv.delete('p:u:a');
   assert.strictEqual(await kv.get('p:u:a'), null);
+});
+
+test('public "Check your DMs" comment replies are off by default; only the private DM goes out', async () => {
+  const kv = memoryKv();
+  const registry = [{ queueId: 27, mediaId: 'M27', keywords: ['skill'], followGate: 'none', youtubeUrl: 'https://example.com/skill', publishedAt: iso(NOW - 3600e3) }];
+  const comments = [{ media: 'M27', id: 'P1', text: 'skill', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'fan' } }];
+  const ig = fakeInstagram({ comments, registry });
+  await runPoll(env(kv));
+  assert.strictEqual(ig.sent.filter((s) => s.body.recipient?.comment_id === 'P1').length, 1);
+  assert.ok(!ig.sent.some((s) => s.url.includes('/replies')), 'no public comment reply');
 });

@@ -73,6 +73,13 @@ async function paced(env, send) {
   }
 }
 
+// Public "@user Check your DMs 📩" comment replies are off unless PUBLIC_REPLIES = "on".
+// Hundreds of identical comments doubled our Instagram actions and helped trigger the
+// 23 Oct 2026 spam block; the private DM is what people actually need.
+function publicRepliesOn(env) {
+  return env.PUBLIC_REPLIES === 'on';
+}
+
 // Meta's spam limit: pause 30 min, doubling on every limit in a row (max 6 h).
 // Retrying sooner only extends the block.
 async function pauseForRateLimit(env, err) {
@@ -259,7 +266,7 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
       rememberSent();
       rememberDelivered(mediaId, username);
       if (username) await kvPut(env, `d:${mediaId}:${username}`, '1', { expirationTtl: 365 * 86400 });
-      if (decision.publicReply) {
+      if (decision.publicReply && publicRepliesOn(env)) {
         try {
           await paced(env, () => postCommentReply(commentId, decision.publicReply, token));
         } catch (pubErr) {
@@ -310,7 +317,7 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
     }
 
     // Post public confirmation on comment
-    if (decision.publicReply) {
+    if (decision.publicReply && publicRepliesOn(env)) {
       try {
         await paced(env, () => postCommentReply(commentId, decision.publicReply, token));
       } catch (pubErr) {
