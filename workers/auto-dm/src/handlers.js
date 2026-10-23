@@ -324,7 +324,10 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
   const token = env.IG_ACCESS_TOKEN;
   if (!token) return false;
 
-  let username = pendingState?.username;
+  let username = pendingState?.username || sender?.username;
+  if (!pendingState && username) {
+    pendingState = (env.AUTO_DM && await env.AUTO_DM.get(`p:u:${username}`, { type: 'json' })) || memPending.get(username) || null;
+  }
   // One profile call gives both the username (to find p:u) and the follow status.
   let profile = null;
   if (!pendingState) {
@@ -349,15 +352,19 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
 
   const registryEntry = (registry || []).find(r => r.mediaId === pendingState.mediaId);
 
-  // Check if following
+  // Reels now delivering the resource in the first private reply also have old
+  // pending users who received the earlier follow prompt. Any reply from them
+  // opens the conversation, so deliver without another follow check.
   let isFollowing = false;
-  try {
-    if (!profile) profile = await checkUserFollows(senderId, token);
-    isFollowing = profile.isFollowing;
-    if (profile.username) username = profile.username;
-  } catch (err) {
-    await logEvent(env, { type: 'follow_check_error', user: username, senderId, error: err.message });
-    return false;
+  if (registryEntry?.followGate !== 'none') {
+    try {
+      if (!profile) profile = await checkUserFollows(senderId, token);
+      isFollowing = profile.isFollowing;
+      if (profile.username) username = profile.username;
+    } catch (err) {
+      await logEvent(env, { type: 'follow_check_error', user: username, senderId, error: err.message });
+      return false;
+    }
   }
 
   const decision = decideMessageAction({

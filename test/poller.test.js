@@ -234,3 +234,24 @@ test('Meta spam limit pauses the poll instead of trying three private reply vari
   await runPoll(env(kv));
   assert.strictEqual(ig.sent.filter((s) => s.body.recipient?.comment_id === 'RATE1').length, 1);
 });
+
+test('an old follow-prompt recipient on a direct-resource reel gets the guide after any new reply', async () => {
+  const kv = memoryKv();
+  const registry = require('../data/auto_dm_registry.json').filter((r) => r.queueId === 28);
+  const mediaId = registry[0].mediaId;
+  await kv.put('p:u:fan', JSON.stringify({ mediaId, commentId: 'OLD1', username: 'fan', tries: 0, at: NOW - 120e3 }));
+  // The previous worker could move this watermark past a failed second DM.
+  await kv.put('poll:state', JSON.stringify({ counts: {}, hw: {}, convAt: NOW + 60e3 }));
+  const conversations = [{
+    updated_time: iso(NOW - 30e3),
+    participants: { data: [{ id: 'OWN', username: 'ratnakarcontent' }, { id: 'U1', username: 'fan' }] },
+    messages: { data: [{ id: 'MID1', message: 'hi', created_time: iso(NOW - 30e3), from: { id: 'U1' } }] },
+  }];
+  const ig = fakeInstagram({ conversations, registry, follows: false });
+  await runPoll(env(kv));
+  const delivered = ig.sent.filter((s) => s.body.recipient?.id === 'U1');
+  assert.strictEqual(delivered.length, 1);
+  assert.match(delivered[0].body.message.text, /pdf\/claude-shopify-setup/);
+  assert.ok(kv.store.has(`d:${mediaId}:fan`));
+  assert.ok(!kv.store.has('p:u:fan'));
+});

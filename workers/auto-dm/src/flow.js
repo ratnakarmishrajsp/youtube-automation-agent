@@ -208,7 +208,8 @@ export function decideCommentAction({ comment, registry, kvState, workerHost }) 
  */
 export function decideMessageAction({ text, quickReplyPayload, pendingState, isFollowing, registryEntry, workerHost }) {
   // 1. Check if affirmative
-  if (!isAffirmativeResponse(text, quickReplyPayload)) {
+  const directResource = registryEntry?.followGate === 'none';
+  if (!directResource && !isAffirmativeResponse(text, quickReplyPayload)) {
     return { action: 'IGNORE', reason: 'not_affirmative_response' };
   }
 
@@ -218,7 +219,7 @@ export function decideMessageAction({ text, quickReplyPayload, pendingState, isF
   }
 
   // 3. If following is true -> deliver resources
-  if (isFollowing === true) {
+  if (isFollowing === true || directResource) {
     const pdfSlug = registryEntry?.pdfSlug || registryEntry?.dm?.pdf?.slug;
     const pdfTitle = registryEntry?.pdfTitle || registryEntry?.dm?.pdf?.title || 'Resource Guide';
     const pdfUrl = pdfSlug ? `https://${workerHost}/guide/${pdfSlug}` : null;

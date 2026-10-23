@@ -13,6 +13,7 @@ const COMMENT_WINDOW_MS = 7 * DAY_MS; // Instagram: private reply within 7 days 
 const LEGACY_REEL_WINDOW_MS = 7 * DAY_MS; // old reels (registered before followGate existed) age out
 const MAX_MEDIA_PAGES = 5;
 const MAX_COMMENT_PAGES = 10;
+const MAX_CONVERSATION_PAGES = 2;
 const MAX_COMMENTS_PER_POLL = 12;
 const MAX_COMMENTS_PER_MEDIA = 6;
 const STATE_KEY = 'poll:state';
@@ -108,34 +109,39 @@ async function pollComments(env, workerHost, registry, state, token) {
 }
 
 async function pollReplies(env, workerHost, registry, state, token) {
-  const convs = await graphGet('me/conversations', {
-    platform: 'instagram',
-    fields: 'updated_time,participants,messages.limit(5){id,message,created_time,from}',
-    limit: '10',
-  }, token);
-
   let newest = state.convAt || 0;
-  for (const conv of convs.data || []) {
-    const updated = toMs(conv.updated_time);
-    if (updated <= (state.convAt || 0)) continue;
-    newest = Math.max(newest, updated);
+  let after;
+  for (let pageIndex = 0; pageIndex < MAX_CONVERSATION_PAGES; pageIndex++) {
+    const convs = await graphGet('me/conversations', {
+      platform: 'instagram',
+      fields: 'updated_time,participants,messages.limit(5){id,message,created_time,from}',
+      limit: '50',
+      ...(after ? { after } : {}),
+    }, token);
+    for (const conv of convs.data || []) {
+      newest = Math.max(newest, toMs(conv.updated_time));
 
-    const own = env.IG_ACCOUNT_ID ? String(env.IG_ACCOUNT_ID) : null;
-    const other = (conv.participants?.data || []).find((p) => p.username !== 'ratnakarcontent' && p.id !== own);
-    if (!other) continue;
-    const pending = hasPendingInMemory(other.username) ||
-      await env.AUTO_DM.get(`p:id:${other.id}`) || await env.AUTO_DM.get(`p:u:${other.username}`);
-    if (!pending) continue;
+      const own = env.IG_ACCOUNT_ID ? String(env.IG_ACCOUNT_ID) : null;
+      const other = (conv.participants?.data || []).find((p) => p.username !== 'ratnakarcontent' && p.id !== own);
+      if (!other) continue;
+      const pending = hasPendingInMemory(other.username) ||
+        (other.username && await env.AUTO_DM.get(`p:u:${other.username}`)) || await env.AUTO_DM.get(`p:id:${other.id}`);
+      if (!pending) continue;
 
-    // Oldest first, so "followed" is checked in the order the user sent things.
-    const messages = (conv.messages?.data || []).filter((m) => m.from?.id === other.id).reverse();
-    for (const m of messages) {
-      const ok = await handleMessagesEvent(
-        { sender: { id: other.id }, timestamp: toMs(m.created_time), message: { mid: m.id, text: m.message || '' } },
-        env, workerHost, registry
-      );
-      if (!ok || await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
+      // Revisit pending conversations even if the old poller moved convAt past
+      // a reply whose resource send failed. The delivered/reminder keys dedupe.
+      const messages = (conv.messages?.data || []).filter((m) => m.from?.id === other.id).reverse();
+      for (const m of messages) {
+        const ok = await handleMessagesEvent(
+          { sender: { id: other.id, username: other.username }, timestamp: toMs(m.created_time), message: { mid: m.id, text: m.message || '' } },
+          env, workerHost, registry
+        );
+        if (!ok || await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
+      }
     }
+    if (!convs.paging?.next) break;
+    after = new URL(convs.paging.next).searchParams.get('after');
+    if (!after) break;
   }
   if (newest !== (state.convAt || 0)) {
     state.convAt = newest;
