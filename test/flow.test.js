@@ -135,6 +135,30 @@ test('decideCommentAction returns GATE_FOLLOW when followGate is enabled', () =>
   assert.ok(res.publicReply.includes('@founder_abc DM check karo'));
 });
 
+test('active reels include their resource and PDF in the first private reply', () => {
+  const registry = require('../data/auto_dm_registry.json');
+  for (const queueId of [17, 18, 19, 20, 22, 26, 27, 28]) {
+    const entry = registry.find((item) => item.queueId === queueId);
+    assert.ok(entry, `missing reel ${queueId}`);
+    const result = decideCommentAction({
+      comment: {
+        id: `comment-${queueId}`,
+        text: entry.keywords[0],
+        from: { id: `user-${queueId}`, username: `fan${queueId}` },
+        media: { id: entry.mediaId },
+      },
+      registry: [entry],
+      kvState: {},
+      workerHost: 'test.workers.dev',
+    });
+    assert.strictEqual(result.action, 'SEND_DIRECT', `reel ${queueId}`);
+    assert.match(result.privateReply.text, new RegExp(entry.youtubeUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    if (entry.pdfSlug) {
+      assert.ok(result.privateReply.text.includes(`/pdf/${entry.pdfSlug}`), `PDF missing on reel ${queueId}`);
+    }
+  }
+});
+
 test('decideMessageAction delivers resources when isFollowing is true', () => {
   const pendingState = { mediaId: 'm1', commentId: 'c1', tries: 0 };
   const registryEntry = {
