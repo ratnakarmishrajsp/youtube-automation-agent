@@ -2,21 +2,36 @@ name = "ratnakar-auto-dm"
 main = "src/index.js"
 compatibility_date = "2026-10-10"
 
-# KV namespace will be linked with ID upon creation
+# KV now only serves approved PDFs (pdf:<slug>). Its free plan allows 1,000 writes a day,
+# which ran out on 22 Oct 2026 and silently dropped pending follow checks.
 [[kv_namespaces]]
 binding = "AUTO_DM"
 id = "290a436ac8ff4457af26a3dd1ba500a9"
 
+# Pending/delivered records, poll progress and logs: one SQLite Durable Object
+# (free plan, 100,000 writes a day). See src/state.js.
+[[durable_objects.bindings]]
+name = "AUTO_DM_STATE"
+class_name = "AutoDmState"
+
+[[migrations]]
+tag = "v1-state-object"
+new_sqlite_classes = ["AutoDmState"]
+
 # Meta sends comment webhooks only after App Review (Advanced Access), so the
-# worker also polls comments and DM replies. Five-minute polling leaves room
-# for a durable progress write on the KV free tier and avoids hammering Meta.
+# worker also polls comments and DM replies every five minutes.
 [triggers]
 crons = ["*/5 * * * *"]
 
-# Events are logged to the console first (KV gets a batch per active poll),
+# Events are logged to the console first (the state object gets a batch per active poll),
 # so keep Workers Logs on to read them in the dashboard or with `wrangler tail`.
 [observability]
 enabled = true
 
 [vars]
 WORKER_HOST = "ratnakar-auto-dm.ratnakar-auto-dm.workers.dev"
+# At most this many Instagram sends per poll (private replies, DMs and public comment
+# replies all count), spaced out: a burst of identical messages and comments is what
+# triggers Instagram's "we limit how often you can..." spam block. 8 per 5 min ≈ 48 DMs/hour.
+MAX_SENDS_PER_POLL = "8"
+SEND_SPACING_MS = "4000"

@@ -184,7 +184,9 @@ test('emoji-only comments get the DM; "🙌" then "Claude" from one user gets on
   const ig = fakeInstagram({ comments });
   await runPoll(env(kv));
   const repliedTo = ig.sent.filter((s) => s.body.recipient && s.body.recipient.comment_id).map((s) => s.body.recipient.comment_id);
-  assert.deepStrictEqual(repliedTo, ['E1', 'E3']);
+  assert.strictEqual(repliedTo.length, 2);
+  assert.ok(repliedTo.includes('E3'));
+  assert.strictEqual(repliedTo.filter((id) => ['E1', 'E2'].includes(id)).length, 1);
 });
 
 test('a reel published 2 months ago still auto-DMs a fresh comment; old legacy reels and old comments are skipped', async () => {
@@ -222,6 +224,33 @@ test('both recent reels deliver the resource in the first private reply, includi
   assert.match(shopifyMessage, /pdf\/claude-shopify-setup/);
   assert.ok(kv.store.has(`d:${registry[0].mediaId}:fan0`));
   assert.ok(kv.store.has(`d:${registry[1].mediaId}:fan1`));
+});
+
+test('a fresh comment gets its resource despite a long backlog, without losing older comments', async () => {
+  const kv = memoryKv();
+  const registry = [{
+    queueId: 27, mediaId: 'M27', keywords: ['skill'], followGate: 'none',
+    youtubeUrl: 'https://example.com/skill', publishedAt: iso(NOW - 3600e3),
+  }];
+  const comments = Array.from({ length: 10 }, (_, i) => ({
+    media: 'M27', id: `C${9 - i}`, text: 'skill',
+    timestamp: iso(NOW - (i + 1) * 60e3),
+    from: { id: `U${9 - i}`, username: `fan${9 - i}` },
+  }));
+  const ig = fakeInstagram({ comments, registry });
+  await runPoll(env(kv));
+  const delivered = ig.sent.filter((s) => s.body.recipient?.comment_id).map((s) => s.body.recipient.comment_id);
+  assert.ok(delivered.includes('C9'), 'newest comment should be served on the first run');
+  assert.ok(delivered.includes('C0'), 'old backlog should still make progress');
+  assert.strictEqual(delivered.length, 6);
+  const state = JSON.parse(kv.store.get('poll:state'));
+  assert.ok(state.hw.M27 < Date.parse(comments[0].timestamp.replace('+0000', 'Z')), 'high-water must not skip unprocessed comments');
+
+  coldStart();
+  await runPoll(env(kv));
+  const deliveredAfterRetry = ig.sent.filter((s) => s.body.recipient?.comment_id).map((s) => s.body.recipient.comment_id);
+  assert.strictEqual(new Set(deliveredAfterRetry).size, deliveredAfterRetry.length, 'already delivered comments must not get duplicate DMs');
+  assert.ok(deliveredAfterRetry.includes('C3'), 'remaining backlog should be served later');
 });
 
 test('Meta spam limit pauses the poll instead of trying three private reply variants', async () => {
@@ -272,4 +301,86 @@ test('pending resource delivery runs before a new comment hits Meta rate limitin
   assert.strictEqual(ig.sent[0].body.recipient.id, 'U1');
   assert.match(ig.sent[0].body.message.text, /pdf\/claude-shopify-setup/);
   assert.ok(kv.store.has(`d:${mediaId}:fan`));
+});
+
+test('one poll makes at most MAX_SENDS_PER_POLL Instagram sends (DM + public reply); the rest go out on later runs', async () => {
+  const kv = memoryKv();
+  const registry = [{ queueId: 27, mediaId: 'M27', keywords: ['skill'], followGate: 'none', youtubeUrl: 'https://example.com/skill', publishedAt: iso(NOW - 3600e3) }];
+  const comments = Array.from({ length: 5 }, (_, i) => ({ media: 'M27', id: `B${i}`, text: 'skill', timestamp: iso(NOW - (i + 1) * 60e3), from: { id: `U${i}`, username: `fan${i}` } }));
+  const ig = fakeInstagram({ comments, registry });
+  const capped = { ...env(kv), MAX_SENDS_PER_POLL: '4' }; // 2 private replies + 2 public replies
+  const privateReplies = () => ig.sent.filter((s) => s.body.recipient?.comment_id).length;
+  await runPoll(capped);
+  assert.strictEqual(privateReplies(), 2);
+  await runPoll(capped);
+  await runPoll(capped);
+  assert.strictEqual(privateReplies(), 5);
+  await runPoll(capped);
+  assert.strictEqual(privateReplies(), 5, 'nobody gets a second DM');
+});
+
+test('a user who cannot be messaged does not block the next pending user, and is dropped after 3 tries', async () => {
+  const kv = memoryKv();
+  const registry = require('../data/auto_dm_registry.json').filter((r) => r.queueId === 28);
+  const mediaId = registry[0].mediaId;
+  for (const u of ['stuck', 'fan']) {
+    await kv.put(`p:u:${u}`, JSON.stringify({ mediaId, commentId: `OLD-${u}`, username: u, tries: 0, at: NOW - 120e3 }));
+  }
+  const conv = (id, username) => ({
+    updated_time: iso(NOW - 30e3),
+    participants: { data: [{ id: 'OWN', username: 'ratnakarcontent' }, { id, username }] },
+    messages: { data: [{ id: `MID-${id}`, message: 'Followed ✅', created_time: iso(NOW - 30e3), from: { id } }] },
+  });
+  const ig = fakeInstagram({ conversations: [conv('U-STUCK', 'stuck'), conv('U-FAN', 'fan')], registry });
+  const fetchOk = global.fetch;
+  global.fetch = async (input, init = {}) => {
+    if (init.method === 'POST' && JSON.parse(init.body).recipient?.id === 'U-STUCK') {
+      ig.sent.push({ url: String(input), body: JSON.parse(init.body) });
+      return { ok: true, json: async () => ({ error: { code: 10, message: 'This message is sent outside of allowed window.' } }) };
+    }
+    return fetchOk(input, init);
+  };
+  await runPoll(env(kv));
+  assert.ok(kv.store.has(`d:${mediaId}:fan`), 'the next user still gets the guide');
+  assert.ok(!kv.store.get('poll:rate-limit-until'), 'not treated as a spam limit');
+  await runPoll(env(kv));
+  await runPoll(env(kv));
+  assert.ok(!kv.store.has('p:u:stuck'), 'given up after 3 failed runs');
+  await runPoll(env(kv));
+  assert.strictEqual(ig.sent.filter((s) => s.body.recipient?.id === 'U-STUCK').length, 3);
+});
+
+test('repeated Meta spam limits back off longer each time', async () => {
+  const kv = memoryKv();
+  const comments = [{ id: 'RATE1', text: 'Claude', timestamp: iso(NOW - 60e3), from: { id: 'U1', username: 'fan' } }];
+  fakeInstagram({ comments, sendError: { code: 4, message: 'We limit how often you can post' } });
+  await runPoll(env(kv));
+  const first = Number(kv.store.get('poll:rate-limit-until')) - Date.now();
+  kv.store.delete('poll:rate-limit-until');
+  coldStart();
+  await runPoll(env(kv));
+  const second = Number(kv.store.get('poll:rate-limit-until')) - Date.now();
+  assert.ok(first > 25 * 60e3 && first <= 30 * 60e3, `first pause ~30 min, got ${first}`);
+  assert.ok(second > 55 * 60e3, `second pause ~60 min, got ${second}`);
+  assert.strictEqual(kv.store.get('poll:rate-limit-strikes'), '2');
+});
+
+test('state store over Durable Object storage honours TTLs, json reads and prefix lists', async () => {
+  const { storageKv } = require('../workers/auto-dm/src/store.js');
+  const map = new Map();
+  const storage = {
+    async get(k) { return map.get(k); },
+    async put(k, v) { map.set(k, v); },
+    async delete(k) { map.delete(k); },
+    async list({ prefix = '' } = {}) { return new Map([...map].filter(([k]) => k.startsWith(prefix)).sort()); },
+  };
+  const kv = storageKv(storage);
+  await kv.put('p:u:a', JSON.stringify({ mediaId: 'M' }), { expirationTtl: 60 });
+  await kv.put('p:u:b', 'x');
+  map.set('p:u:old', { v: '1', exp: Date.now() - 1 });
+  assert.deepStrictEqual(await kv.get('p:u:a', { type: 'json' }), { mediaId: 'M' });
+  assert.strictEqual(await kv.get('p:u:old'), null, 'expired key reads as missing');
+  assert.deepStrictEqual((await kv.list({ prefix: 'p:u:' })).keys.map((k) => k.name), ['p:u:a', 'p:u:b']);
+  await kv.delete('p:u:a');
+  assert.strictEqual(await kv.get('p:u:a'), null);
 });

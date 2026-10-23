@@ -6,14 +6,19 @@
 // Every run saves its high-water marks. Cron invocations often start in a new
 // isolate, so memory-only marks caused the same failed sends to retry every minute.
 import { graphGet } from './instagram.js';
-import { getRegistry, handleCommentsEvent, handleMessagesEvent, logEvent, flushLogs, kvPut, hasPendingInMemory } from './handlers.js';
+import {
+  getRegistry, handleCommentsEvent, handleMessagesEvent, logEvent, flushLogs, kvPut, hasPendingInMemory,
+  startRun, sendBudgetLeft, MAX_SEND_FAILURES,
+} from './handlers.js';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const COMMENT_WINDOW_MS = 7 * DAY_MS; // Instagram: private reply within 7 days of the COMMENT (reel age doesn't matter)
 const LEGACY_REEL_WINDOW_MS = 7 * DAY_MS; // old reels (registered before followGate existed) age out
 const MAX_MEDIA_PAGES = 5;
 const MAX_COMMENT_PAGES = 10;
-const MAX_CONVERSATION_PAGES = 2;
+const MAX_CONVERSATION_PAGES = 3;
+// Instagram only lets a business message someone within 24h of their last message.
+const MESSAGING_WINDOW_MS = 24 * 60 * 60 * 1000;
 const MAX_COMMENTS_PER_POLL = 12;
 const MAX_COMMENTS_PER_MEDIA = 6;
 const STATE_KEY = 'poll:state';
@@ -83,25 +88,46 @@ async function pollComments(env, workerHost, registry, state, token) {
 
   const counts = await commentCounts(watched, token);
   let processed = 0;
+  state.fails = state.fails || {};
   for (const [mediaId, count] of counts) {
     if (count === state.counts[mediaId]) continue;
 
     const highWater = state.hw[mediaId] || 0;
     const comments = await newComments(mediaId, highWater, now, token);
     let processedForMedia = 0;
-    for (const c of comments) {
-      if (processed >= MAX_COMMENTS_PER_POLL) return;
+    // Serve fresh requests before draining a long backlog. Keep the high-water
+    // mark on the contiguous oldest comments only, so older requests are not lost.
+    const fresh = comments.slice(-Math.ceil(MAX_COMMENTS_PER_MEDIA / 2)).reverse();
+    const freshIds = new Set(fresh.map((c) => c.id));
+    const ordered = [...fresh, ...comments.filter((c) => !freshIds.has(c.id))];
+    const completed = new Set();
+    let oldestIndex = 0;
+    for (const c of ordered) {
+      if (processed >= MAX_COMMENTS_PER_POLL || !sendBudgetLeft(env)) return;
       if (processedForMedia >= MAX_COMMENTS_PER_MEDIA) break;
       const from = c.from || { username: c.username };
       if (!from.username && c.username) from.username = c.username;
       const ok = await handleCommentsEvent({ id: c.id, text: c.text, from, media: { id: mediaId } }, env, workerHost, registry);
-      if (!ok || await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
-      state.hw[mediaId] = Math.max(state.hw[mediaId] || 0, c.at);
-      state.changed = true;
+      if (await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
       processed++;
       processedForMedia++;
+      if (!ok) {
+        // A comment that keeps failing (deleted, already answered by hand) is
+        // skipped after a few runs instead of stopping every comment behind it.
+        state.fails[c.id] = (state.fails[c.id] || 0) + 1;
+        state.changed = true;
+        if (state.fails[c.id] < MAX_SEND_FAILURES) continue;
+        await logEvent(env, { type: 'comment_abandoned', user: from.username, mediaId, commentId: c.id });
+      }
+      delete state.fails[c.id];
+      completed.add(c.id);
+      while (oldestIndex < comments.length && completed.has(comments[oldestIndex].id)) {
+        state.hw[mediaId] = Math.max(state.hw[mediaId] || 0, comments[oldestIndex].at);
+        oldestIndex++;
+        state.changed = true;
+      }
     }
-    if (processedForMedia === comments.length) {
+    if (completed.size === comments.length) {
       state.counts[mediaId] = count;
       state.changed = true;
     }
@@ -131,12 +157,18 @@ async function pollReplies(env, workerHost, registry, state, token) {
       // Revisit pending conversations even if the old poller moved convAt past
       // a reply whose resource send failed. The delivered/reminder keys dedupe.
       const messages = (conv.messages?.data || []).filter((m) => m.from?.id === other.id).reverse();
+      // Past the 24h window Instagram refuses any message: nothing to try.
+      if (!messages.length || Date.now() - toMs(messages[messages.length - 1].created_time) > MESSAGING_WINDOW_MS) continue;
       for (const m of messages) {
+        if (!sendBudgetLeft(env)) return;
         const ok = await handleMessagesEvent(
           { sender: { id: other.id, username: other.username }, timestamp: toMs(m.created_time), message: { mid: m.id, text: m.message || '' } },
           env, workerHost, registry
         );
-        if (!ok || await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
+        if (await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
+        // A failed send for this user (not a spam limit) is counted in its pending
+        // record; move on to the next conversation instead of stopping the queue.
+        if (!ok) break;
       }
     }
     if (!convs.paging?.next) break;
@@ -160,6 +192,7 @@ export async function runPoll(env) {
     memState = (await env.AUTO_DM.get(STATE_KEY, { type: 'json' })) || { counts: {}, hw: {}, convAt: 0 };
   }
   const state = memState;
+  startRun();
   state.counts = state.counts || {};
   state.hw = state.hw || {};
 
