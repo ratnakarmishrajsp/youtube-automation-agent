@@ -83,12 +83,15 @@ export function isAffirmativeResponse(text, quickReplyPayload) {
 /**
  * Builds the resources delivery text message.
  */
-export function buildResourcesMessage({ pdfTitle, pdfUrl, youtubeUrl, resourceLabel, lang }) {
-  let msg = `✅ Thanks for following!\n\n`;
+export function buildResourcesMessage({ pdfTitle, pdfUrl, pdfDownloadUrl, youtubeUrl, resourceLabel, lang, followed = true }) {
+  let msg = followed ? `✅ Thanks for following!\n\n` : `✅ Here's your resource!\n\n`;
   if (pdfTitle && pdfUrl) {
     msg += `📄 ${pdfTitle}: ${pdfUrl}\n`;
   }
-  if (youtubeUrl) {
+  if (pdfDownloadUrl) {
+    msg += `⬇️ Download PDF: ${pdfDownloadUrl}\n`;
+  }
+  if (youtubeUrl && youtubeUrl !== pdfUrl) {
     // resourceLabel: the link is not a video (e.g. a skill download)
     msg += resourceLabel ? `🔗 ${resourceLabel}: ${youtubeUrl}\n` : `📺 Full video: ${youtubeUrl}\n`;
   }
@@ -142,6 +145,7 @@ export function decideCommentAction({ comment, registry, kvState, workerHost }) 
   const pdfSlug = entry.pdfSlug || entry.dm?.pdf?.slug;
   const pdfTitle = entry.pdfTitle || entry.dm?.pdf?.title || 'Resource Guide';
   const pdfUrl = pdfSlug ? `https://${workerHost}/guide/${pdfSlug}` : null;
+  const pdfDownloadUrl = pdfSlug ? `https://${workerHost}/pdf/${pdfSlug}` : null;
   const youtubeUrl = entry.youtubeUrl || entry.link || entry.dm?.link;
   // Entries with lang "en" get English DMs (universal audience, 21 Oct 2026); others stay Hinglish.
   const en = entry.lang === 'en';
@@ -150,7 +154,7 @@ export function decideCommentAction({ comment, registry, kvState, workerHost }) 
 
   // If followGate === "none", deliver immediately
   if (followGate === 'none') {
-    const resourcesMsg = entry.dmMessage || buildResourcesMessage({ pdfTitle, pdfUrl, youtubeUrl, resourceLabel, lang: entry.lang });
+    const resourcesMsg = entry.dmMessage || buildResourcesMessage({ pdfTitle, pdfUrl, pdfDownloadUrl, youtubeUrl, resourceLabel, lang: entry.lang, followed: false });
     const replyComment = entry.replyComment || defaultPublicReply;
     return {
       action: 'SEND_DIRECT',
@@ -218,10 +222,11 @@ export function decideMessageAction({ text, quickReplyPayload, pendingState, isF
     const pdfSlug = registryEntry?.pdfSlug || registryEntry?.dm?.pdf?.slug;
     const pdfTitle = registryEntry?.pdfTitle || registryEntry?.dm?.pdf?.title || 'Resource Guide';
     const pdfUrl = pdfSlug ? `https://${workerHost}/guide/${pdfSlug}` : null;
+    const pdfDownloadUrl = pdfSlug ? `https://${workerHost}/pdf/${pdfSlug}` : null;
     const youtubeUrl = registryEntry?.youtubeUrl || registryEntry?.link || registryEntry?.dm?.link;
 
     const resourcesText = buildResourcesMessage({
-      pdfTitle, pdfUrl, youtubeUrl, resourceLabel: registryEntry?.resourceLabel, lang: registryEntry?.lang,
+      pdfTitle, pdfUrl, pdfDownloadUrl, youtubeUrl, resourceLabel: registryEntry?.resourceLabel, lang: registryEntry?.lang,
     });
     return {
       action: 'DELIVER_RESOURCES',

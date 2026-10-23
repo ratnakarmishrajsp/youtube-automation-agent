@@ -1,5 +1,10 @@
 const GRAPH_URL = 'https://graph.instagram.com/v20.0';
 
+export function isRateLimitError(err) {
+  return [4, 17, 32, 613].includes(Number(err?.graphError?.code)) ||
+    /limit how often|rate limit|too many requests|temporarily blocked|an unknown error has occurred/i.test(err?.message || '');
+}
+
 /**
  * Send a private reply to a comment.
  * Payload can be { text } or { text, quick_replies: [...] }

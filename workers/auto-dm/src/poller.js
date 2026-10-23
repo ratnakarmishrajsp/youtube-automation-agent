@@ -1,12 +1,10 @@
-// Cron poller (every minute). Meta only sends comment webhooks to apps with
+// Cron poller (every five minutes). Meta only sends comment webhooks to apps with
 // Advanced Access, so until App Review is approved this is what makes auto-DM
 // work. It reads new comments and new DM replies and feeds them to the same
 // handlers as the webhook; the pending/delivered keys stop anything being handled twice.
 //
-// The high-water marks live in isolate memory and go to KV at most every 15 minutes
-// (free plan: 1,000 writes/day, and this used to write every active minute). After a
-// cold start the last saved marks are used, so up to 15 minutes of comments and replies
-// are read again; the handlers recognise them and send nothing new.
+// Every run saves its high-water marks. Cron invocations often start in a new
+// isolate, so memory-only marks caused the same failed sends to retry every minute.
 import { graphGet } from './instagram.js';
 import { getRegistry, handleCommentsEvent, handleMessagesEvent, logEvent, flushLogs, kvPut, hasPendingInMemory } from './handlers.js';
 
@@ -15,18 +13,16 @@ const COMMENT_WINDOW_MS = 7 * DAY_MS; // Instagram: private reply within 7 days 
 const LEGACY_REEL_WINDOW_MS = 7 * DAY_MS; // old reels (registered before followGate existed) age out
 const MAX_MEDIA_PAGES = 5;
 const MAX_COMMENT_PAGES = 10;
+const MAX_COMMENTS_PER_POLL = 12;
+const MAX_COMMENTS_PER_MEDIA = 6;
 const STATE_KEY = 'poll:state';
-const FLUSH_EVERY_MS = 15 * 60 * 1000;
+const RATE_LIMIT_KEY = 'poll:rate-limit-until';
 
 let memState = null; // poll state kept between cron runs of this isolate
-let stateDirty = false; // memState has changes not yet in KV
-let lastFlushAt = 0;
 
 // Tests simulate a cold start with this.
 export function resetPollMemory() {
   memState = null;
-  stateDirty = false;
-  lastFlushAt = 0;
 }
 
 // Instagram timestamps look like "2026-10-10T16:16:29+0000".
@@ -37,7 +33,7 @@ const toMs = (ts) => Date.parse(String(ts || '').replace(/([+-]\d{2})(\d{2})$/, 
 // Older entries without it are only watched for their first week.
 function watchedReels(registry, now) {
   return new Map(
-    registry
+    [...registry].reverse()
       .filter((e) => e.mediaId && (e.followGate !== undefined || now - toMs(e.publishedAt) < LEGACY_REEL_WINDOW_MS))
       .map((e) => [e.mediaId, e])
   );
@@ -66,7 +62,7 @@ async function newComments(mediaId, highWater, now, token) {
     let reachedOld = false;
     for (const c of page.data || []) {
       const at = toMs(c.timestamp);
-      if (at <= highWater || now - at > COMMENT_WINDOW_MS) {
+      if (at < highWater || now - at > COMMENT_WINDOW_MS) {
         reachedOld = true;
         continue;
       }
@@ -85,20 +81,29 @@ async function pollComments(env, workerHost, registry, state, token) {
   if (!watched.size) return;
 
   const counts = await commentCounts(watched, token);
+  let processed = 0;
   for (const [mediaId, count] of counts) {
     if (count === state.counts[mediaId]) continue;
 
     const highWater = state.hw[mediaId] || 0;
-    let newest = highWater;
-    for (const c of await newComments(mediaId, highWater, now, token)) {
-      newest = Math.max(newest, c.at);
+    const comments = await newComments(mediaId, highWater, now, token);
+    let processedForMedia = 0;
+    for (const c of comments) {
+      if (processed >= MAX_COMMENTS_PER_POLL) return;
+      if (processedForMedia >= MAX_COMMENTS_PER_MEDIA) break;
       const from = c.from || { username: c.username };
       if (!from.username && c.username) from.username = c.username;
-      await handleCommentsEvent({ id: c.id, text: c.text, from, media: { id: mediaId } }, env, workerHost, registry);
+      const ok = await handleCommentsEvent({ id: c.id, text: c.text, from, media: { id: mediaId } }, env, workerHost, registry);
+      if (!ok || await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
+      state.hw[mediaId] = Math.max(state.hw[mediaId] || 0, c.at);
+      state.changed = true;
+      processed++;
+      processedForMedia++;
     }
-    state.counts[mediaId] = count;
-    state.hw[mediaId] = newest;
-    state.changed = true;
+    if (processedForMedia === comments.length) {
+      state.counts[mediaId] = count;
+      state.changed = true;
+    }
   }
 }
 
@@ -125,10 +130,11 @@ async function pollReplies(env, workerHost, registry, state, token) {
     // Oldest first, so "followed" is checked in the order the user sent things.
     const messages = (conv.messages?.data || []).filter((m) => m.from?.id === other.id).reverse();
     for (const m of messages) {
-      await handleMessagesEvent(
+      const ok = await handleMessagesEvent(
         { sender: { id: other.id }, timestamp: toMs(m.created_time), message: { mid: m.id, text: m.message || '' } },
         env, workerHost, registry
       );
+      if (!ok || await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
     }
   }
   if (newest !== (state.convAt || 0)) {
@@ -139,18 +145,20 @@ async function pollReplies(env, workerHost, registry, state, token) {
 
 export async function runPoll(env) {
   if (!env.AUTO_DM || !env.IG_ACCESS_TOKEN) return;
+  const pausedUntil = Number(await env.AUTO_DM.get(RATE_LIMIT_KEY)) || 0;
+  if (pausedUntil > Date.now()) return;
   const workerHost = env.WORKER_HOST;
   const token = env.IG_ACCESS_TOKEN;
   const registry = await getRegistry(env);
   if (!memState) {
     memState = (await env.AUTO_DM.get(STATE_KEY, { type: 'json' })) || { counts: {}, hw: {}, convAt: 0 };
-    lastFlushAt = Date.now();
   }
   const state = memState;
   state.counts = state.counts || {};
   state.hw = state.hw || {};
 
   for (const [name, step] of [['comments', pollComments], ['replies', pollReplies]]) {
+    if (Number(await env.AUTO_DM.get(RATE_LIMIT_KEY)) > Date.now()) break;
     try {
       await step(env, workerHost, registry, state, token);
     } catch (err) {
@@ -160,11 +168,7 @@ export async function runPoll(env) {
 
   if (state.changed) {
     delete state.changed;
-    stateDirty = true;
+    await kvPut(env, STATE_KEY, JSON.stringify(state));
   }
-  if (Date.now() - lastFlushAt >= FLUSH_EVERY_MS) {
-    lastFlushAt = Date.now();
-    if (stateDirty && await kvPut(env, STATE_KEY, JSON.stringify(state))) stateDirty = false;
-    await flushLogs(env);
-  }
+  await flushLogs(env);
 }
