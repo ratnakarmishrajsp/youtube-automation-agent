@@ -739,7 +739,7 @@
     "videoUrl": "https://files.catbox.moe/j5ygr9.mp4",
     "coverUrl": "https://files.catbox.moe/0ohhz0.jpg",
     "containerId": "17908292637570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "POST",
@@ -749,6 +749,10 @@
       "resourceLabel": "India Post business account setup guide"
     },
     "manifest": "data/reels/2026-10-24-india-post.json",
-    "createdAt": "2026-10-24T12:05:41.570Z"
+    "createdAt": "2026-10-24T12:05:41.570Z",
+    "attempts": 1,
+    "publishedMediaId": "17873660667601652",
+    "permalink": "https://www.instagram.com/reel/De4F1BSDu2X/",
+    "publishedAt": "2026-10-24T12:06:29.794Z"
   }
 ]
