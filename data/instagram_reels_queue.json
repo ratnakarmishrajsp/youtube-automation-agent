@@ -705,5 +705,50 @@
     "publishedMediaId": "17959614027012153",
     "permalink": "https://www.instagram.com/reel/Dey4GFyygVk/",
     "publishedAt": "2026-10-22T11:29:31+0000"
+  },
+  {
+    "id": 29,
+    "title": "4x ROAS, still a loss — profit reality check V2",
+    "caption": "4x ROAS. Rs 1,500 loss. Here's the math. 📉\n\nBefore you increase your ad budget, follow the money:\n\n1️⃣ Rs 10,000 in ads → Rs 40,000 in recorded orders = 4x ROAS\n2️⃣ Rs 10,000 cancelled / RTO → Rs 30,000 actual revenue\n3️⃣ Delivered product cost: Rs 15,000\n4️⃣ Shipping + RTO: Rs 5,000\n5️⃣ Packaging + fees: Rs 1,500\n6️⃣ Ad spend: Rs 10,000\n\nResult? A Rs 1,500 LOSS — before tax and fixed costs.\n\nYour break-even ROAS depends on your margins. Check what remains after every relevant cost before scaling.\n\n🔖 Save this and calculate it with your store's numbers.\n\nIllustrative example: reported order value stays unadjusted after cancellations/RTO. Product cost covers delivered units; returned stock is assumed resellable. The dashboard is a custom demo, not a real account's results.\n\nDisclosure: my AI-avatar B-roll and AI-assisted voiceover.\n\n#Reels #MetaAds #ROAS #Ecommerce #D2C",
+    "scheduledTimeIST": "23-10-2026 20:14:00 IST",
+    "scheduledDate": "23-10-2026",
+    "scheduledTime": "20:14:00",
+    "localVideoPath": "data/shorts/roas_profit_v2.mp4",
+    "localCoverPath": "data/shorts/roas_profit_v2_cover.jpg",
+    "videoUrl": "https://files.catbox.moe/09wias.mp4",
+    "coverUrl": "https://files.catbox.moe/tgh1zu.jpg",
+    "containerId": "17908134864570332",
+    "status": "PUBLISHED",
+    "isAiGenerated": true,
+    "manifest": "data/reels/2026-10-23-roas-profit-v2.json",
+    "createdAt": "2026-10-23T14:47:26.891Z",
+    "attempts": 1,
+    "publishedMediaId": "17894790027433861",
+    "permalink": "https://www.instagram.com/reel/De1zjDrijoF/",
+    "publishedAt": "2026-10-23T14:48:16.465Z"
+  },
+  {
+    "id": 30,
+    "title": "India Post for sellers: Speed Post Rs 30-50, COD to bank, online account",
+    "caption": "Forget private couriers. I now ship every order with India Post 📦👇\n\n1️⃣ Speed Post at Rs 28–47 per 500 g (business contract rate + GST)\n2️⃣ COD works, and the money comes straight to my bank\n3️⃣ No extra COD charge on my bill\n4️⃣ Complaints get solved fast\n5️⃣ Business account opens online, bank verified online\n\n📌 Rates: India Post contract tariff from 1 Aug 2026. Counter rates are higher.\n\n🔥 Comment \"POST\" and I'll DM you the step-by-step account setup 📩\n(DMs go to followers only, so follow first)\n\n#Reels #IndiaPost #Ecommerce #COD #D2C #SmallBusiness",
+    "scheduledTimeIST": "24-10-2026 17:34:00 IST",
+    "scheduledDate": "24-10-2026",
+    "scheduledTime": "17:34:00",
+    "localVideoPath": "data/shorts/india_post_v1.mp4",
+    "localCoverPath": "data/shorts/india_post_cover.jpg",
+    "videoUrl": "https://files.catbox.moe/j5ygr9.mp4",
+    "coverUrl": "https://files.catbox.moe/0ohhz0.jpg",
+    "containerId": "17908292637570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "POST",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/india-post-business-account",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "India Post business account setup guide"
+    },
+    "manifest": "data/reels/2026-10-24-india-post.json",
+    "createdAt": "2026-10-24T12:05:41.570Z"
   }
 ]
