@@ -484,5 +484,21 @@
     "mediaId": "17873660667601652",
     "permalink": "https://www.instagram.com/reel/De4F1BSDu2X/",
     "publishedAt": "2026-10-24T12:06:29.794Z"
+  },
+  {
+    "queueId": 31,
+    "title": "Meta's free AI salesman: WhatsApp Business AI replies 24/7",
+    "keywords": [
+      "agent",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/whatsapp-business-ai-setup",
+    "followGate": "all",
+    "pdfSlug": null,
+    "pdfTitle": null,
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "WhatsApp Business AI setup guide"
   }
 ]

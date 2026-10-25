@@ -754,5 +754,30 @@
     "publishedMediaId": "17873660667601652",
     "permalink": "https://www.instagram.com/reel/De4F1BSDu2X/",
     "publishedAt": "2026-10-24T12:06:29.794Z"
+  },
+  {
+    "id": 31,
+    "title": "Meta's free AI salesman: WhatsApp Business AI replies 24/7",
+    "caption": "Meta just gave every WhatsApp Business a 24/7 AI salesman 🤖👇\n\n1️⃣ Answers price, delivery & discount questions\n2️⃣ Replies in any Indian language\n3️⃣ Learns from your catalog, price list, website & old chats\n4️⃣ Hard question? The chat comes back to you\n5️⃣ 100% free, built right into the app\n\n⚡ No coding. Just turn it on in Tools.\n\n🔥 Comment \"AGENT\" and I'll DM you the step-by-step setup 📩\n(DMs go to followers only, so follow first)\n\n#Reels #WhatsAppBusiness #AI #SmallBusiness #DigitalMarketing #MetaAI",
+    "scheduledTimeIST": "26-10-2026 09:00:00 IST",
+    "scheduledDate": "26-10-2026",
+    "scheduledTime": "09:00:00",
+    "localVideoPath": "data/shorts/meta_business_agent_v2.mp4",
+    "localCoverPath": "data/shorts/meta_business_agent_cover.jpg",
+    "videoUrl": null,
+    "coverUrl": null,
+    "containerId": null,
+    "status": "READY_TO_PUBLISH",
+    "manualPost": true,
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "AGENT",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/whatsapp-business-ai-setup",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "WhatsApp Business AI setup guide"
+    },
+    "manifest": "data/reels/2026-10-26-meta-business-agent.json",
+    "createdAt": "2026-10-25T12:56:47.030Z"
   }
 ]
