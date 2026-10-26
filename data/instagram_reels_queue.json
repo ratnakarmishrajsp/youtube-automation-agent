@@ -767,7 +767,7 @@
     "videoUrl": "https://files.catbox.moe/rbftde.mp4",
     "coverUrl": "https://files.catbox.moe/3dhiw5.jpg",
     "containerId": "17908514454570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "AGENT",
@@ -777,6 +777,10 @@
       "resourceLabel": "WhatsApp Business AI setup guide"
     },
     "manifest": "data/reels/2026-10-26-meta-business-agent.json",
-    "createdAt": "2026-10-25T12:56:47.030Z"
+    "createdAt": "2026-10-25T12:56:47.030Z",
+    "attempts": 1,
+    "publishedMediaId": "17988944115109448",
+    "permalink": "https://www.instagram.com/reel/De6xeQAla45/",
+    "publishedAt": "2026-10-26T03:56:28.609Z"
   }
 ]
