@@ -795,7 +795,7 @@
     "videoUrl": "https://files.catbox.moe/0br605.mp4",
     "coverUrl": "https://files.catbox.moe/tzrbap.jpg",
     "containerId": "17908959156570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "YOUTUBE",
@@ -805,6 +805,10 @@
       "resourceLabel": "YouTube Agent Skill (free GitHub link)"
     },
     "manifest": "data/reels/2026-10-27-youtube-agent-skill.json",
-    "createdAt": "2026-10-27T11:24:28.350Z"
+    "createdAt": "2026-10-27T11:24:28.350Z",
+    "attempts": 1,
+    "publishedMediaId": "18075722453758526",
+    "permalink": "https://www.instagram.com/reel/De_vg9mFXFQ/",
+    "publishedAt": "2026-10-27T12:48:39.931Z"
   }
 ]
