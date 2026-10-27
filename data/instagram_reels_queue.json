@@ -782,5 +782,29 @@
     "publishedMediaId": "17988944115109448",
     "permalink": "https://www.instagram.com/reel/De6xeQAla45/",
     "publishedAt": "2026-10-26T03:56:28.609Z"
+  },
+  {
+    "id": 32,
+    "title": "YouTube Agent Skill: 1 free AI skill = your whole YouTube team (auto upload)",
+    "caption": "This free GitHub skill does the work of a whole YouTube team 🤖👇\n\n1️⃣ Writes 5 hooks from 21 viral formulas and scores them\n2️⃣ Finds dead air, \"umm\"s and retakes with timecodes\n3️⃣ Shows the exact second viewers left\n4️⃣ Pulls Shorts out of your long videos\n5️⃣ Replies to comments in your style\n6️⃣ Audits your channel and gives you ONE fix\n7️⃣ Uploads and schedules the video with title + description\n\nScript to upload, on autopilot.\nCredit: Jake Schincariol & nessalazne (MIT, open source)\n\n🔥 Comment \"YOUTUBE\" and I'll DM you the link 📩\n(DMs go to followers only, so follow first)\n\n#Reels #YouTubeTips #ClaudeAI #AIAutomation #ContentCreator #YouTubeGrowth",
+    "scheduledTimeIST": "27-10-2026 19:30:00 IST",
+    "scheduledDate": "27-10-2026",
+    "scheduledTime": "19:30:00",
+    "localVideoPath": "data/shorts/youtube_agent_skill_v2.mp4",
+    "localCoverPath": "data/shorts/youtube_agent_skill_cover.jpg",
+    "videoUrl": "https://files.catbox.moe/0br605.mp4",
+    "coverUrl": "https://files.catbox.moe/tzrbap.jpg",
+    "containerId": "17908959156570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "YOUTUBE",
+      "link": "https://github.com/nessalazne/youtube-agent-skill",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "YouTube Agent Skill (free GitHub link)"
+    },
+    "manifest": "data/reels/2026-10-27-youtube-agent-skill.json",
+    "createdAt": "2026-10-27T11:24:28.350Z"
   }
 ]

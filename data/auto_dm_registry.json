@@ -503,5 +503,21 @@
     "mediaId": "17988944115109448",
     "permalink": "https://www.instagram.com/reel/De6xeQAla45/",
     "publishedAt": "2026-10-26T03:56:28.609Z"
+  },
+  {
+    "queueId": 32,
+    "title": "YouTube Agent Skill: 1 free AI skill = your whole YouTube team (auto upload)",
+    "keywords": [
+      "youtube",
+      "link"
+    ],
+    "youtubeUrl": "https://github.com/nessalazne/youtube-agent-skill",
+    "followGate": "all",
+    "pdfSlug": null,
+    "pdfTitle": null,
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "YouTube Agent Skill (free GitHub link)"
   }
 ]
