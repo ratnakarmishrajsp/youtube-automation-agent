@@ -810,5 +810,29 @@
     "publishedMediaId": "18075722453758526",
     "permalink": "https://www.instagram.com/reel/De_vg9mFXFQ/",
     "publishedAt": "2026-10-27T12:48:39.931Z"
+  },
+  {
+    "id": 33,
+    "title": "Free Instagram Auto-DM: no ManyChat, built with AI + Meta API",
+    "caption": "My Instagram auto-DM is 100% free. No ManyChat 🤖👇\n\nWhat you need:\n1️⃣ An Instagram professional account\n2️⃣ Meta's free API key\n3️⃣ Any AI tool: Claude, Cursor or Antigravity (free with Jio's Google AI Pro offer)\n\nIt DMs your link to everyone who asks, checks if they follow you, and runs 24/7, even with your laptop off. Every new reel, on autopilot.\n\n🔥 Comment \"AUTO\" and I'll DM you the full setup guide + my prompt 📩\n(DMs go to followers only, so follow first)\n\n#Reels #InstagramAutomation #AIAutomation #ClaudeAI #InstagramGrowth #ContentCreator",
+    "scheduledTimeIST": "28-10-2026 20:13:00 IST",
+    "scheduledDate": "28-10-2026",
+    "scheduledTime": "20:13:00",
+    "localVideoPath": "data/shorts/free_auto_dm_v1.mp4",
+    "localCoverPath": "data/shorts/free_auto_dm_cover.jpg",
+    "videoUrl": "https://files.catbox.moe/l3ympn.mp4",
+    "coverUrl": "https://files.catbox.moe/ikdgd1.jpg",
+    "containerId": "17909200152570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "AUTO",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/free-instagram-auto-dm",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Free Auto-DM setup guide + prompt"
+    },
+    "manifest": "data/reels/2026-10-28-free-auto-dm.json",
+    "createdAt": "2026-10-28T14:49:33.875Z"
   }
 ]

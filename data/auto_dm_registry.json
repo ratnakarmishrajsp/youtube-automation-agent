@@ -522,5 +522,21 @@
     "mediaId": "18075722453758526",
     "permalink": "https://www.instagram.com/reel/De_vg9mFXFQ/",
     "publishedAt": "2026-10-27T12:48:39.931Z"
+  },
+  {
+    "queueId": 33,
+    "title": "Free Instagram Auto-DM: no ManyChat, built with AI + Meta API",
+    "keywords": [
+      "auto",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/free-instagram-auto-dm",
+    "followGate": "all",
+    "pdfSlug": null,
+    "pdfTitle": null,
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "Free Auto-DM setup guide + prompt"
   }
 ]
