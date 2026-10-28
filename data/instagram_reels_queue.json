@@ -823,7 +823,7 @@
     "videoUrl": "https://files.catbox.moe/l3ympn.mp4",
     "coverUrl": "https://files.catbox.moe/ikdgd1.jpg",
     "containerId": "17909200152570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "AUTO",
@@ -833,6 +833,10 @@
       "resourceLabel": "Free Auto-DM setup guide + prompt"
     },
     "manifest": "data/reels/2026-10-28-free-auto-dm.json",
-    "createdAt": "2026-10-28T14:49:33.875Z"
+    "createdAt": "2026-10-28T14:49:33.875Z",
+    "attempts": 1,
+    "publishedMediaId": "18413146198082409",
+    "permalink": "https://www.instagram.com/reel/DfCrzT4CvoY/",
+    "publishedAt": "2026-10-28T14:50:16.530Z"
   }
 ]
