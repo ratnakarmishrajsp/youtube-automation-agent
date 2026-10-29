@@ -838,5 +838,29 @@
     "publishedMediaId": "18413146198082409",
     "permalink": "https://www.instagram.com/reel/DfCrzT4CvoY/",
     "publishedAt": "2026-10-28T14:50:16.530Z"
+  },
+  {
+    "id": 34,
+    "title": "Voicebox: free open-source AI voice studio (ElevenLabs alternative)",
+    "caption": "Forget ElevenLabs. This free GitHub tool clones your voice 🎙️👇\n\nVoicebox is an open-source AI voice studio:\n1️⃣ Clone your own voice from a short recording\n2️⃣ Dub it in 23 languages (Hindi too)\n3️⃣ Turn long scripts into voiceovers\n4️⃣ Runs on your own laptop. No subscription, no API key\n\n🔥 Comment \"VOICE\" and I'll DM you the GitHub repo + full setup guide (and how to manage it with Claude, Antigravity, Cursor or Codex) 📩\n(DMs go to followers only, so follow first)\n\n#Reels #AIVoice #VoiceCloning #AITools #OpenSource #ContentCreator",
+    "scheduledTimeIST": "29-10-2026 21:42:00 IST",
+    "scheduledDate": "29-10-2026",
+    "scheduledTime": "21:42:00",
+    "localVideoPath": "data/shorts/voicebox_v1.mp4",
+    "localCoverPath": "data/shorts/voicebox_cover.jpg",
+    "videoUrl": "https://files.catbox.moe/dvx3cq.mp4",
+    "coverUrl": "https://files.catbox.moe/pn7jvq.jpg",
+    "containerId": "17909433525570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "VOICE",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/voicebox-voice-studio",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Voicebox GitHub repo + full setup guide"
+    },
+    "manifest": "data/reels/2026-10-29-voicebox.json",
+    "createdAt": "2026-10-29T16:16:58.752Z"
   }
 ]

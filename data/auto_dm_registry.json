@@ -541,5 +541,21 @@
     "mediaId": "18413146198082409",
     "permalink": "https://www.instagram.com/reel/DfCrzT4CvoY/",
     "publishedAt": "2026-10-28T14:50:16.530Z"
+  },
+  {
+    "queueId": 34,
+    "title": "Voicebox: free open-source AI voice studio (ElevenLabs alternative)",
+    "keywords": [
+      "voice",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/voicebox-voice-studio",
+    "followGate": "all",
+    "pdfSlug": null,
+    "pdfTitle": null,
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "Voicebox GitHub repo + full setup guide"
   }
 ]
