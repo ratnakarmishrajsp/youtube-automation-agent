@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { padding: 18px 16px 96px; font-size: 16px; }
+    .page-container { max-width: 680px; }
+    .download-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(10, 15, 29, 0.96); border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; }
+    .download-bar a { display: inline-block; width: 100%; max-width: 420px; padding: 14px 18px; border-radius: 12px;
+      background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; text-decoration: none; }
+    @media (max-width: 600px) {
+      body { font-size: 15.5px; }
+      .header-banner { flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+  <title>VOICEBOX: FREE AI VOICE STUDIO - Ratnakar Mishra Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0A0F1D;
+      color: #E2E8F0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 22px;
+    }
+    .creator-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .creator-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00FF66 0%, #38BDF8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      color: #0A0F1D;
+      font-size: 16px;
+    }
+    .creator-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .creator-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+    .creator-handle {
+      font-size: 11px;
+      color: #38BDF8;
+      font-weight: 600;
+    }
+    .badge-tag {
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid #00FF66;
+      color: #00FF66;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hero-section {
+      background: linear-gradient(145deg, rgba(20, 30, 55, 0.7) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #00FF66;
+    }
+    .doc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .doc-subtitle {
+      color: #94A3B8;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .section-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFE600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+    .section-heading::before {
+      content: '■';
+      color: #00FF66;
+      font-size: 11px;
+    }
+    .bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bullets-list li {
+      position: relative;
+      padding-left: 20px;
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .bullets-list li::before {
+      content: '👉';
+      position: absolute;
+      left: 0;
+      top: 0px;
+      font-size: 12px;
+    }
+    .checklist-card {
+      background: rgba(16, 32, 28, 0.75);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .checklist-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #00FF66;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #F1F5F9;
+    }
+    .check-box {
+      min-width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      background: #00FF66;
+      color: #0A0F1D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+    .takeaway-card {
+      background: linear-gradient(135deg, rgba(255, 230, 0, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid #FFE600;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .takeaway-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 11.5px;
+      color: #FFE600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .takeaway-text {
+      font-size: 13.5px;
+      color: #FFFFFF;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .video-cta-card {
+      background: #0F172A;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .video-cta-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #38BDF8;
+    }
+    .video-cta-link {
+      background: #38BDF8;
+      color: #0A0F1D;
+      padding: 7px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .footer-bar {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="header-banner">
+      <div class="creator-brand">
+        <div class="creator-avatar">R</div>
+        <div class="creator-info">
+          <span class="creator-name">Ratnakar Mishra</span>
+          <span class="creator-handle">@ratnakarcontent</span>
+        </div>
+      </div>
+      <div class="badge-tag">🎙️ SETUP GUIDE</div>
+    </div>
+
+    <div class="hero-section">
+      <h1 class="doc-title">VOICEBOX: FREE AI VOICE STUDIO</h1>
+      <p class="doc-subtitle">Clone your own voice and turn any script into speech, on your own laptop. Open source on GitHub, no ElevenLabs bill, no API key.</p>
+    </div>
+
+    <div class="sections-container">
+      
+    <div class="section-card">
+      <div class="section-heading">What Voicebox does</div>
+      <ul class="bullets-list">
+        <li><b>Clones your voice</b> from a short recording (add more samples for better quality).</li>
+        <li><b>Speaks in 23 languages.</b> For Hindi, use the <b>Chatterbox Multilingual</b> engine.</li>
+        <li><b>Long scripts:</b> up to 50,000 characters, auto-split and joined. The <b>Stories</b> editor puts many voices on one timeline.</li>
+        <li><b>Many voices:</b> 8 engines, including Kokoro with 50 preset voices, plus effects like reverb and pitch.</li>
+        <li><b>Runs on your machine.</b> No subscription, no per-character fee, your voice never leaves your laptop. MIT licence.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 1: Download and install</div>
+      <ul class="bullets-list">
+        <li>GitHub: <a href="https://github.com/jamiepine/voicebox">github.com/jamiepine/voicebox</a> · Website: <a href="https://voicebox.sh">voicebox.sh</a></li>
+        <li><b>Windows:</b> <a href="https://voicebox.sh/download/windows">voicebox.sh/download/windows</a> → run the installer.</li>
+        <li><b>Mac:</b> <a href="https://voicebox.sh/download/mac-arm">Apple Silicon</a> or <a href="https://voicebox.sh/download/mac-intel">Intel</a> DMG.</li>
+        <li>All builds: <a href="https://github.com/jamiepine/voicebox/releases/latest">GitHub releases</a>. Linux: build from source (see the repo).</li>
+        <li>The first run downloads the voice models. Keep a few GB free on the drive you install to.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 2: Clone your voice</div>
+      <ul class="bullets-list">
+        <li>Record 20–30 seconds of yourself talking normally: quiet room, phone or lav mic close, no music.</li>
+        <li>In Voicebox: <b>new voice profile</b> → upload the recording (or record in the app).</li>
+        <li>Pick the engine: <b>Chatterbox Multilingual</b> for Hindi and most Indian use, others for English.</li>
+        <li>Type a line → <b>Generate</b>. Not close enough? Add a second clean sample to the same profile.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 3: Use it for your content</div>
+      <ul class="bullets-list">
+        <li>Reels and Shorts voiceovers, YouTube narration, ad scripts, long story channels.</li>
+        <li>Paste a long script: Voicebox splits it and joins the audio for you.</li>
+        <li>Speed depends on your computer: an NVIDIA GPU is fast, a normal laptop (CPU) works but is slower. Start with short lines.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 4: Manage it with Claude, Antigravity, Cursor or Codex</div>
+      <ul class="bullets-list">
+        <li>Voicebox has a built-in <b>MCP server</b> and <b>REST API</b> on your laptop (the app must be open): <code>http://127.0.0.1:17493</code>.</li>
+        <li><b>Claude Code:</b> <code>claude mcp add voicebox --transport http --url http://127.0.0.1:17493/mcp --header "X-Voicebox-Client-Id: claude-code"</code></li>
+        <li><b>Cursor / Antigravity / other MCP apps:</b> add an MCP server with URL <code>http://127.0.0.1:17493/mcp</code>.</li>
+        <li>Then just ask your AI, for example: <i>"Read script.txt and generate it in my Voicebox voice, save the MP3 in this folder."</i></li>
+        <li><pre id="ap" style="white-space: pre-wrap; word-break: break-word; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13.5px; line-height: 1.55; color: #E2E8F0; margin: 4px 0 10px;">Help me set up Voicebox (github.com/jamiepine/voicebox), the free open-source AI voice studio, on this computer.
+
+1. Check my OS and GPU, tell me which installer to download from voicebox.sh (or GitHub releases) and walk me through installing it.
+2. Once the app is open, connect yourself to its MCP server at http://127.0.0.1:17493/mcp (or use the REST API at http://127.0.0.1:17493, docs at /docs).
+3. List my voice profiles. If I have none, tell me how to record a clean 20-30 second sample and create one.
+4. Make a small script that takes a .txt file and generates it in my voice (Hindi uses the Chatterbox Multilingual engine), saving numbered MP3 files.
+5. Never upload my voice anywhere; everything stays on this machine.</pre><button onclick="navigator.clipboard.writeText(document.getElementById('ap').innerText).then(()=>{this.innerText='Copied ✅'})" style="display: inline-block; padding: 12px 18px; border-radius: 10px; border: 0; background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; cursor: pointer;">📋 Copy prompt</button></li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Use it responsibly</div>
+      <ul class="bullets-list">
+        <li>Clone only your own voice, or a voice you have clear permission to use.</li>
+        <li>On Instagram, turn on the <b>AI label</b> when a post uses an AI-generated voice.</li>
+      </ul>
+    </div>
+  
+    </div>
+
+    <div class="checklist-card">
+      <div class="checklist-heading">⚡ Action Checklist</div>
+      <div class="checklist-items">
+        
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Voicebox installed from voicebox.sh or GitHub releases</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Clean 20–30 s voice sample recorded</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Voice profile created (Chatterbox Multilingual for Hindi)</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>First line generated</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>MCP connected to Claude / Cursor / Antigravity / Codex</div>
+    </div>
+  
+      </div>
+    </div>
+
+    <div class="takeaway-card">
+      <div class="takeaway-label">💡 Key Takeaway</div>
+      <div class="takeaway-text">Your voice, on your laptop, for free. Record once, then let your AI turn every script into a voiceover.</div>
+    </div>
+
+    <div class="video-cta-card">
+      <div class="video-cta-text">
+        <span>📺</span>
+        <span>Watch the complete in-depth video breakdown:</span>
+      </div>
+      <a href="https://www.youtube.com/@ratnakarmishra06" class="video-cta-link">Watch on YouTube</a>
+    </div>
+
+    <div class="footer-bar">
+      <span>@ratnakarcontent · YouTube: Ratnakar Mishra Digital Marketing</span>
+      <span>Official Resource Guide</span>
+    </div>
+  </div>
+</body>
+</html>
