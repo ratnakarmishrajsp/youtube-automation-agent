@@ -851,7 +851,7 @@
     "videoUrl": "https://files.catbox.moe/dvx3cq.mp4",
     "coverUrl": "https://files.catbox.moe/pn7jvq.jpg",
     "containerId": "17909433525570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "VOICE",
@@ -861,6 +861,10 @@
       "resourceLabel": "Voicebox GitHub repo + full setup guide"
     },
     "manifest": "data/reels/2026-10-29-voicebox.json",
-    "createdAt": "2026-10-29T16:16:58.752Z"
+    "createdAt": "2026-10-29T16:16:58.752Z",
+    "attempts": 1,
+    "publishedMediaId": "18086146343708494",
+    "permalink": "https://www.instagram.com/reel/DfFalSwDG5d/",
+    "publishedAt": "2026-10-29T16:18:00.826Z"
   }
 ]
