@@ -866,5 +866,22 @@
     "publishedMediaId": "18086146343708494",
     "permalink": "https://www.instagram.com/reel/DfFalSwDG5d/",
     "publishedAt": "2026-10-29T16:18:00.826Z"
+  },
+  {
+    "id": 35,
+    "title": "Meta Business Manager verification in 5 minutes (GST or Udyam)",
+    "caption": "Get your Meta Business Manager VERIFIED in 5 minutes ✅👇\n\n1️⃣ Go to business.facebook.com\n2️⃣ Open your business portfolio Settings → Security Center\n3️⃣ Click Start verification\n4️⃣ Upload your GST or Udyam certificate\n\n⚠️ The name on your GST / Udyam certificate must match your Business Manager name exactly. No GST? Make your Udyam in the same business name.\n\nRight now it's getting verified in about 5 minutes after upload 🔥\nSave this for later and share it with someone who runs Meta ads 📌\n\n#Reels #MetaAds #BusinessManager #FacebookAds #DigitalMarketing #Udyam",
+    "scheduledTimeIST": "30-10-2026 20:46:00 IST",
+    "scheduledDate": "30-10-2026",
+    "scheduledTime": "20:46:00",
+    "localVideoPath": "data/shorts/bm_verification_v2.mp4",
+    "localCoverPath": "data/shorts/bm_verification_cover.jpg",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-bm-verification/bm_verification_v2.mp4",
+    "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-bm-verification/bm_verification_cover.jpg",
+    "containerId": "17909589615570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "manifest": "data/reels/2026-10-30-bm-verification.json",
+    "createdAt": "2026-10-30T15:17:35.744Z"
   }
 ]
