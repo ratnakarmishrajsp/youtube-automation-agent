@@ -879,9 +879,13 @@
     "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-bm-verification/bm_verification_v2.mp4",
     "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-bm-verification/bm_verification_cover.jpg",
     "containerId": "17909589615570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "manifest": "data/reels/2026-10-30-bm-verification.json",
-    "createdAt": "2026-10-30T15:17:35.744Z"
+    "createdAt": "2026-10-30T15:17:35.744Z",
+    "attempts": 1,
+    "publishedMediaId": "18108870974353831",
+    "permalink": "https://www.instagram.com/reel/DfH4f1TDYMb/",
+    "publishedAt": "2026-10-30T15:18:11.446Z"
   }
 ]
