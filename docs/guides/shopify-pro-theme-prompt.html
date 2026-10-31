@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { padding: 18px 16px 96px; font-size: 16px; }
+    .page-container { max-width: 680px; }
+    .download-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(10, 15, 29, 0.96); border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; }
+    .download-bar a { display: inline-block; width: 100%; max-width: 420px; padding: 14px 18px; border-radius: 12px;
+      background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; text-decoration: none; }
+    @media (max-width: 600px) {
+      body { font-size: 15.5px; }
+      .header-banner { flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+  <title>PRO SHOPIFY THEME WITH AI - Ratnakar Mishra Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0A0F1D;
+      color: #E2E8F0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 22px;
+    }
+    .creator-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .creator-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00FF66 0%, #38BDF8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      color: #0A0F1D;
+      font-size: 16px;
+    }
+    .creator-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .creator-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+    .creator-handle {
+      font-size: 11px;
+      color: #38BDF8;
+      font-weight: 600;
+    }
+    .badge-tag {
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid #00FF66;
+      color: #00FF66;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hero-section {
+      background: linear-gradient(145deg, rgba(20, 30, 55, 0.7) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #00FF66;
+    }
+    .doc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .doc-subtitle {
+      color: #94A3B8;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .section-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFE600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+    .section-heading::before {
+      content: '■';
+      color: #00FF66;
+      font-size: 11px;
+    }
+    .bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bullets-list li {
+      position: relative;
+      padding-left: 20px;
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .bullets-list li::before {
+      content: '👉';
+      position: absolute;
+      left: 0;
+      top: 0px;
+      font-size: 12px;
+    }
+    .checklist-card {
+      background: rgba(16, 32, 28, 0.75);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .checklist-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #00FF66;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #F1F5F9;
+    }
+    .check-box {
+      min-width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      background: #00FF66;
+      color: #0A0F1D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+    .takeaway-card {
+      background: linear-gradient(135deg, rgba(255, 230, 0, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid #FFE600;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .takeaway-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 11.5px;
+      color: #FFE600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .takeaway-text {
+      font-size: 13.5px;
+      color: #FFFFFF;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .video-cta-card {
+      background: #0F172A;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .video-cta-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #38BDF8;
+    }
+    .video-cta-link {
+      background: #38BDF8;
+      color: #0A0F1D;
+      padding: 7px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .footer-bar {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="header-banner">
+      <div class="creator-brand">
+        <div class="creator-avatar">R</div>
+        <div class="creator-info">
+          <span class="creator-name">Ratnakar Mishra</span>
+          <span class="creator-handle">@ratnakarcontent</span>
+        </div>
+      </div>
+      <div class="badge-tag">🛍️ THEME PROMPT</div>
+    </div>
+
+    <div class="hero-section">
+      <h1 class="doc-title">PRO SHOPIFY THEME WITH AI</h1>
+      <p class="doc-subtitle">Turn a free Shopify theme into a premium, paid-level theme with Claude, Antigravity, Cursor or ChatGPT. Here is the exact prompt from my reel and every step around it.</p>
+    </div>
+
+    <div class="sections-container">
+      
+    <div class="section-card">
+      <div class="section-heading">What you need</div>
+      <ul class="bullets-list">
+        <li>Your <b>Shopify store admin</b> (owner or staff login with theme access).</li>
+        <li>An AI that can work on a folder: <b>Claude</b> (Claude Code or the desktop app), <b>Antigravity</b>, <b>Cursor</b> or <b>Codex</b>. ChatGPT also works: upload the .zip and paste the prompt.</li>
+        <li>Optional, for a live preview: <a href="https://shopify.dev/docs/storefronts/themes/tools/cli">Shopify CLI</a>.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 1: Add the free Trade theme</div>
+      <ul class="bullets-list">
+        <li>Shopify admin → <b>Online Store</b> → <b>Discover themes</b> → <b>Visit Theme Store</b>.</li>
+        <li>Open <a href="https://themes.shopify.com/themes/trade/presets/trade">Trade</a> (free, by Shopify) → <b>Add</b> (it says <b>Add new copy</b> if your store already has it).</li>
+        <li>It lands in <b>Draft themes</b>. Your live theme is not touched. Any free theme works the same way (Dawn, Sense, Craft…).</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 2: Download the theme code</div>
+      <ul class="bullets-list">
+        <li>Online Store → the <b>…</b> menu next to the theme → <b>Download theme file</b>.</li>
+        <li>Shopify <b>emails you a .zip</b> (to the email on your staff login). Download it and unzip it into a folder.</li>
+        <li>Inside you'll see <code>assets</code>, <code>config</code>, <code>layout</code>, <code>locales</code>, <code>sections</code>, <code>snippets</code> and <code>templates</code>. Keep the original .zip as your backup.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 3: Open the folder in your AI and paste this prompt</div>
+      <ul class="bullets-list">
+        <li>Claude Code / Antigravity / Cursor: open the unzipped folder as the project. ChatGPT: upload the .zip.</li>
+        <li>Fill in the <b>MY STORE</b> lines (brand, colours, audience) or let the AI ask you. Read its audit and plan, then say <b>go</b>.</li>
+        <li><pre id="ap" style="white-space: pre-wrap; word-break: break-word; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.55; color: #E2E8F0; margin: 4px 0 10px;">You are a senior Shopify theme developer (Online Store 2.0, Liquid, JSON templates, Dawn-family themes). This folder is a Shopify theme I downloaded from my store. Turn it into a premium, paid-level theme without breaking it.
+
+MY STORE (fill this in, or ask me before you start)
+- Brand name: ___ | What I sell: ___ | Who buys: ___
+- Brand colours: ___ | Fonts I like: ___ | Feel: minimal / luxury / bold / playful
+- Country and currency: ___
+
+STEP 1 - AUDIT (do not edit anything yet)
+Read layout/theme.liquid, config/settings_schema.json, config/settings_data.json, every templates/*.json, and the sections, snippets, assets and locales folders. In 10 lines tell me how this theme is built, what looks basic, and what is slow or broken.
+
+STEP 2 - PLAN
+Give me a numbered upgrade plan, grouped by page. Wait for my "go" before you write code.
+
+STEP 3 - BUILD (after I say go), one part at a time
+1. Design system: colour schemes, type scale, spacing and button styles as theme settings I can change in the theme editor.
+2. Header: sticky header, announcement bar with rotating messages, clean dropdown or mega menu, mobile drawer.
+3. Home page: hero (image or video) with one clear call to action, featured collection, USP icon strip, testimonials, brand story, FAQ, newsletter. Each one is its own section with blocks and presets.
+4. Product page: gallery with zoom, sticky add-to-cart on mobile, variant swatches, trust badges, delivery and returns info, size-chart pop-up, a "frequently bought together" block, and a slot for a reviews app block.
+5. Collection page: filters and sorting that work with Shopify Search &amp; Discovery, quick add, product cards that show the second image on hover.
+6. Cart: slide-out cart drawer with a free-shipping progress bar and one upsell block.
+7. Footer, search and 404 pages polished to match.
+
+RULES
+- Keep Online Store 2.0: JSON templates, sections everywhere, app blocks (@app) still work.
+- Every new text, image, colour and link is editable in the theme editor (schema settings + locales/en.default.json). No hard-coded copy.
+- Mobile first and fast: no jQuery, no new external CDNs, images through image_url with srcset and lazy loading, JavaScript deferred, CSS loaded per section.
+- Accessible: alt text, visible focus states, AA contrast, menus and drawers work with the keyboard.
+- SEO: one H1 per page, meta tags, Product and Organization JSON-LD.
+- Do not delete or rename sections or settings that templates already use. Do not touch checkout.
+- If Shopify CLI is installed, run "shopify theme check" after each part and fix every error.
+
+OUTPUT
+After each part: the files you changed, one line on what changed in each, and how I can preview it. At the end: a changelog, a test checklist for desktop and mobile, and the exact steps to zip this folder and upload it as a new draft theme (Online Store &gt; Import theme &gt; Upload zip file), or to preview it live with "shopify theme dev".</pre><button onclick="navigator.clipboard.writeText(document.getElementById('ap').innerText).then(()=>{this.innerText='Copied ✅'})" style="display: inline-block; padding: 12px 18px; border-radius: 10px; border: 0; background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; cursor: pointer;">📋 Copy prompt</button></li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 4: Preview safely, then publish</div>
+      <ul class="bullets-list">
+        <li>Zip the folder again (the theme folders at the top level of the zip).</li>
+        <li>Online Store → <b>Draft themes</b> → <b>Import theme</b> → <b>Upload zip file</b> → <b>Choose File</b> → <b>Upload</b>.</li>
+        <li>Open <b>Preview</b>, check desktop and mobile, then <b>Publish</b> when you're happy.</li>
+        <li>With Shopify CLI you can preview live while the AI edits: run <code>shopify theme dev</code> inside the folder.</li>
+        <li>Never edit your live theme directly. Always work on a draft copy.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Before you sell or reuse a theme</div>
+      <ul class="bullets-list">
+        <li>Themes bought from the Shopify Theme Store are licensed to one store only.</li>
+        <li>If you plan to sell a theme or use it for clients, read the licence of the theme you started from and Shopify's Theme Store requirements first.</li>
+      </ul>
+    </div>
+  
+    </div>
+
+    <div class="checklist-card">
+      <div class="checklist-heading">⚡ Action Checklist</div>
+      <div class="checklist-items">
+        
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Trade (or any free theme) added as a draft</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Theme file downloaded from the email and unzipped</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Folder opened in Claude / Antigravity / Cursor / ChatGPT</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Prompt pasted, plan approved with "go"</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Zip uploaded as a draft theme and previewed on mobile</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Published only after the preview looks right</div>
+    </div>
+  
+      </div>
+    </div>
+
+    <div class="takeaway-card">
+      <div class="takeaway-label">💡 Key Takeaway</div>
+      <div class="takeaway-text">Don't code your store from scratch. Start from a free Shopify theme, let your AI work like a senior theme developer, and always preview on a draft first.</div>
+    </div>
+
+    <div class="video-cta-card">
+      <div class="video-cta-text">
+        <span>📺</span>
+        <span>Watch the complete in-depth video breakdown:</span>
+      </div>
+      <a href="https://www.youtube.com/@ratnakarmishra06" class="video-cta-link">Watch on YouTube</a>
+    </div>
+
+    <div class="footer-bar">
+      <span>@ratnakarcontent · YouTube: Ratnakar Mishra Digital Marketing</span>
+      <span>Official Resource Guide</span>
+    </div>
+  </div>
+  <div class="download-bar"><a href="https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/pdf/shopify-pro-theme-prompt">⬇️ Download the PDF</a></div>
+</body>
+</html>
