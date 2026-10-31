@@ -887,5 +887,30 @@
     "publishedMediaId": "18108870974353831",
     "permalink": "https://www.instagram.com/reel/DfH4f1TDYMb/",
     "publishedAt": "2026-10-30T15:18:11.446Z"
+  },
+  {
+    "id": 36,
+    "title": "Premium Shopify theme with Claude / Antigravity / ChatGPT (free Trade theme + pro prompt)",
+    "caption": "Stop coding your website. Let AI build your premium Shopify theme 🛍️👇\n\n1️⃣ Add the free Trade theme to your Shopify store\n2️⃣ Download its theme file and unzip it into a folder\n3️⃣ Open the folder in Claude, Antigravity or ChatGPT\n4️⃣ Paste my prompt: your AI works like a senior Shopify developer\n5️⃣ Upload it as a draft theme, preview, publish\n\n✅ A premium-level theme you can edit, manage and reuse\n⚡ No coding from scratch\n\n🔥 Comment \"THEME\" and I'll DM you the full prompt + setup guide 📩\n(DMs go to followers only, so follow first)\n\n#Reels #Shopify #ShopifyTheme #AITools #Ecommerce #ClaudeAI",
+    "scheduledTimeIST": "31-10-2026 18:39:00 IST",
+    "scheduledDate": "31-10-2026",
+    "scheduledTime": "18:39:00",
+    "localVideoPath": "data/shorts/shopify_ai_theme_v2.mp4",
+    "localCoverPath": "data/shorts/shopify_ai_theme_cover.jpg",
+    "videoUrl": null,
+    "coverUrl": null,
+    "containerId": null,
+    "status": "READY_TO_PUBLISH",
+    "manualPost": true,
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "THEME",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/shopify-pro-theme-prompt",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Shopify pro theme prompt + setup guide"
+    },
+    "manifest": "data/reels/2026-10-31-shopify-ai-theme.json",
+    "createdAt": "2026-10-31T13:10:01.890Z"
   }
 ]
