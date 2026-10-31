@@ -900,7 +900,7 @@
     "videoUrl": null,
     "coverUrl": null,
     "containerId": null,
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "manualPost": true,
     "isAiGenerated": false,
     "dm": {
@@ -911,6 +911,9 @@
       "resourceLabel": "Shopify pro theme prompt + setup guide"
     },
     "manifest": "data/reels/2026-10-31-shopify-ai-theme.json",
-    "createdAt": "2026-10-31T13:10:01.890Z"
+    "createdAt": "2026-10-31T13:10:01.890Z",
+    "publishedMediaId": "18120525305060943",
+    "permalink": "https://www.instagram.com/reel/DfKTNwaDu1b/",
+    "publishedAt": "2026-10-31T13:48:56+0000"
   }
 ]
