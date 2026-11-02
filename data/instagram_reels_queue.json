@@ -915,5 +915,29 @@
     "publishedMediaId": "18120525305060943",
     "permalink": "https://www.instagram.com/reel/DfKTNwaDu1b/",
     "publishedAt": "2026-10-31T13:48:56+0000"
+  },
+  {
+    "id": 37,
+    "title": "Meta's AI edits your ads: from 20 Nov the risk is yours (Advantage+ creative checklist)",
+    "caption": "Meta's AI edits your ads. From 20 Nov, the risk is yours ⚠️👇\n\nMeta's updated terms (effective 20 Nov 2026) say its AI features \"may make mistakes\", and the advertiser is responsible for what they create or change, even features Meta switched on.\n\nDo this today:\n1️⃣ Ads Manager → Ads → Edit → Advantage+ creative\n2️⃣ Turn OFF what you didn't ask for: translation, text changes, AI images and backgrounds, music\n3️⃣ Open Advanced preview, some toggles hide there\n\n💬 Comment \"CHECK\" and I'll DM you the full checklist with screenshots 📩\n(DMs go to followers only, so follow @ratnakarcontent first. DMs may take a few hours this week)\n\n#Reels #MetaAds #FacebookAds #DigitalMarketing #AdvantagePlus #Ecommerce",
+    "scheduledTimeIST": "02-11-2026 17:52:00 IST",
+    "scheduledDate": "02-11-2026",
+    "scheduledTime": "17:52:00",
+    "localVideoPath": "data/shorts/meta_ai_check_v1.mp4",
+    "localCoverPath": "data/shorts/meta_ai_check_cover.jpg",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-meta-ai-check/meta_ai_check_v1.mp4",
+    "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-meta-ai-check/meta_ai_check_cover.jpg",
+    "containerId": "17910179916570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "CHECK",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/meta-ai-ads-checklist",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Meta AI ads checklist (with screenshots)"
+    },
+    "manifest": "data/reels/2026-11-02-meta-ai-ads-check.json",
+    "createdAt": "2026-11-02T12:23:43.727Z"
   }
 ]
