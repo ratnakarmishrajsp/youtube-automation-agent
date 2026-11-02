@@ -928,7 +928,7 @@
     "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-meta-ai-check/meta_ai_check_v1.mp4",
     "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-meta-ai-check/meta_ai_check_cover.jpg",
     "containerId": "17910179916570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "CHECK",
@@ -938,6 +938,10 @@
       "resourceLabel": "Meta AI ads checklist (with screenshots)"
     },
     "manifest": "data/reels/2026-11-02-meta-ai-ads-check.json",
-    "createdAt": "2026-11-02T12:23:43.727Z"
+    "createdAt": "2026-11-02T12:23:43.727Z",
+    "publishedMediaId": "18490216762129174",
+    "permalink": "https://www.instagram.com/reel/DfPTDhIEiFs/",
+    "publishedAt": "2026-11-02T12:24:10+0000",
+    "manualPost": true
   }
 ]
