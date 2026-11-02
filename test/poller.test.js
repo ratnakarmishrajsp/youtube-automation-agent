@@ -365,6 +365,84 @@ test('repeated Meta spam limits back off longer each time', async () => {
   assert.strictEqual(kv.store.get('poll:rate-limit-strikes'), '2');
 });
 
+// Three direct-resource reels, newest first as /me/media lists them.
+const threeReels = ['M1', 'M2', 'M3'].map((mediaId, i) => ({
+  queueId: 40 - i, mediaId, keywords: ['skill'], followGate: 'none',
+  youtubeUrl: 'https://example.com/skill', publishedAt: iso(NOW - (i + 1) * 3600e3),
+}));
+const dmsTo = (ig, commentId) => ig.sent.filter((s) => s.body.recipient?.comment_id === commentId).length;
+
+test('a pause that has run out does not slow the poll, though its key is still stored', async () => {
+  const kv = memoryKv();
+  await kv.put('poll:rate-limit-until', String(Date.now() - 60e3));
+  const comments = threeReels.map((r, i) => ({ media: r.mediaId, id: `E${i}`, text: 'skill', timestamp: iso(NOW - 60e3), from: { id: `U${i}`, username: `fan${i}` } }));
+  const ig = fakeInstagram({ comments, registry: threeReels });
+  await runPoll(env(kv));
+  assert.deepStrictEqual(['E0', 'E1', 'E2'].map((id) => dmsTo(ig, id)), [1, 1, 1], 'every reel served in one run');
+});
+
+test('answered comments on newer reels do not use up the run; an older reel still gets its DM', async () => {
+  const kv = memoryKv();
+  const comments = [];
+  for (const media of ['M1', 'M2']) {
+    for (let i = 0; i < 8; i++) {
+      const username = `${media}fan${i}`;
+      comments.push({ media, id: `${media}A${i}`, text: 'skill', timestamp: iso(NOW - (i + 2) * 60e3), from: { id: username, username } });
+      await kv.put(`d:${media}:${username}`, '1');
+    }
+  }
+  comments.push({ media: 'M3', id: 'OLD1', text: 'skill', timestamp: iso(NOW - 60e3), from: { id: 'U9', username: 'waiting' } });
+  const ig = fakeInstagram({ comments, registry: threeReels });
+  await runPoll(env(kv));
+  assert.strictEqual(dmsTo(ig, 'OLD1'), 1);
+  assert.strictEqual(ig.sent.length, 1, 'answered comments get nothing again');
+});
+
+test('a comment Meta keeps refusing with "unknown error" is dropped after 3 tries and stops holding up other reels', async () => {
+  const kv = memoryKv();
+  const comments = [
+    { media: 'M1', id: 'BAD', text: 'skill', timestamp: iso(NOW - 120e3), from: { id: 'U1', username: 'refused' } },
+    { media: 'M2', id: 'GOOD', text: 'skill', timestamp: iso(NOW - 60e3), from: { id: 'U2', username: 'fan' } },
+  ];
+  const ig = fakeInstagram({ comments, registry: threeReels });
+  const fake = global.fetch;
+  let refused = 0;
+  global.fetch = async (input, init = {}) => {
+    if (init.method === 'POST' && JSON.parse(init.body).recipient?.comment_id === 'BAD') {
+      refused++;
+      return { ok: true, json: async () => ({ error: { code: 1, message: 'An unknown error has occurred.' } }) };
+    }
+    return fake(input, init);
+  };
+  const pauseRunsOut = () => kv.store.set('poll:rate-limit-until', String(Date.now() - 1000));
+
+  const isPaused = () => Number(kv.store.get('poll:rate-limit-until')) > Date.now();
+
+  // Run 1: the refusal is the first send, so it may be an account block: pause.
+  await runPoll(env(kv));
+  assert.ok(isPaused(), 'an unknown error before any send pauses the poll');
+  assert.strictEqual(dmsTo(ig, 'GOOD'), 0);
+  pauseRunsOut();
+  coldStart();
+
+  // Run 2: the refused comment waits until the end; the other reel goes first.
+  await runPoll(env(kv));
+  assert.strictEqual(dmsTo(ig, 'GOOD'), 1, 'the other reel is served before the refused comment');
+  assert.strictEqual(refused, 2);
+  assert.ok(!isPaused(), 'after a DM went through, the same error fails only that comment');
+  coldStart();
+
+  // Run 3: third refusal drops it; a 4th run does not try it again.
+  await runPoll(env(kv));
+  assert.strictEqual(refused, 3);
+  assert.ok(JSON.parse(kv.store.get('poll:state')).dropped.BAD, 'remembered as dropped');
+  pauseRunsOut();
+  coldStart();
+  await runPoll(env(kv));
+  assert.strictEqual(refused, 3, 'the dropped comment is not tried again');
+  assert.strictEqual(dmsTo(ig, 'GOOD'), 1, 'nobody gets a second DM');
+});
+
 test('state store over Durable Object storage honours TTLs, json reads and prefix lists', async () => {
   const { storageKv } = require('../workers/auto-dm/src/store.js');
   const map = new Map();

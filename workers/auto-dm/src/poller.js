@@ -8,7 +8,7 @@
 import { graphGet } from './instagram.js';
 import {
   getRegistry, handleCommentsEvent, handleMessagesEvent, logEvent, flushLogs, kvPut, hasPendingInMemory,
-  startRun, sendBudgetLeft, MAX_SEND_FAILURES,
+  startRun, sendBudgetLeft, sendsMade, MAX_SEND_FAILURES,
 } from './handlers.js';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -29,6 +29,13 @@ let memState = null; // poll state kept between cron runs of this isolate
 // Tests simulate a cold start with this.
 export function resetPollMemory() {
   memState = null;
+}
+
+// The pause key outlives the pause (its TTL is 7 h), so only a time still ahead counts.
+// Checking that the key merely existed kept the poll at one comment per run for 7 h after
+// every Meta limit, and reels further down the list got no DMs (25 Oct – 1 Nov 2026).
+async function paused(env) {
+  return Number(await env.AUTO_DM.get(RATE_LIMIT_KEY)) > Date.now();
 }
 
 // Instagram timestamps look like "2026-10-10T16:16:29+0000".
@@ -81,6 +88,31 @@ async function newComments(mediaId, highWater, now, token) {
   return out.sort((a, b) => a.at - b.at);
 }
 
+// DM one comment. Returns `done` once it needs nothing more, and `counted` when it sent (or
+// tried to) and so counts toward the per-run limits. Answered comments are re-read while a
+// reel's high-water mark lags; counting them let the newer reels use up every run, so older
+// busy reels (India Post, SKILL) got no DMs for days.
+async function tryComment(env, workerHost, registry, state, c, mediaId, from) {
+  const sendsBefore = sendsMade();
+  const ok = await handleCommentsEvent({ id: c.id, text: c.text, from, media: { id: mediaId } }, env, workerHost, registry);
+  const counted = !ok || sendsMade() > sendsBefore;
+  if (ok) {
+    delete state.fails[c.id];
+    return { done: true, counted };
+  }
+  // A comment that keeps failing (deleted, already answered by hand, or one Meta refuses
+  // with "An unknown error") is dropped after a few runs instead of stopping every comment
+  // behind it. Counted even when the failure paused the poll: uncounted, one refused
+  // comment paused everyone again every 7 h for a week.
+  state.fails[c.id] = (state.fails[c.id] || 0) + 1;
+  state.changed = true;
+  if (state.fails[c.id] < MAX_SEND_FAILURES) return { done: false, counted };
+  delete state.fails[c.id];
+  state.dropped[c.id] = c.at;
+  await logEvent(env, { type: 'comment_abandoned', user: from.username, mediaId, commentId: c.id });
+  return { done: true, counted };
+}
+
 async function pollComments(env, workerHost, registry, state, token) {
   const now = Date.now();
   const watched = watchedReels(registry, now);
@@ -88,7 +120,16 @@ async function pollComments(env, workerHost, registry, state, token) {
 
   const counts = await commentCounts(watched, token);
   let processed = 0;
+  const retries = []; // comments that failed on an earlier run, tried after everyone else
   state.fails = state.fails || {};
+  // Comments given up on: { commentId: comment time }, kept until they leave the 7-day window.
+  state.dropped = state.dropped || {};
+  for (const [id, at] of Object.entries(state.dropped)) {
+    if (now - at > COMMENT_WINDOW_MS) {
+      delete state.dropped[id];
+      state.changed = true;
+    }
+  }
   for (const [mediaId, count] of counts) {
     if (count === state.counts[mediaId]) continue;
 
@@ -107,30 +148,42 @@ async function pollComments(env, workerHost, registry, state, token) {
       if (processedForMedia >= MAX_COMMENTS_PER_MEDIA) break;
       const from = c.from || { username: c.username };
       if (!from.username && c.username) from.username = c.username;
-      const ok = await handleCommentsEvent({ id: c.id, text: c.text, from, media: { id: mediaId } }, env, workerHost, registry);
-      if (await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
-      processed++;
-      processedForMedia++;
-      if (!ok) {
-        // A comment that keeps failing (deleted, already answered by hand) is
-        // skipped after a few runs instead of stopping every comment behind it.
-        state.fails[c.id] = (state.fails[c.id] || 0) + 1;
-        state.changed = true;
-        if (state.fails[c.id] < MAX_SEND_FAILURES) continue;
-        await logEvent(env, { type: 'comment_abandoned', user: from.username, mediaId, commentId: c.id });
+      if (state.fails[c.id]) {
+        retries.push({ c, mediaId, from });
+        continue;
       }
-      delete state.fails[c.id];
-      completed.add(c.id);
-      while (oldestIndex < comments.length && completed.has(comments[oldestIndex].id)) {
-        state.hw[mediaId] = Math.max(state.hw[mediaId] || 0, comments[oldestIndex].at);
-        oldestIndex++;
-        state.changed = true;
+      let done = Boolean(state.dropped[c.id]);
+      if (!done) {
+        const result = await tryComment(env, workerHost, registry, state, c, mediaId, from);
+        done = result.done;
+        if (result.counted) {
+          processed++;
+          processedForMedia++;
+        }
       }
+      if (done) {
+        completed.add(c.id);
+        while (oldestIndex < comments.length && completed.has(comments[oldestIndex].id)) {
+          state.hw[mediaId] = Math.max(state.hw[mediaId] || 0, comments[oldestIndex].at);
+          oldestIndex++;
+          state.changed = true;
+        }
+      }
+      if (await paused(env)) return;
     }
     if (completed.size === comments.length) {
       state.counts[mediaId] = count;
       state.changed = true;
     }
+  }
+
+  // Last, so a comment Meta keeps refusing cannot pause the poll before the others get
+  // their DM (1 Nov 2026: such refusals held up ~800 requests). Once it succeeds or is
+  // dropped, the next run passes it like any answered comment.
+  for (const { c, mediaId, from } of retries) {
+    if (processed >= MAX_COMMENTS_PER_POLL || !sendBudgetLeft(env)) return;
+    if ((await tryComment(env, workerHost, registry, state, c, mediaId, from)).counted) processed++;
+    if (await paused(env)) return;
   }
 }
 
@@ -165,7 +218,7 @@ async function pollReplies(env, workerHost, registry, state, token) {
           { sender: { id: other.id, username: other.username }, timestamp: toMs(m.created_time), message: { mid: m.id, text: m.message || '' } },
           env, workerHost, registry
         );
-        if (await env.AUTO_DM.get(RATE_LIMIT_KEY)) return;
+        if (await paused(env)) return;
         // A failed send for this user (not a spam limit) is counted in its pending
         // record; move on to the next conversation instead of stopping the queue.
         if (!ok) break;
@@ -183,8 +236,7 @@ async function pollReplies(env, workerHost, registry, state, token) {
 
 export async function runPoll(env) {
   if (!env.AUTO_DM || !env.IG_ACCESS_TOKEN) return;
-  const pausedUntil = Number(await env.AUTO_DM.get(RATE_LIMIT_KEY)) || 0;
-  if (pausedUntil > Date.now()) return;
+  if (await paused(env)) return;
   const workerHost = env.WORKER_HOST;
   const token = env.IG_ACCESS_TOKEN;
   const registry = await getRegistry(env);
@@ -199,7 +251,7 @@ export async function runPoll(env) {
   // Pending resource requests take priority over new comment prompts. A Meta
   // send limit in the comments pass must not starve people waiting for a PDF.
   for (const [name, step] of [['replies', pollReplies], ['comments', pollComments]]) {
-    if (Number(await env.AUTO_DM.get(RATE_LIMIT_KEY)) > Date.now()) break;
+    if (await paused(env)) break;
     try {
       await step(env, workerHost, registry, state, token);
     } catch (err) {

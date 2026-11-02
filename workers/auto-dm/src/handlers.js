@@ -57,6 +57,11 @@ export function sendBudgetLeft(env) {
   return sendsThisRun < max;
 }
 
+// Sends made so far in this poll (the poller counts only comments that sent something).
+export function sendsMade() {
+  return sendsThisRun;
+}
+
 // Every Instagram send goes through here: spaced SEND_SPACING_MS apart, and counted.
 async function paced(env, send) {
   const wait = lastSendAt + (Number(env.SEND_SPACING_MS) || 0) - Date.now();
@@ -81,10 +86,21 @@ function publicRepliesOn(env) {
   return env.PUBLIC_REPLIES === 'on';
 }
 
+// "An unknown error has occurred" is what Meta sent during the 23 Oct account block, but it
+// also comes back for single comments it will not answer: on 1 Nov 2026 one user was refused
+// 5 s after another was DMed. Once this poll has sent something the account is not blocked,
+// so that error only fails the one comment or user.
+function isAccountLimit(err) {
+  if (!isRateLimitError(err)) return false;
+  const unknownOnly = !/limit how often|rate limit|too many requests|temporarily blocked/i.test(err?.message || '') &&
+    ![4, 17, 32, 613].includes(Number(err?.graphError?.code));
+  return !(unknownOnly && sendsThisRun > 0);
+}
+
 // Meta's spam limit: pause 30 min, then 1 h for every further limit in a row.
 // Retrying sooner only extends the block.
 async function pauseForRateLimit(env, err) {
-  if (!isRateLimitError(err)) return;
+  if (!isAccountLimit(err)) return;
   const strikes = Number(env.AUTO_DM && await env.AUTO_DM.get(STRIKES_KEY)) || 0;
   const until = Date.now() + Math.min(RATE_LIMIT_PAUSE_MS * 2 ** strikes, RATE_LIMIT_MAX_PAUSE_MS);
   await kvPut(env, RATE_LIMIT_KEY, String(until), { expirationTtl: 7 * 3600 });
@@ -302,7 +318,7 @@ export async function handleCommentsEvent(changeValue, env, workerHost, registry
       } catch (err) {
         console.warn(`Private reply variant "${name}" failed:`, err.message);
         failures.push(`${name}: ${err.message}`);
-        if (isRateLimitError(err)) {
+        if (isAccountLimit(err)) {
           await pauseForRateLimit(env, err);
           break;
         }
@@ -456,7 +472,7 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
     } catch (err) {
       await pauseForRateLimit(env, err);
       await logEvent(env, { type: 'error', user: username, mediaId: pendingState.mediaId, error: err.message });
-      if (!isRateLimitError(err) && username) {
+      if (!isAccountLimit(err) && username) {
         // Not a spam limit: this user cannot be messaged right now. Count it, give up
         // after a few runs, so a stuck user never blocks the rest of the queue.
         const fails = (pendingState.fails || 0) + 1;
@@ -480,7 +496,7 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
       try {
         await paced(env, () => sendDirectMessage(senderId, decision.reply, token));
       } catch (btnErr) {
-        if (!decision.replyFallback || isRateLimitError(btnErr)) throw btnErr;
+        if (!decision.replyFallback || isAccountLimit(btnErr)) throw btnErr;
         console.warn('Button reminder failed, sending quick reply:', btnErr.message);
         await paced(env, () => sendDirectMessage(senderId, decision.replyFallback, token));
       }
