@@ -956,9 +956,13 @@
     "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-flow-agent/flow_agent_v2.mp4",
     "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-flow-agent/flow_agent_cover.jpg?v=1",
     "containerId": "17910296244570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": true,
     "manifest": "data/reels/2026-11-03-flow-agent.json",
-    "createdAt": "2026-11-03T07:16:18.680Z"
+    "createdAt": "2026-11-03T07:16:18.680Z",
+    "attempts": 1,
+    "publishedMediaId": "17955855762318613",
+    "permalink": "https://www.instagram.com/reel/DfRUrJGivo1/",
+    "publishedAt": "2026-11-03T07:16:46.061Z"
   }
 ]
