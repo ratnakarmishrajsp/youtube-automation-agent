@@ -943,5 +943,22 @@
     "permalink": "https://www.instagram.com/reel/DfPTDhIEiFs/",
     "publishedAt": "2026-11-02T12:24:10+0000",
     "manualPost": true
+  },
+  {
+    "id": 38,
+    "title": "Google Flow Agent: 100 AI images from one paste (and videos too)",
+    "caption": "Google Flow makes 100 AI images from ONE paste 🤯👇\n\nNo MCP connector. No Claude prompt. No Antigravity.\nFlow now has a built-in Agent:\n\n1️⃣ Open Google Flow → tap \"Agent\"\n2️⃣ Paste all your prompts at once (write them with ChatGPT or Gemini)\n3️⃣ The Agent reads every prompt and makes all the images together\n\n🎬 Works for videos too: give it your storyboard and it makes every scene, with your saved avatar as the same character.\n\n⚡ It asks you to approve the credits before it starts.\n💾 Save this for your next content batch.\n\n#Reels #GoogleFlow #AItools #GeminiAI #AIimages #ContentCreation",
+    "scheduledTimeIST": "03-11-2026 12:45:00 IST",
+    "scheduledDate": "03-11-2026",
+    "scheduledTime": "12:45:00",
+    "localVideoPath": "data/shorts/flow_agent_v2.mp4",
+    "localCoverPath": "data/shorts/flow_agent_cover.jpg",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-flow-agent/flow_agent_v2.mp4",
+    "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-flow-agent/flow_agent_cover.jpg?v=1",
+    "containerId": "17910296244570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": true,
+    "manifest": "data/reels/2026-11-03-flow-agent.json",
+    "createdAt": "2026-11-03T07:16:18.680Z"
   }
 ]
