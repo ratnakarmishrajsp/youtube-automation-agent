@@ -977,7 +977,7 @@
     "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-agency-vs-ai/agency_vs_ai_v1.mp4",
     "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-agency-vs-ai/agency_vs_ai_cover.jpg",
     "containerId": "17910483459570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "SKILL",
@@ -988,6 +988,10 @@
       "message": "✅ Here's your resource!\n\n🔗 Meta Ads Autopilot skill (free download): https://github.com/ratnakarmishrajsp/ratnakar-meta-ads-skill\n\n🎓 Want to set it up step by step? My full video course (Hindi) + setup guide PDF: https://superprofile.bio/course/d28d58bb-0912-4937-a413-bfdadfadf02b\n\nAny questions? Just reply here 🙂"
     },
     "manifest": "data/reels/2026-11-04-agency-vs-ai.json",
-    "createdAt": "2026-11-04T11:54:43.499Z"
+    "createdAt": "2026-11-04T11:54:43.499Z",
+    "attempts": 1,
+    "publishedMediaId": "17919206079523270",
+    "permalink": "https://www.instagram.com/reel/DfUZUlIDyuh/",
+    "publishedAt": "2026-11-04T11:56:24.947Z"
   }
 ]
