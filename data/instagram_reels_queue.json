@@ -964,5 +964,30 @@
     "publishedMediaId": "17955855762318613",
     "permalink": "https://www.instagram.com/reel/DfRUrJGivo1/",
     "publishedAt": "2026-11-03T07:16:46.061Z"
+  },
+  {
+    "id": 39,
+    "title": "Agency vs AI: the Meta Ads match (4 rounds, 4-0) + course",
+    "caption": "Agency vs AI: the Meta Ads match 🥊👇\n\nRound 1: Today's report? Agency: tomorrow. AI: 30 seconds.\nRound 2: Am I really in profit? AI counts shipping, RTO and GST.\nRound 3: A Rs 500 campaign in one line, created PAUSED.\nRound 4: Fix my ads: losers off, winners scaled, only after your YES.\n\nFinal score: 4-0.\n\n🔥 Comment \"SKILL\" and I'll DM you the free skill + my full course link 📩\n(DMs go to followers only, so follow @ratnakarcontent first)\n\n#Reels #MetaAds #FacebookAds #ClaudeAI #DigitalMarketing #Ecommerce",
+    "scheduledTimeIST": "04-11-2026 17:23:00 IST",
+    "scheduledDate": "04-11-2026",
+    "scheduledTime": "17:23:00",
+    "localVideoPath": "data/shorts/agency_vs_ai_v1.mp4",
+    "localCoverPath": "data/shorts/agency_vs_ai_cover.jpg",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-agency-vs-ai/agency_vs_ai_v1.mp4",
+    "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-agency-vs-ai/agency_vs_ai_cover.jpg",
+    "containerId": "17910483459570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "SKILL",
+      "link": "https://github.com/ratnakarmishrajsp/ratnakar-meta-ads-skill",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Meta Ads Autopilot skill (free download)",
+      "message": "✅ Here's your resource!\n\n🔗 Meta Ads Autopilot skill (free download): https://github.com/ratnakarmishrajsp/ratnakar-meta-ads-skill\n\n🎓 Want to set it up step by step? My full video course (Hindi) + setup guide PDF: https://superprofile.bio/course/d28d58bb-0912-4937-a413-bfdadfadf02b\n\nAny questions? Just reply here 🙂"
+    },
+    "manifest": "data/reels/2026-11-04-agency-vs-ai.json",
+    "createdAt": "2026-11-04T11:54:43.499Z"
   }
 ]
