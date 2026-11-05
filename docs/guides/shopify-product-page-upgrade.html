@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { padding: 18px 16px 96px; font-size: 16px; }
+    .page-container { max-width: 680px; }
+    .download-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(10, 15, 29, 0.96); border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; }
+    .download-bar a { display: inline-block; width: 100%; max-width: 420px; padding: 14px 18px; border-radius: 12px;
+      background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; text-decoration: none; }
+    @media (max-width: 600px) {
+      body { font-size: 15.5px; }
+      .header-banner { flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+  <title>SHOPIFY PRODUCT PAGE UPGRADE - Ratnakar Mishra Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0A0F1D;
+      color: #E2E8F0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 22px;
+    }
+    .creator-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .creator-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00FF66 0%, #38BDF8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      color: #0A0F1D;
+      font-size: 16px;
+    }
+    .creator-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .creator-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+    .creator-handle {
+      font-size: 11px;
+      color: #38BDF8;
+      font-weight: 600;
+    }
+    .badge-tag {
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid #00FF66;
+      color: #00FF66;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hero-section {
+      background: linear-gradient(145deg, rgba(20, 30, 55, 0.7) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #00FF66;
+    }
+    .doc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .doc-subtitle {
+      color: #94A3B8;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .section-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFE600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+    .section-heading::before {
+      content: '■';
+      color: #00FF66;
+      font-size: 11px;
+    }
+    /* copy-paste prompt blocks inside a bullet */
+    pre.prompt { white-space: pre-wrap; word-break: break-word; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.55; color: #E2E8F0; margin: 4px 0 10px; }
+    .bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bullets-list li {
+      position: relative;
+      padding-left: 20px;
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .bullets-list li::before {
+      content: '👉';
+      position: absolute;
+      left: 0;
+      top: 0px;
+      font-size: 12px;
+    }
+    .checklist-card {
+      background: rgba(16, 32, 28, 0.75);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .checklist-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #00FF66;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #F1F5F9;
+    }
+    .check-box {
+      min-width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      background: #00FF66;
+      color: #0A0F1D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+    .takeaway-card {
+      background: linear-gradient(135deg, rgba(255, 230, 0, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid #FFE600;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .takeaway-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 11.5px;
+      color: #FFE600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .takeaway-text {
+      font-size: 13.5px;
+      color: #FFFFFF;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .video-cta-card {
+      background: #0F172A;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .video-cta-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #38BDF8;
+    }
+    .video-cta-link {
+      background: #38BDF8;
+      color: #0A0F1D;
+      padding: 7px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .footer-bar {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="header-banner">
+      <div class="creator-brand">
+        <div class="creator-avatar">R</div>
+        <div class="creator-info">
+          <span class="creator-name">Ratnakar Mishra</span>
+          <span class="creator-handle">@ratnakarcontent</span>
+        </div>
+      </div>
+      <div class="badge-tag">🛒 MORE ORDERS</div>
+    </div>
+
+    <div class="hero-section">
+      <h1 class="doc-title">SHOPIFY PRODUCT PAGE UPGRADE</h1>
+      <p class="doc-subtitle">The four things I added to my own product page (mahekh.in) to get more orders, and the exact prompts to add them to your store with Claude Code, Antigravity or Codex.</p>
+    </div>
+
+    <div class="sections-container">
+      
+    <div class="section-card">
+      <div class="section-heading">What you need</div>
+      <ul class="bullets-list">
+        <li>Your <b>Shopify store admin</b> (owner or a staff login with theme access).</li>
+        <li>An AI that can work on a folder of code: <b>Claude Code</b>, <b>Antigravity</b> or <b>Codex</b>.</li>
+        <li>Optional, for a live preview: <a href="https://shopify.dev/docs/storefronts/themes/tools/cli">Shopify CLI</a>.</li>
+        <li><b>Good to know:</b> Claude's one-click Shopify connector can read your store, but it <b>can't edit your live theme</b>. Product page changes happen in your theme code, which is why you open the theme folder in your AI.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 1: Connect your theme to your AI (safely)</div>
+      <ul class="bullets-list">
+        <li>Shopify admin → <b>Online Store</b> → <b>Themes</b> → the <b>…</b> menu on your live theme → <b>Duplicate</b>. This copy is your backup. Never edit the live theme directly.</li>
+        <li>Get the code of the copy: <b>…</b> → <b>Download theme file</b> (Shopify emails you a .zip, unzip it), or with Shopify CLI run <code>shopify theme pull</code> and pick the copy.</li>
+        <li>Open that folder as the project in <b>Claude Code</b>, <b>Antigravity</b> or <b>Codex</b>, then paste the prompts below one at a time.</li>
+        <li>Live preview while the AI works: run <code>shopify theme dev</code> inside the folder and open the preview link on your phone.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Upgrade 1: Estimated delivery date</div>
+      <ul class="bullets-list">
+        <li>Shows the buyer <b>when it will arrive</b> before they buy, plus a pincode check and a dispatch countdown. On my page: <i>"Delivery available to [pincode] by Sat, 7 Nov"</i>.</li>
+        <li><pre class="prompt">You are editing my Shopify theme. On the product page, right under the price, add an "Estimated delivery" block:
+- Show a date range: today plus three to five working days, skip Sundays, written like "Sat, Nov 7".
+- Add a pincode checker: a six-digit input and a CHECK button. Check the pincode against a list of serviceable pincodes I will give you (keep the list in a theme setting or a JSON asset). Show "Delivery available to [pincode] by [date]" in green, or "Sorry, we don't deliver here yet" in red.
+- Add a line under it: "Order within [hours]h [minutes]m to dispatch tomorrow", counting down to my daily dispatch cutoff time (a theme setting).
+- Make it a block I can move or switch off in the theme editor. Mobile first. Don't change any other section.</pre></li>
+        <li>Use your <b>real</b> courier times and serviceable pincodes. A wrong promise brings returns.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Upgrade 2: Short premium description (HTML + CSS)</div>
+      <ul class="bullets-list">
+        <li>Replace a plain wall of text with a short, designed story: a dark hero card, what's inside, how to use it.</li>
+        <li><pre class="prompt">Write a short premium product description for [product name] as HTML + CSS for my Shopify product page.
+- Parts: a dark hero card with a two-line headline and one short paragraph, an "Inside the pack" panel, and a "How to use" panel.
+- Scope all CSS under one class (for example .pd-premium) so it can't break my theme. No external fonts or scripts.
+- Mobile first, easy to read on small screens, in my brand colours: [colours].
+- Build it as a new section (sections/premium-description.liquid) whose text comes from section settings, and add it to the product template under the main product info.</pre></li>
+        <li>Keep it short: the buyer should get the feel of the product in a few seconds of scrolling.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Upgrade 3: Sticky Buy Now button</div>
+      <ul class="bullets-list">
+        <li>A bar with the product, price and <b>Buy Now</b> that stays on screen while the buyer scrolls, so buying is always one tap away.</li>
+        <li><pre class="prompt">Add a sticky Buy Now bar to the product page on mobile:
+- Fixed to the bottom of the screen with the product image, a short title, the current price and a Buy Now button.
+- Show it only after the main Add to cart / Buy Now buttons scroll out of view, and hide it again when they are back on screen.
+- Buy Now must use the variant and quantity selected in the main product form and go straight to checkout. Update the price when the variant changes.
+- Respect the iPhone safe area, don't cover my WhatsApp or chat buttons, and hide it on desktop.
+- Build it as a snippet included in the main product section, with an on/off theme setting.</pre></li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Upgrade 4: Sales notifications (real orders only)</div>
+      <ul class="bullets-list">
+        <li>Small pop-ups like <i>"Someone in Lucknow just bought this"</i> show that real people are buying. That proof creates urgency in the buyer's mind.</li>
+        <li><pre class="prompt">Add sales notifications to my product page using only real orders:
+- A small pop-up at the bottom left: product image, "Someone in [city] just bought [product]" and how long ago.
+- The data must come from real recent orders (a sales-pop app or a feed I control). If there are no recent orders, show nothing. Never invent names, cities or numbers.
+- One pop-up at a time, a few seconds each, with a close button, and never on top of the sticky Buy Now bar.</pre></li>
+        <li>Easiest route: a <b>sales-pop app from the Shopify App Store</b> that reads your real orders.</li>
+        <li><b>Never fake it.</b> Made-up "just bought" pop-ups or fake countdowns count as <b>false urgency</b> under India's dark-pattern guidelines (Central Consumer Protection Authority), and buyers stop trusting you.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 2: Preview, then publish</div>
+      <ul class="bullets-list">
+        <li>Check the page on your phone: the delivery check, the description, the sticky bar while you scroll, and the pop-ups.</li>
+        <li>With Shopify CLI: <code>shopify theme push --unpublished</code> uploads the work as a new draft theme. Or zip the folder and use <b>Online Store → Themes → Add theme → Upload zip file</b>.</li>
+        <li>Open <b>Preview</b>, test one real checkout, then <b>Publish</b>. Your old theme stays in the list as a backup.</li>
+      </ul>
+    </div>
+  
+    </div>
+
+    <div class="checklist-card">
+      <div class="checklist-heading">⚡ Action Checklist</div>
+      <div class="checklist-items">
+        
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Backup copy of the live theme made first</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Estimated delivery date + pincode check under the price</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Short premium HTML/CSS description</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Sticky Buy Now bar on mobile</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Sales notifications from real orders only</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Tested on a phone before publishing</div>
+    </div>
+  
+      </div>
+    </div>
+
+    <div class="takeaway-card">
+      <div class="takeaway-label">💡 Key Takeaway</div>
+      <div class="takeaway-text">Your product page is your salesman: show when it arrives, tell the story in a premium way, keep Buy Now one tap away, and show real proof that others are buying.</div>
+    </div>
+
+    <div class="video-cta-card">
+      <div class="video-cta-text">
+        <span>📺</span>
+        <span>Watch the complete in-depth video breakdown:</span>
+      </div>
+      <a href="https://youtube.com/shorts/rJNoEC_Bq_Q" class="video-cta-link">Watch on YouTube</a>
+    </div>
+
+    <div class="footer-bar">
+      <span>@ratnakarcontent · YouTube: Ratnakar Mishra Digital Marketing</span>
+      <span>Official Resource Guide</span>
+    </div>
+  </div>
+  <div class="download-bar"><a href="https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/pdf/shopify-product-page-upgrade">⬇️ Download the PDF</a></div>
+</body>
+</html>
