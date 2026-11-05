@@ -1006,7 +1006,7 @@
     "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-andromeda-2/andromeda_2_v1.mp4",
     "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-andromeda-2/andromeda_2_cover.jpg",
     "containerId": "17910611214570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "ANDROMEDA",
@@ -1016,6 +1016,10 @@
       "resourceLabel": "Meta Andromeda 2.0: full breakdown (document)"
     },
     "manifest": "data/reels/2026-11-05-andromeda-2.json",
-    "createdAt": "2026-11-05T07:26:00.429Z"
+    "createdAt": "2026-11-05T07:26:00.429Z",
+    "attempts": 1,
+    "publishedMediaId": "18134728243782370",
+    "permalink": "https://www.instagram.com/reel/DfWfYYKGFaK/",
+    "publishedAt": "2026-11-05T07:27:06.357Z"
   }
 ]
