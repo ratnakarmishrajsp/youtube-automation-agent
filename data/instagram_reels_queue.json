@@ -993,5 +993,29 @@
     "publishedMediaId": "17919206079523270",
     "permalink": "https://www.instagram.com/reel/DfUZUlIDyuh/",
     "publishedAt": "2026-11-04T11:56:24.947Z"
+  },
+  {
+    "id": 40,
+    "title": "Meta Andromeda 2.0: AI retrieval, primary text = targeting, creative diversification",
+    "caption": "Meta just launched Andromeda 2.0 while you were sleeping 🚨👇\n\nThe AI that decides who sees your ad has been rebuilt:\n\n→ It scores every ad and matches it to the right customer\n→ Audience targeting matters much less now\n→ Your primary text IS your targeting\n→ Copies of one ad won't work. Test different creatives, hooks and versions\n\nSave this before you launch your next campaign 📌\n\n🔥 Comment \"ANDROMEDA\" and I'll DM you the full Andromeda 2.0 breakdown 📩\n(DMs go to followers only, so follow @ratnakarcontent first)\n\n#Reels #MetaAds #FacebookAds #MetaAndromeda #DigitalMarketing #PerformanceMarketing",
+    "scheduledTimeIST": "05-11-2026 12:54:00 IST",
+    "scheduledDate": "05-11-2026",
+    "scheduledTime": "12:54:00",
+    "localVideoPath": "data/shorts/andromeda_2_v1.mp4",
+    "localCoverPath": "data/shorts/andromeda_2_cover.jpg",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-andromeda-2/andromeda_2_v1.mp4",
+    "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-andromeda-2/andromeda_2_cover.jpg",
+    "containerId": "17910611214570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "ANDROMEDA",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/meta-andromeda-2",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Meta Andromeda 2.0: full breakdown (document)"
+    },
+    "manifest": "data/reels/2026-11-05-andromeda-2.json",
+    "createdAt": "2026-11-05T07:26:00.429Z"
   }
 ]
