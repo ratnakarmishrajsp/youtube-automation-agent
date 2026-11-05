@@ -1021,5 +1021,29 @@
     "publishedMediaId": "18134728243782370",
     "permalink": "https://www.instagram.com/reel/DfWfYYKGFaK/",
     "publishedAt": "2026-11-05T07:27:06.357Z"
+  },
+  {
+    "id": 41,
+    "title": "Shopify product page upgrade: delivery date, premium description, sticky Buy Now, sales notifications",
+    "caption": "One Shopify trick that gets you more orders 🛒👇\n\nI added 4 things to my own product page:\n\n1️⃣ Estimated delivery date + pincode check\n2️⃣ A short premium description (HTML + CSS)\n3️⃣ A sticky Buy Now button\n4️⃣ Sales notifications (real orders only)\n\n⚡ Connect your Shopify theme to Claude, Antigravity or Codex and add all four with copy-paste prompts.\n\n🔥 Comment \"DOCUMENT\" and I'll DM you the full setup document 📩\n(DMs go to followers only, so follow @ratnakarcontent first)\n\n#Reels #Shopify #ShopifyTips #Ecommerce #D2CBrand #ClaudeAI",
+    "scheduledTimeIST": "06-11-2026 08:00:00 IST",
+    "scheduledDate": "06-11-2026",
+    "scheduledTime": "08:00:00",
+    "localVideoPath": "data/shorts/mahekh_page_v1.mp4",
+    "localCoverPath": "data/shorts/mahekh_page_cover.jpg",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-mahekh-page/mahekh_page_v1.mp4",
+    "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-mahekh-page/mahekh_page_cover.jpg",
+    "containerId": "17910661929570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "DOCUMENT",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/shopify-product-page-upgrade",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Shopify product page upgrade: setup document"
+    },
+    "manifest": "data/reels/2026-11-06-shopify-product-page.json",
+    "createdAt": "2026-11-05T13:38:30.135Z"
   }
 ]
