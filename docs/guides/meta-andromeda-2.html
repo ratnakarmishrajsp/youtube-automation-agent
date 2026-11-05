@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { padding: 18px 16px 96px; font-size: 16px; }
+    .page-container { max-width: 680px; }
+    .download-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(10, 15, 29, 0.96); border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; }
+    .download-bar a { display: inline-block; width: 100%; max-width: 420px; padding: 14px 18px; border-radius: 12px;
+      background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; text-decoration: none; }
+    @media (max-width: 600px) {
+      body { font-size: 15.5px; }
+      .header-banner { flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+  <title>META ANDROMEDA 2.0 - Ratnakar Mishra Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0A0F1D;
+      color: #E2E8F0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 22px;
+    }
+    .creator-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .creator-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00FF66 0%, #38BDF8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      color: #0A0F1D;
+      font-size: 16px;
+    }
+    .creator-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .creator-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+    .creator-handle {
+      font-size: 11px;
+      color: #38BDF8;
+      font-weight: 600;
+    }
+    .badge-tag {
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid #00FF66;
+      color: #00FF66;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hero-section {
+      background: linear-gradient(145deg, rgba(20, 30, 55, 0.7) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #00FF66;
+    }
+    .doc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .doc-subtitle {
+      color: #94A3B8;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .section-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFE600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+    .section-heading::before {
+      content: '■';
+      color: #00FF66;
+      font-size: 11px;
+    }
+    .bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bullets-list li {
+      position: relative;
+      padding-left: 20px;
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .bullets-list li::before {
+      content: '👉';
+      position: absolute;
+      left: 0;
+      top: 0px;
+      font-size: 12px;
+    }
+    .checklist-card {
+      background: rgba(16, 32, 28, 0.75);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .checklist-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #00FF66;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #F1F5F9;
+    }
+    .check-box {
+      min-width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      background: #00FF66;
+      color: #0A0F1D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+    .takeaway-card {
+      background: linear-gradient(135deg, rgba(255, 230, 0, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid #FFE600;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .takeaway-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 11.5px;
+      color: #FFE600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .takeaway-text {
+      font-size: 13.5px;
+      color: #FFFFFF;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .video-cta-card {
+      background: #0F172A;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .video-cta-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #38BDF8;
+    }
+    .video-cta-link {
+      background: #38BDF8;
+      color: #0A0F1D;
+      padding: 7px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .footer-bar {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="header-banner">
+      <div class="creator-brand">
+        <div class="creator-avatar">R</div>
+        <div class="creator-info">
+          <span class="creator-name">Ratnakar Mishra</span>
+          <span class="creator-handle">@ratnakarcontent</span>
+        </div>
+      </div>
+      <div class="badge-tag">🚀 ANDROMEDA 2.0</div>
+    </div>
+
+    <div class="hero-section">
+      <h1 class="doc-title">META ANDROMEDA 2.0</h1>
+      <p class="doc-subtitle">Meta has rebuilt the AI that decides which ad each person sees. Here is what changed, what it means for your Meta ads, and exactly what to test now.</p>
+    </div>
+
+    <div class="sections-container">
+      
+    <div class="section-card">
+      <div class="section-heading">What Andromeda is</div>
+      <ul class="bullets-list">
+        <li>Andromeda is Meta's <b>ads retrieval engine</b>: the first step that decides which ads even get a chance to be shown to a person. Out of tens of millions of eligible ads it keeps a few thousand, and Meta's ranking models then pick the winner.</li>
+        <li>It was built for <b>Advantage+</b>. More automation and more AI-made creatives mean far more ads competing for the same person, and Andromeda is how Meta sorts them.</li>
+        <li>The first version (Meta Engineering, 2 December 2024) reported <b>+6% recall</b> and <b>+8% ads quality on selected segments</b>.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">What's new in Andromeda 2.0</div>
+      <ul class="bullets-list">
+        <li>On <b>28 October 2026</b> Meta Engineering published the <b>next generation of Andromeda</b> (the version creators call Andromeda 2.0).</li>
+        <li>It now <b>scores every eligible ad</b> and surfaces the top candidates at <b>over one billion ads per second</b>, a <b>100x lift</b> over the 2024 system.</li>
+        <li>A new <b>Retrieval Mixture-of-Experts</b> model: several specialised "user towers" read each person's changing interests (ad engagement, context, LLM-based understanding of content, activity across Meta's apps), and every ad is routed to the experts that fit it best.</li>
+        <li>Ads are now read together with <b>real-time context</b>: where and when the ad would appear.</li>
+        <li>Meta says Andromeda has delivered a <b>2.4% increase in conversions on Facebook</b> since 2025.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">What it means for your ads</div>
+      <ul class="bullets-list">
+        <li>The AI decides who sees which ad by <b>reading the ad itself</b> and by watching how people react to it: watch time, likes, comments, shares, clicks.</li>
+        <li><b>Audience targeting matters much less.</b> Meta still applies your targeting rules, but with a broad or Advantage+ audience the system finds the people on its own. Narrow interest stacks add very little now.</li>
+        <li><b>Your primary text is your targeting.</b> The words in the ad tell the AI who it is for. "Still awake at 2 AM?" reaches a very different person than "New to the gym?".</li>
+        <li><b>Look-alike ads compete with each other.</b> Ten near-copies of one ad give the AI only one idea to work with. Really different ads give it many doors to different customers.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">What to test now (step by step)</div>
+      <ul class="bullets-list">
+        <li><b>Step 1:</b> One campaign with a broad or Advantage+ audience. Let the AI find the people.</li>
+        <li><b>Step 2:</b> Write 3 to 5 primary texts, each one for a different person or problem.</li>
+        <li><b>Step 3:</b> Make really different creatives: UGC video, static product shot, carousel, customer review, before/after, text post, founder story, demo, offer.</li>
+        <li><b>Step 4:</b> Give each creative a different hook: the first line of text and the first 3 seconds of video.</li>
+        <li><b>Step 5:</b> Run the versions together (V1, V2, V3…) and judge them on results after enough spend, not after one day.</li>
+        <li><b>Step 6:</b> Pause what does not bring results. Turn the winners into new variations and test again.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Primary text formula</div>
+      <ul class="bullets-list">
+        <li><b>Line 1:</b> call out the person or the problem ("Still awake at 2 AM?").</li>
+        <li><b>Line 2:</b> the result you promise, in plain words.</li>
+        <li><b>Line 3:</b> proof or detail: reviews, how it works, what's inside.</li>
+        <li><b>Line 4:</b> one clear call to action.</li>
+        <li>Write a separate version for every type of customer you want to reach. Each version opens a new door for Andromeda.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Sources</div>
+      <ul class="bullets-list">
+        <li>Meta Engineering, 28 Oct 2026: <a href="https://engineering.fb.com/2026/10/28/ml-applications/meta-andromeda-next-gen-ads-retrieval-gpu-co-design/">Meta Andromeda: next-gen ads retrieval</a></li>
+        <li>Meta Engineering, 2 Dec 2024: <a href="https://engineering.fb.com/2024/12/02/production-engineering/meta-andromeda-advantage-automation-next-gen-personalized-ads-retrieval-engine/">Meta Andromeda: next-gen personalized ads retrieval engine</a></li>
+        <li>"What it means" and the steps are practical advice from these changes, not quotes from Meta.</li>
+      </ul>
+    </div>
+  
+    </div>
+
+    <div class="checklist-card">
+      <div class="checklist-heading">⚡ Action Checklist</div>
+      <div class="checklist-items">
+        
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Broad or Advantage+ audience instead of narrow interest stacks</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>3 to 5 primary texts, each written for a different person</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>At least 4 to 5 really different creative formats</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>A different hook on every creative</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Versions tested together, winners turned into new variations</div>
+    </div>
+  
+      </div>
+    </div>
+
+    <div class="takeaway-card">
+      <div class="takeaway-label">💡 Key Takeaway</div>
+      <div class="takeaway-text">Andromeda 2.0 reads your ad to find your customer. Your creative and primary text are your targeting now, so test truly different ads, not copies.</div>
+    </div>
+
+    <div class="video-cta-card">
+      <div class="video-cta-text">
+        <span>📺</span>
+        <span>Watch the complete in-depth video breakdown:</span>
+      </div>
+      <a href="https://www.youtube.com/@ratnakarmishra06" class="video-cta-link">Watch on YouTube</a>
+    </div>
+
+    <div class="footer-bar">
+      <span>@ratnakarcontent · YouTube: Ratnakar Mishra Digital Marketing</span>
+      <span>Official Resource Guide</span>
+    </div>
+  </div>
+  <div class="download-bar"><a href="https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/pdf/meta-andromeda-2">⬇️ Download the PDF</a></div>
+</body>
+</html>
