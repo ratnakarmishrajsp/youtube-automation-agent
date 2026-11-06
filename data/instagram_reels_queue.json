@@ -1034,7 +1034,7 @@
     "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-mahekh-page/mahekh_page_v1.mp4",
     "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-mahekh-page/mahekh_page_cover.jpg",
     "containerId": "17910661929570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "DOCUMENT",
@@ -1044,6 +1044,10 @@
       "resourceLabel": "Shopify product page upgrade: setup document"
     },
     "manifest": "data/reels/2026-11-06-shopify-product-page.json",
-    "createdAt": "2026-11-05T13:38:30.135Z"
+    "createdAt": "2026-11-05T13:38:30.135Z",
+    "attempts": 1,
+    "publishedMediaId": "18111059846243138",
+    "permalink": "https://www.instagram.com/reel/DfXJ9JmGas7/",
+    "publishedAt": "2026-11-06T02:34:52.669Z"
   }
 ]
