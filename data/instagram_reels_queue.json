@@ -1070,5 +1070,29 @@
     "publishedMediaId": "18146696626607472",
     "permalink": "https://www.instagram.com/reel/DfZqglRlLzR/",
     "publishedAt": "2026-11-06T13:01:32.937Z"
+  },
+  {
+    "id": 43,
+    "title": "ChatGPT graphics prompt: graphics that don't look AI-made (paste the prompt, upload your old graphic)",
+    "caption": "ChatGPT graphics that don't look AI-made 🎨👇\n\nDefault ChatGPT gives everyone the same template, and people can tell it's AI.\nI made one prompt that fixes it:\n\n1️⃣ Paste the prompt in ChatGPT\n2️⃣ Upload your old graphic\n3️⃣ Get a clean, premium ad: one product, one line, your brand\n\n🔥 Comment \"PROMPT\" and I'll DM you the full prompt for free 📩\n(DMs go to followers only, so follow @ratnakarcontent first)\n\n#Reels #ChatGPT #AIGraphics #GraphicDesign #MetaAds #ChatGPTPrompts",
+    "scheduledTimeIST": "07-11-2026 08:00:00 IST",
+    "scheduledDate": "07-11-2026",
+    "scheduledTime": "08:00:00",
+    "localVideoPath": "data/shorts/chatgpt_graphics_v1.mp4",
+    "localCoverPath": "data/shorts/chatgpt_graphics_cover.jpg",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-chatgpt-graphics/chatgpt_graphics_v1.mp4",
+    "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-chatgpt-graphics/chatgpt_graphics_cover.jpg",
+    "containerId": "17910895965570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "PROMPT",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/chatgpt-graphics-prompt",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "ChatGPT premium graphics prompt"
+    },
+    "manifest": "data/reels/2026-11-07-chatgpt-graphics-prompt.json",
+    "createdAt": "2026-11-07T02:29:39.005Z"
   }
 ]
