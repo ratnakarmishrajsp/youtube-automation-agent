@@ -1083,7 +1083,7 @@
     "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-chatgpt-graphics/chatgpt_graphics_v1.mp4",
     "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-chatgpt-graphics/chatgpt_graphics_cover.jpg",
     "containerId": "17910895965570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "PROMPT",
@@ -1093,6 +1093,10 @@
       "resourceLabel": "ChatGPT premium graphics prompt"
     },
     "manifest": "data/reels/2026-11-07-chatgpt-graphics-prompt.json",
-    "createdAt": "2026-11-07T02:29:39.005Z"
+    "createdAt": "2026-11-07T02:29:39.005Z",
+    "attempts": 1,
+    "publishedMediaId": "18075046124590922",
+    "permalink": "https://www.instagram.com/reel/DfbHDCRGdHg/",
+    "publishedAt": "2026-11-07T02:32:13.553Z"
   }
 ]
