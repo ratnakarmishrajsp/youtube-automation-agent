@@ -1111,9 +1111,13 @@
     "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-diwali/diwali_v1.mp4",
     "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-diwali/diwali_cover.jpg",
     "containerId": "17911165020570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": false,
     "manifest": "data/reels/2026-11-08-diwali-meta-ads.json",
-    "createdAt": "2026-11-08T17:32:56.032Z"
+    "createdAt": "2026-11-08T17:32:56.032Z",
+    "attempts": 1,
+    "publishedMediaId": "18025980716922726",
+    "permalink": "https://www.instagram.com/reel/DffTK3HkbVU/",
+    "publishedAt": "2026-11-08T17:33:25.811Z"
   }
 ]
