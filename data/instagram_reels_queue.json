@@ -1098,5 +1098,22 @@
     "publishedMediaId": "18075046124590922",
     "permalink": "https://www.instagram.com/reel/DfbHDCRGdHg/",
     "publishedAt": "2026-11-07T02:32:13.553Z"
+  },
+  {
+    "id": 44,
+    "title": "Happy Diwali: Meta ads down since October because of festive season, CPM/CPC up every year, keep patience",
+    "caption": "Happy Diwali 🪔 Meta ads down since October? Read this 👇\n\nIf your business runs on Meta and Google ads, the last few weeks were tough. Since October, results have been going down.\n\nThe reason? Festive season. Big brands raise their ad budgets, and small businesses feel it.\n\nBut it's normal. It happens every year:\n📈 CPM goes up\n📈 CPC goes up\n📉 Conversions drop\n\nSo prepare, learn the game and keep patience. Diwali teaches us patience, courage and strength ✨\n\nWishing you and your family a very Happy Diwali. Follow @ratnakarcontent for honest Meta ads lessons.\n\n#Reels #HappyDiwali #MetaAds #FacebookAds #DigitalMarketing #SmallBusiness",
+    "scheduledTimeIST": "08-11-2026 22:59:00 IST",
+    "scheduledDate": "08-11-2026",
+    "scheduledTime": "22:59:00",
+    "localVideoPath": "data/shorts/diwali_v1.mp4",
+    "localCoverPath": "data/shorts/diwali_cover.jpg",
+    "videoUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-diwali/diwali_v1.mp4",
+    "coverUrl": "https://github.com/ratnakarmishrajsp/youtube-automation-agent/releases/download/reel-diwali/diwali_cover.jpg",
+    "containerId": "17911165020570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": false,
+    "manifest": "data/reels/2026-11-08-diwali-meta-ads.json",
+    "createdAt": "2026-11-08T17:32:56.032Z"
   }
 ]
