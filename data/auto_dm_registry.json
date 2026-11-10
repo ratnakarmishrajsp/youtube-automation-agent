@@ -674,5 +674,21 @@
     "mediaId": "18075046124590922",
     "permalink": "https://www.instagram.com/reel/DfbHDCRGdHg/",
     "publishedAt": "2026-11-07T02:32:13.553Z"
+  },
+  {
+    "queueId": 46,
+    "title": "Custom pop-up checkout: build your own Shopify COD checkout (WhatsApp on abandoned checkout, optional OTP, no checkout app fee)",
+    "keywords": [
+      "checkout",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/custom-popup-checkout",
+    "followGate": "all",
+    "pdfSlug": null,
+    "pdfTitle": null,
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "Custom pop-up checkout: prompts + setup guide (PDF)"
   }
 ]

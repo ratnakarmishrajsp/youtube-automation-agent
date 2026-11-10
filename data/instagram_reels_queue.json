@@ -1140,5 +1140,29 @@
     "publishedMediaId": "17942377086401025",
     "permalink": "https://www.instagram.com/reel/Dfgy8R7DNwf/",
     "publishedAt": "2026-11-09T07:30:14.032Z"
+  },
+  {
+    "id": 46,
+    "title": "Custom pop-up checkout: build your own Shopify COD checkout (WhatsApp on abandoned checkout, optional OTP, no checkout app fee)",
+    "caption": "Build your own pop-up checkout. Stop paying checkout apps 🛒👇\n\nInstead of Shopify's checkout or a paid COD form app, my store runs its own pop-up checkout:\n\n1️⃣ Opens as a pop-up right on the product page\n2️⃣ Customer leaves halfway? An automatic WhatsApp message goes out\n3️⃣ Want OTP verification? Switch it on. Your choice\n4️⃣ No monthly fee to Releasit, EasySell or any checkout app\n\n✅ It's live on my store, mahekh.in. Watch an order go through in the video.\n\n🔥 Comment \"CHECKOUT\" and I'll DM you the full step-by-step PDF 📩\n(DMs go to followers only, so follow first)\n\n#Reels #Shopify #ShopifyStore #Ecommerce #D2CBrand #CashOnDelivery",
+    "scheduledTimeIST": "10-11-2026 11:08:00 IST",
+    "scheduledDate": "10-11-2026",
+    "scheduledTime": "11:08:00",
+    "localVideoPath": "data/shorts/custom_checkout_v1.mp4",
+    "localCoverPath": "data/shorts/custom_checkout_cover.jpg",
+    "videoUrl": null,
+    "coverUrl": null,
+    "containerId": null,
+    "status": "READY_TO_PUBLISH",
+    "manualPost": true,
+    "dm": {
+      "keyword": "CHECKOUT",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/custom-popup-checkout",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Custom pop-up checkout: prompts + setup guide (PDF)"
+    },
+    "manifest": "data/reels/2026-11-10-custom-checkout.json",
+    "createdAt": "2026-11-10T05:38:34.920Z"
   }
 ]
