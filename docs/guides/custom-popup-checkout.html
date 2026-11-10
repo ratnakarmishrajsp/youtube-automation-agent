@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { padding: 18px 16px 96px; font-size: 16px; }
+    .page-container { max-width: 680px; }
+    .download-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(10, 15, 29, 0.96); border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; }
+    .download-bar a { display: inline-block; width: 100%; max-width: 420px; padding: 14px 18px; border-radius: 12px;
+      background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; text-decoration: none; }
+    @media (max-width: 600px) {
+      body { font-size: 15.5px; }
+      .header-banner { flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+  <title>BUILD YOUR OWN POP-UP CHECKOUT - Ratnakar Mishra Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0A0F1D;
+      color: #E2E8F0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 22px;
+    }
+    .creator-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .creator-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00FF66 0%, #38BDF8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      color: #0A0F1D;
+      font-size: 16px;
+    }
+    .creator-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .creator-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+    .creator-handle {
+      font-size: 11px;
+      color: #38BDF8;
+      font-weight: 600;
+    }
+    .badge-tag {
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid #00FF66;
+      color: #00FF66;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hero-section {
+      background: linear-gradient(145deg, rgba(20, 30, 55, 0.7) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #00FF66;
+    }
+    .doc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .doc-subtitle {
+      color: #94A3B8;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .section-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFE600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+    .section-heading::before {
+      content: '■';
+      color: #00FF66;
+      font-size: 11px;
+    }
+    /* copy-paste prompt blocks inside a bullet */
+    pre.prompt { white-space: pre-wrap; word-break: break-word; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.55; color: #E2E8F0; margin: 4px 0 10px; }
+    .bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bullets-list li {
+      position: relative;
+      padding-left: 20px;
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .bullets-list li::before {
+      content: '👉';
+      position: absolute;
+      left: 0;
+      top: 0px;
+      font-size: 12px;
+    }
+    .checklist-card {
+      background: rgba(16, 32, 28, 0.75);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .checklist-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #00FF66;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #F1F5F9;
+    }
+    .check-box {
+      min-width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      background: #00FF66;
+      color: #0A0F1D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+    .takeaway-card {
+      background: linear-gradient(135deg, rgba(255, 230, 0, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid #FFE600;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .takeaway-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 11.5px;
+      color: #FFE600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .takeaway-text {
+      font-size: 13.5px;
+      color: #FFFFFF;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .video-cta-card {
+      background: #0F172A;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .video-cta-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #38BDF8;
+    }
+    .video-cta-link {
+      background: #38BDF8;
+      color: #0A0F1D;
+      padding: 7px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .footer-bar {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="header-banner">
+      <div class="creator-brand">
+        <div class="creator-avatar">R</div>
+        <div class="creator-info">
+          <span class="creator-name">Ratnakar Mishra</span>
+          <span class="creator-handle">@ratnakarcontent</span>
+        </div>
+      </div>
+      <div class="badge-tag">🛒 CHECKOUT PROMPTS</div>
+    </div>
+
+    <div class="hero-section">
+      <h1 class="doc-title">BUILD YOUR OWN POP-UP CHECKOUT</h1>
+      <p class="doc-subtitle">The exact prompts to build a Shopify pop-up checkout like mine on mahekh.in: the COD order in one pop-up, a WhatsApp message on abandoned checkouts, optional OTP, and no checkout app to pay every month.</p>
+    </div>
+
+    <div class="sections-container">
+      
+    <div class="section-card">
+      <div class="section-heading">What you'll build</div>
+      <ul class="bullets-list">
+        <li><b>A pop-up checkout on the product page:</b> pack, payment, name, mobile, address and pincode in one sheet. The buyer never leaves the page.</li>
+        <li><b>Real Shopify orders:</b> every COD order lands in Shopify admin → Orders like a normal order, so your shipping app keeps working.</li>
+        <li><b>Abandoned checkout → WhatsApp:</b> if someone types their number but doesn't confirm, an automatic WhatsApp message brings them back.</li>
+        <li><b>Optional OTP:</b> switch a one-time code on or off from one setting.</li>
+        <li><b>No checkout app bill:</b> no monthly fee for a COD form app like Releasit or EasySell. Meta charges per WhatsApp template message (see Meta's pricing page), and Cloudflare's free plan is usually enough for a small store.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">What you need</div>
+      <ul class="bullets-list">
+        <li>Your <b>Shopify admin</b> (owner, or staff with apps and themes access).</li>
+        <li>An AI that works on a folder: <b>Claude</b> (Claude Code or the desktop app), <b>Antigravity</b>, <b>Cursor</b> or <b>Codex</b>. You don't write code: you paste the prompts and answer its questions.</li>
+        <li>A free <b>Cloudflare</b> account (the small backend that creates orders and sends WhatsApp messages).</li>
+        <li>For WhatsApp: a <b>Meta Business portfolio</b> and a phone number for the WhatsApp Business Platform (Step 3).</li>
+        <li><b>Safety first:</b> Online Store → Themes → … → <b>Duplicate</b> your live theme and let the AI work only on the copy.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 1: Paste the build prompt</div>
+      <ul class="bullets-list">
+        <li>Open your AI, connect it to your store's theme (Shopify CLI) or give it the downloaded theme folder, and paste this. Fill in the MY STORE lines first.</li>
+        <li><pre class="prompt">You are a senior Shopify developer (Online Store themes, Liquid, the Shopify Admin GraphQL API and Cloudflare Workers). Build me my own pop-up checkout for Cash on Delivery orders, like the one on mahekh.in.
+
+MY STORE (fill this in, or ask me before you start)
+- Store address: ____.myshopify.com
+- Theme: work on a DUPLICATE of my live theme, never the live one
+- Prepaid offer: ____ (example: "Pay online and save ₹___") or "no prepaid option"
+- Brand colours and fonts: ____
+
+A. THE POP-UP (theme section + snippet, no app)
+- On the product page, the "BUY NOW · CASH ON DELIVERY" button opens a bottom-sheet pop-up instead of Shopify's checkout.
+- Inside: product image and name, pack/variant picker, payment choice (Cash on Delivery, and Pay Online if I want it), full name, mobile number with the India country code, house/street/area, pincode, city, state, landmark (optional), and a summary (item total, delivery, to pay).
+- Pincode fills city and state by itself. Mobile number must be ten digits. Friendly error messages, a sticky CONFIRM ORDER button, fast on mobile.
+- CONFIRM ORDER shows "Placing your order…", then an "Order Confirmed!" screen with the order number.
+- Add a ticked-by-default checkbox: "Send me order updates on WhatsApp".
+
+B. THE BACKEND (a small Cloudflare Worker, free plan)
+- The pop-up sends the form to my Worker. The Worker checks it and creates the order in Shopify with the Admin API: payment pending, gateway "Cash on Delivery", tags "custom-checkout" and "COD", the right variant, price, discount and shipping.
+- Every secret (Shopify token, later the WhatsApp token) lives in Worker secrets. Nothing secret goes into the theme.
+- Protection: rate limit per phone number and IP, block duplicate orders made within a few minutes, refuse fake pincodes.
+- Pay Online (only if I want it): send the buyer to Shopify's normal checkout for that variant with my prepaid discount, so payments stay with Shopify.
+
+C. SHOPIFY ACCESS
+- Tell me exactly which Admin API scopes you need (for example write_orders and read_products) and walk me through creating the app in Shopify's Dev Dashboard and installing it on my store. I'll give you the Client ID and Client secret here in chat; save them as Worker secrets.
+
+HOW TO WORK
+- First read my theme and tell me your plan in short points. Wait for my "go".
+- Then build on the duplicate theme, deploy the Worker and give me the preview link.
+- Place one test COD order yourself, show it to me in Shopify admin → Orders, then cancel it.
+- Only when I say "publish", tell me how to publish the theme.</pre></li>
+        <li>When it asks for Shopify access, it will guide you through Shopify's <b>Dev Dashboard</b>: create the app, add the scopes it names, install it on your store, then give the <b>Client ID</b> and <b>Client secret</b> to the AI in chat.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 2: Test it before buyers see it</div>
+      <ul class="bullets-list">
+        <li>Open the <b>preview</b> of the duplicate theme on your phone and place a test COD order.</li>
+        <li>Check Shopify admin → <b>Orders</b>: the order, the address and the tags must be right. Then cancel the test order.</li>
+        <li>Happy with it? Tell the AI <b>"publish"</b>, or publish the duplicate theme yourself from Online Store → Themes.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 3: Connect the WhatsApp API (do this yourself)</div>
+      <ul class="bullets-list">
+        <li><b>Create the app:</b> <a href="https://developers.facebook.com/apps">developers.facebook.com/apps</a> → Create app → choose the WhatsApp use case (connect with customers through WhatsApp) → link your Meta Business portfolio.</li>
+        <li><b>Add your number:</b> in the app open WhatsApp → <b>API Setup</b> → Add phone number → verify it with the code. Note the <b>Phone number ID</b> and <b>WhatsApp Business Account ID</b>. A number that is active on the normal WhatsApp or WhatsApp Business app can't be added as it is: use a new number, or remove it from the app first.</li>
+        <li><b>Add a payment method</b> in WhatsApp Manager, because Meta bills business-started messages.</li>
+        <li><b>Permanent token:</b> Business Settings → Users → <b>System users</b> → Add (Admin) → Assign assets: your app and your WhatsApp account (full control) → <b>Generate token</b> with <b>whatsapp_business_messaging</b> and <b>whatsapp_business_management</b>. The token on the API Setup page expires, so don't use that one.</li>
+        <li><b>Templates:</b> WhatsApp Manager → Message templates → create <b>abandoned_checkout</b> (Marketing): <i>"Hi {{customer_name}}, you left {{product_name}} in your checkout. Tap below to finish your order."</i> with a <b>Complete order</b> link button. For OTP on WhatsApp, also create an <b>Authentication</b> template with a copy-code button. Wait until both show <b>Approved</b>.</li>
+        <li><b>Rules:</b> message only buyers who ticked the WhatsApp checkbox, and outside the buyer's last-message window only approved templates can be sent.</li>
+        <li>Then paste this to your AI and give it the two IDs and the token in chat:</li>
+        <li><pre class="prompt">Connect my custom checkout to the WhatsApp Business Platform (Cloud API) by Meta.
+
+I'll give you here in chat: my Phone number ID, my WhatsApp Business Account ID and a permanent System User token. Save them only as Worker secrets.
+
+Then:
+- Write a small sendTemplate() helper in my Worker that calls the Cloud API messages endpoint on graph.facebook.com (use the current Graph API version from Meta's docs) with an approved template and named parameters.
+- Send one test message with my template "abandoned_checkout" to my own number and show me the API response.
+- If it fails, read the error code, tell me in simple words what to fix in Meta (number, template, token or payment method), and try again.
+- Never log or print the token.</pre></li>
+        <li>New to WhatsApp Business? My other guide sets up the free AI agent inside the WhatsApp Business app: <a href="https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/whatsapp-business-ai-setup">WhatsApp Business AI setup guide</a>.</li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step 4: Abandoned checkout + optional OTP</div>
+      <ul class="bullets-list">
+        <li>Once the test message from Step 3 reaches your phone, paste this:</li>
+        <li><pre class="prompt">Now add two features to my pop-up checkout.
+
+ABANDONED CHECKOUT ON WHATSAPP
+- When a buyer has typed a valid mobile number and the WhatsApp checkbox is ticked, save a draft checkout in the Worker (Cloudflare KV or D1): name, mobile, product, variant, price and time.
+- If no order is confirmed within ___ minutes (suggest a good default, I'll choose), send my "abandoned_checkout" template with the buyer's name, the product name and a link that reopens the pop-up with their details already filled.
+- Send it only once per checkout, never to someone who already ordered, never without the opt-in. Use a Cron Trigger for the timer.
+- Give me a simple daily count: abandoned, messaged, recovered.
+
+OPTIONAL OTP
+- Add a setting OTP_REQUIRED (on/off) in the Worker. When it's on, CONFIRM ORDER first sends a one-time code to the buyer's WhatsApp with my approved authentication template, and the order is created only after the right code.
+- Limit the retries and let the code expire after a few minutes.
+
+Test both on the duplicate theme with my own number before going live.</pre></li>
+      </ul>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Want more on autopilot?</div>
+      <ul class="bullets-list">
+        <li>My course <b>Meta Ads Autopilot with AI</b> connects Meta Ads, Shopify and Shiprocket to Claude or Antigravity, so your reports, orders and RTO checks run with one message: <a href="https://superprofile.bio/course/d28d58bb-0912-4937-a413-bfdadfadf02b">open the course</a>.</li>
+        <li>WhatsApp Business AI (free, inside the app): <a href="https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/whatsapp-business-ai-setup">setup guide</a>.</li>
+      </ul>
+    </div>
+  
+    </div>
+
+    <div class="checklist-card">
+      <div class="checklist-heading">⚡ Action Checklist</div>
+      <div class="checklist-items">
+        
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Built on a duplicate theme; the live theme stayed untouched until you published</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>A test COD order showed up in Shopify admin → Orders (then cancelled)</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Shopify and WhatsApp secrets live only in Worker secrets, never in the theme</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>WhatsApp number verified, payment method added, templates approved</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>WhatsApp opt-in checkbox is on the pop-up</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Abandoned-checkout message tested on your own number</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>OTP tested with the switch on and off</div>
+    </div>
+  
+      </div>
+    </div>
+
+    <div class="takeaway-card">
+      <div class="takeaway-label">💡 Key Takeaway</div>
+      <div class="takeaway-text">Your checkout, your data, your rules. The pop-up keeps buyers on the product page, WhatsApp brings back the ones who leave, and there's no checkout app bill every month.</div>
+    </div>
+
+    <div class="video-cta-card">
+      <div class="video-cta-text">
+        <span>📺</span>
+        <span>Watch the complete in-depth video breakdown:</span>
+      </div>
+      <a href="https://www.youtube.com/@ratnakarmishra06" class="video-cta-link">Watch on YouTube</a>
+    </div>
+
+    <div class="footer-bar">
+      <span>@ratnakarcontent · YouTube: Ratnakar Mishra Digital Marketing</span>
+      <span>Official Resource Guide</span>
+    </div>
+  </div>
+  <div class="download-bar"><a href="https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/pdf/custom-popup-checkout">⬇️ Download the PDF</a></div>
+</body>
+</html>
