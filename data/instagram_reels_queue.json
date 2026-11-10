@@ -1153,7 +1153,7 @@
     "videoUrl": null,
     "coverUrl": null,
     "containerId": null,
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "manualPost": true,
     "dm": {
       "keyword": "CHECKOUT",
@@ -1163,6 +1163,9 @@
       "resourceLabel": "Custom pop-up checkout: prompts + setup guide (PDF)"
     },
     "manifest": "data/reels/2026-11-10-custom-checkout.json",
-    "createdAt": "2026-11-10T05:38:34.920Z"
+    "createdAt": "2026-11-10T05:38:34.920Z",
+    "publishedMediaId": "18108768707354670",
+    "permalink": "https://www.instagram.com/reel/DfjKL89S8gf/",
+    "publishedAt": "2026-11-10T05:31:13+0000"
   }
 ]
