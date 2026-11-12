@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { padding: 18px 16px 96px; font-size: 16px; }
+    .page-container { max-width: 680px; }
+    .download-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(10, 15, 29, 0.96); border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; }
+    .download-bar { display: flex; justify-content: center; gap: 10px; }
+    .download-bar a { display: inline-block; flex: 1; max-width: 260px; padding: 14px 12px; border-radius: 12px;
+      background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; text-decoration: none; }
+    .download-bar a.svc { background: #F4B740; }
+    @media (max-width: 600px) {
+      body { font-size: 15.5px; }
+      .header-banner { flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+  <title>GOOGLE ADS × AI: CONNECT CLAUDE, ANTIGRAVITY OR CURSOR - Ratnakar Mishra Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0A0F1D;
+      color: #E2E8F0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 22px;
+    }
+    .creator-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .creator-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00FF66 0%, #38BDF8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      color: #0A0F1D;
+      font-size: 16px;
+    }
+    .creator-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .creator-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+    .creator-handle {
+      font-size: 11px;
+      color: #38BDF8;
+      font-weight: 600;
+    }
+    .badge-tag {
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid #00FF66;
+      color: #00FF66;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hero-section {
+      background: linear-gradient(145deg, rgba(20, 30, 55, 0.7) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #00FF66;
+    }
+    .doc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .doc-subtitle {
+      color: #94A3B8;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .section-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #FFE600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+    .section-heading::before {
+      content: '■';
+      color: #00FF66;
+      font-size: 11px;
+    }
+    /* copy-paste prompt blocks inside a bullet */
+    pre.prompt { white-space: pre-wrap; word-break: break-word; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.55; color: #E2E8F0; margin: 4px 0 10px; }
+    .bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bullets-list li {
+      position: relative;
+      padding-left: 20px;
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .bullets-list li::before {
+      content: '👉';
+      position: absolute;
+      left: 0;
+      top: 0px;
+      font-size: 12px;
+    }
+    .checklist-card {
+      background: rgba(16, 32, 28, 0.75);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .checklist-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #00FF66;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #F1F5F9;
+    }
+    .check-box {
+      min-width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      background: #00FF66;
+      color: #0A0F1D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+    .takeaway-card {
+      background: linear-gradient(135deg, rgba(255, 230, 0, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid #FFE600;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .takeaway-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 11.5px;
+      color: #FFE600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .takeaway-text {
+      font-size: 13.5px;
+      color: #FFFFFF;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .video-cta-card {
+      background: #0F172A;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+    }
+    .video-cta-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #38BDF8;
+    }
+    .video-cta-link {
+      background: #38BDF8;
+      color: #0A0F1D;
+      padding: 7px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    /* His services (12 Nov 2026: "guide mein services ka link har jagah"): a strip under the header,
+       a line at the end of every section, a card before the checklist and the footer. */
+    .services-strip {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+      background: rgba(244, 183, 64, 0.1); border: 1px solid rgba(244, 183, 64, 0.55); border-radius: 12px;
+      padding: 10px 16px; margin-bottom: 18px; font-size: 13px; color: #FDE9B8; page-break-inside: avoid;
+    }
+    .services-strip b { color: #F4B740; }
+    .services-strip a { color: #F4B740; font-weight: 700; text-decoration: none; }
+    .section-services {
+      margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(244, 183, 64, 0.35);
+      font-size: 12.5px; color: #CBD5E1;
+    }
+    .section-services a { color: #F4B740; font-weight: 700; text-decoration: none; }
+    .services-card {
+      background: linear-gradient(135deg, rgba(244, 183, 64, 0.14) 0%, rgba(15, 23, 42, 0.9) 70%);
+      border: 1px solid #F4B740; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; page-break-inside: avoid;
+    }
+    .services-card .label { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 12px; color: #F4B740; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px; }
+    .services-card .title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 18px; color: #FFFFFF; margin-bottom: 8px; }
+    .services-card .text { font-size: 13px; color: #CBD5E1; line-height: 1.55; margin-bottom: 12px; }
+    .services-card .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .services-card .btn { display: inline-block; background: #F4B740; color: #0A0F1D; padding: 9px 16px; border-radius: 8px; text-decoration: none;
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; }
+    .services-card .phone { color: #F4B740; font-weight: 700; font-size: 14px; text-decoration: none; }
+    .footer-bar a { color: #F4B740; text-decoration: none; font-weight: 600; }
+    .footer-bar {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="header-banner">
+      <div class="creator-brand">
+        <div class="creator-avatar">R</div>
+        <div class="creator-info">
+          <span class="creator-name">Ratnakar Mishra</span>
+          <span class="creator-handle">@ratnakarcontent</span>
+        </div>
+      </div>
+      <div class="badge-tag">📈 GOOGLE ADS AUTOMATION</div>
+    </div>
+
+    <div class="services-strip">
+      <span>💼 <b>Want this done for you?</b> I set it up for your business.</span>
+      <span><a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · <a href="tel:+919336581132">📞 +91 93365 81132</a></span>
+    </div>
+
+    <div class="hero-section">
+      <h1 class="doc-title">GOOGLE ADS × AI: CONNECT CLAUDE, ANTIGRAVITY OR CURSOR</h1>
+      <p class="doc-subtitle">Connect your AI to your Google Ads account and let it build campaigns, manage the whole account, show where your clicks come from, watch CPC and conversions, and set up conversion tracking. Copy-paste prompts and the official setup, step by step.</p>
+    </div>
+
+    <div class="sections-container">
+      
+    <div class="section-card">
+      <div class="section-heading">What you'll set up</div>
+      <ul class="bullets-list">
+        <li><b>An AI that works inside your Google Ads account:</b> Claude, Google Antigravity or Cursor, connected through Google's official tools.</li>
+        <li><b>Reports on demand:</b> spend, clicks, CPC, conversions, and where the clicks come from (search terms, locations, devices, hours, networks).</li>
+        <li><b>Campaigns built for you:</b> keywords, ad groups, ads, assets, targeting and budget, created <b>paused</b> so you check them before a rupee is spent.</li>
+        <li><b>Account management:</b> negative keywords, wasted spend, budget and bid suggestions. Every change waits for your "yes".</li>
+        <li><b>Conversion tracking:</b> conversion actions, the website tag and enhanced conversions, so Google knows which clicks bring sales.</li>
+        <li>Two official pieces do the work: Google's <b>Google Ads MCP server</b> (reads your data) and the <b>Google Ads API Python library</b> (the AI uses it in small scripts to build and change campaigns).</li>
+      </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</div>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">What you need</div>
+      <ul class="bullets-list">
+        <li>A <b>Google Ads account</b> (with billing set up before any campaign goes live) and the same Google login for <b>Google Cloud</b> (free).</li>
+        <li>One AI that can run commands on your computer: <b>Claude</b> (the desktop app's Code tab, or Claude Code), Google <b>Antigravity</b>, or <b>Cursor</b>.</li>
+        <li>Python, pipx and the Google Cloud CLI. You don't need to know them: the setup prompt below makes your AI install and run them.</li>
+        <li>An empty folder (for example <i>Documents/google-ads-ai</i>) opened in your AI. Everything lives there.</li>
+        <li><b>Good news:</b> Google stopped using Google Ads <b>developer tokens</b> in September. API access now comes from your Google Cloud project, so old tutorials that start with "apply for a developer token" are out of date.</li>
+      </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</div>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step one: Google Cloud, access and sign-in (paste this)</div>
+      <ul class="bullets-list">
+        <li>Open your folder in Claude, Antigravity or Cursor and paste this prompt. Your AI walks you through it and runs the commands:</li>
+        <li><pre class="prompt">Help me connect my Google Ads account to you, step by step. I'm not a developer: tell me exactly what to click, run the commands yourself where you can, and wait for me after each step.
+
+- Check that Python, pipx and the Google Cloud CLI (gcloud) are installed on this computer. Install whatever is missing.
+- Google Cloud: walk me through creating a project (or picking my existing one), enabling the "Google Ads API", and creating an OAuth client of type "Desktop app" in the SAME project. I'll download its JSON file into this folder.
+- Access level: open the "Google Ads API Overview" page in the Cloud console with me and help me apply for Explorer access, so the API works on my real account (Test access only works on test accounts). Google no longer uses developer tokens: if a doc or a config file asks for one, skip it.
+- Sign me in once: run "gcloud auth application-default login" with my OAuth client file (--client-id-file) and the scopes https://www.googleapis.com/auth/adwords and https://www.googleapis.com/auth/cloud-platform. Tell me the path of the credentials file it saved.
+- Ask me for my Google Ads customer ID (top of the Google Ads screen, without dashes) and, if I use a manager account, its ID too. Save my IDs in a .env file in this folder, never in code, and add .env and every credentials file to .gitignore.
+- Test: list the Google Ads accounts I can access, then show my campaigns with clicks, cost and conversions for the last seven days.</pre></li>
+        <li><b>Access levels:</b> enabling the API gives <b>Test</b> access (test accounts only). Apply for <b>Explorer</b> on the Google Ads API Overview page: it works on real accounts with a daily operations limit that is plenty for one business, and Google usually approves it automatically. <b>Basic</b> (higher limits, Keyword Planner and other planning tools) needs brand verification of your Cloud project first.</li>
+        <li>When Google asks you to allow access to your Google Ads account, check that the app name is your own OAuth client, then allow it.</li>
+      </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</div>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step two: Connect Google's official Google Ads MCP server</div>
+      <ul class="bullets-list">
+        <li>This is the same block for every AI. Put in the path your AI gave you in step one, your Cloud project ID, and your manager account ID (delete that line if you don't use a manager account):</li>
+        <li><pre class="prompt">{
+  "mcpServers": {
+    "google-ads-mcp": {
+      "command": "pipx",
+      "args": ["run", "--spec", "git+https://github.com/googleads/google-ads-mcp.git", "google-ads-mcp"],
+      "env": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "PATH/TO/application_default_credentials.json",
+        "GOOGLE_PROJECT_ID": "your-cloud-project-id",
+        "GOOGLE_ADS_LOGIN_CUSTOMER_ID": "your-manager-account-id"
+      }
+    }
+  }
+}</pre></li>
+        <li><b>Credentials path:</b> on Windows it's usually <i>C:/Users/YOUR-NAME/AppData/Roaming/gcloud/application_default_credentials.json</i> (use forward slashes), on Mac <i>~/.config/gcloud/application_default_credentials.json</i>.</li>
+        <li><b>Claude:</b> paste the block and say <i>"Add this MCP server to my user settings"</i>. Claude adds it (claude mcp add-json). Start a new session and ask <i>"Which Google Ads accounts can you see?"</i></li>
+        <li><b>Cursor:</b> Cursor Settings → the <b>MCP</b> section (<b>Tools &amp; MCP</b> in newer versions) → Add new MCP server. It opens <i>mcp.json</i>: paste the block, save, and check the server shows a green dot.</li>
+        <li><b>Antigravity:</b> in the agent panel open the <b>…</b> menu → <b>MCP Servers</b> → Manage MCP Servers → <b>View raw config</b>. Paste the google-ads-mcp entry inside "mcpServers" and save. Antigravity reloads it by itself.</li>
+        <li>What it can do: run reports with Google Ads Query Language, list your accounts, create assets and manage labels. Any change is proposed first and needs your confirmation. It doesn't create campaigns: step three does that.</li>
+      </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</div>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step three: Build a campaign (paste this)</div>
+      <ul class="bullets-list">
+        <li>Fill in MY BUSINESS and paste. The AI shows you the whole campaign as a table before it creates anything:</li>
+        <li><pre class="prompt">Build a Google Ads Search campaign for my business with the official Google Ads API Python library (the latest "google-ads" package) and my saved credentials.
+
+MY BUSINESS (ask me about anything left blank)
+- Business name and website: ____
+- What I sell and my main offer: ____
+- Where my customers are (city, state or country): ____
+- Daily budget in rupees: ____
+- Goal: calls / WhatsApp leads / website sales / bookings
+- My customers' language: ____
+
+WHAT TO BUILD
+- Keywords: Keyword Planner through the API needs Basic access. On Explorer, build the list from my website, my offers and the phrases people really search, and tell me which ones you're unsure about.
+- Tight ad groups (one theme each) and negative keywords for searches that will never buy (jobs, free, course, etc., unless they fit my business).
+- Responsive search ads: headlines and descriptions from my real offer. No fake claims, no prices or discounts I didn't give you.
+- Sitelink, callout and call assets where they fit.
+- Location and language targeting, the daily budget, and a bidding strategy for my goal: Maximize clicks to start, Maximize conversions once conversion tracking works.
+
+SAFETY
+- Run every change with validate_only first, show me a summary table (campaign, ad groups, keywords, ads, budget, targeting) and wait for my "go".
+- Create the campaign PAUSED. I'll check it and turn it on myself in Google Ads.
+- Save the script in a file so we can reuse it, and keep my IDs in .env.</pre></li>
+        <li>Open Google Ads, check every keyword, ad text, location and the budget, then switch the campaign on yourself. Watch it closely for the first few days.</li>
+      </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</div>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step four: Let it manage the account (paste this)</div>
+      <ul class="bullets-list">
+        <li>Paste once at the start of a session. After that, just type <b>report</b>:</li>
+        <li><pre class="prompt">You manage my Google Ads account with me. Read data with the google-ads-mcp tools (search with GAQL); make changes only with the Python library, and only after my "yes".
+
+When I say "report":
+- Spend, impressions, clicks, CTR, CPC, conversions and cost per conversion for yesterday, the last seven days and this month, per campaign.
+- Where the clicks come from: search terms, locations, devices, hours of the day and networks (Google Search, search partners, Display).
+- Search terms that spent money with no conversion: suggest them as negative keywords.
+- Keywords and ads that waste money, and the ones that work.
+- The three changes you'd make now, with the reason and what you expect to happen.
+
+RULES
+- Show every change before you make it (old value → new value) and wait for my "yes".
+- Never raise a budget beyond what I approve. Never remove or pause conversion tracking.
+- Keep a change log in changes.md: date, what changed and why.</pre></li>
+        <li>This is the "where do my clicks come from, what's my CPC, which keywords convert" part of the video, answered from your own data every time you ask.</li>
+      </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</div>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Step five: Conversion tracking (paste this)</div>
+      <ul class="bullets-list">
+        <li>Without conversion tracking, Google (and your AI) can't tell a good click from a wasted one. Set it up before you raise budgets:</li>
+        <li><pre class="prompt">Set up conversion tracking for my Google Ads account so we know which clicks bring sales or leads.
+- First ask me what counts as a conversion for my business: purchase, WhatsApp click, call, form lead or booking.
+- Create the conversion actions with the Google Ads API (ConversionActionService), with the right category and value, and make the main one primary.
+- Give me the exact tag for my website: the Google tag plus the event snippet, or the Google Tag Manager steps. On Shopify, tell me whether to use the Google &amp; YouTube app or a custom pixel under Settings → Customer events, and walk me through it.
+- If my checkout or form collects email or phone, help me turn on enhanced conversions.
+- After I install it, check the conversion action status until it shows recorded conversions, and tell me if something is wrong.</pre></li>
+        <li>Test it yourself: place a test order or send a test lead from your phone, then ask your AI to check the conversion action until it shows the conversion.</li>
+      </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</div>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">No Cloud project? The quick way: Google Ads Scripts</div>
+      <ul class="bullets-list">
+        <li>Google Ads can run small JavaScript programs inside your account: <b>Tools → Bulk actions → Scripts</b>. No Cloud project, no sign-in setup.</li>
+        <li>Ask your AI for a script with this prompt, paste it in, click <b>Preview</b> first, then authorize it and schedule it daily:</li>
+        <li><pre class="prompt">Write a Google Ads Script (JavaScript that runs inside my Google Ads account) that:
+- emails me a report every morning: yesterday's spend, clicks, CPC and conversions per campaign, plus the search terms that spent money without a conversion;
+- warns me by email if a campaign spends more than ____ rupees in a day.
+Explain where to paste it and how to preview it before scheduling it daily. It must not change bids, budgets or campaigns.</pre></li>
+        <li>Scripts are good for reports and alerts. For building campaigns with an AI and day-to-day management, use steps one to four.</li>
+      </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</div>
+    </div>
+  
+
+    <div class="section-card">
+      <div class="section-heading">Stay safe</div>
+      <ul class="bullets-list">
+        <li>The API and the MCP server are free; your ads cost money. Campaigns start paused, and nothing changes without your "yes".</li>
+        <li>Your credentials file and .env open your ad account. Never paste them in a chat, never upload them to GitHub. To cut access later, run <i>gcloud auth application-default revoke</i>.</li>
+        <li>An AI can be wrong about keywords, ad text or settings. Read the summary before every "go", and keep the change log.</li>
+        <li>Managing many client accounts or hitting the daily limit? Apply for Basic access after brand verification of your Cloud project.</li>
+      </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</div>
+    </div>
+  
+    </div>
+
+    <div class="services-card">
+      <div class="label">💼 Done-for-you services</div>
+      <div class="title">Don't want to set this up yourself?</div>
+      <div class="text">I set it up for you: Meta &amp; Google ads, AI automation, auto-DM, Shopify stores and checkouts, websites, and 1:1 help calls. Pay online, no passwords needed, WhatsApp reply within 30 minutes.</div>
+      <div class="row">
+        <a class="btn" href="https://ratnakarmishra.in/services">See services &amp; prices → ratnakarmishra.in/services</a>
+        <a class="phone" href="tel:+919336581132">📞 +91 93365 81132</a>
+      </div>
+    </div>
+
+    <div class="checklist-card">
+      <div class="checklist-heading">⚡ Action Checklist</div>
+      <div class="checklist-items">
+        
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Google Ads API enabled, OAuth client (Desktop app) in the same Cloud project</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Explorer access approved on the Google Ads API Overview page</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Signed in once with gcloud; credentials file path noted; IDs saved in .env</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>google-ads-mcp added to Claude, Cursor or Antigravity, and it lists your accounts</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>First campaign created PAUSED, checked by you, then switched on</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Conversion tracking installed and showing a test conversion</div>
+    </div>
+  
+
+    <div class="checklist-item">
+      <div class="check-box">✓</div>
+      <div>Report prompt saved; change log kept in changes.md</div>
+    </div>
+  
+      </div>
+    </div>
+
+    <div class="takeaway-card">
+      <div class="takeaway-label">💡 Key Takeaway</div>
+      <div class="takeaway-text">Everyone talks about Meta ads automation, but for most businesses Google Ads is where buyers already search. Connect your AI once with Google's official tools, keep campaigns paused until you check them, and let it do the reporting, cleaning and tracking every day.</div>
+    </div>
+
+    <div class="video-cta-card">
+      <div class="video-cta-text">
+        <span>📺</span>
+        <span>Watch the complete in-depth video breakdown:</span>
+      </div>
+      <a href="https://www.youtube.com/@ratnakarmishra06" class="video-cta-link">Watch on YouTube</a>
+    </div>
+
+    <div class="footer-bar">
+      <span>@ratnakarcontent · YouTube: Ratnakar Mishra Digital Marketing</span>
+      <span>Services: <a href="https://ratnakarmishra.in/services">ratnakarmishra.in/services</a> · +91 93365 81132</span>
+    </div>
+  </div>
+  <div class="download-bar"><a href="https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/pdf/google-ads-ai-automation">⬇️ Download PDF</a><a class="svc" href="https://ratnakarmishra.in/services">💼 My services</a></div>
+</body>
+</html>
