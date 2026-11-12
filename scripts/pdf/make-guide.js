@@ -6,6 +6,13 @@ const { runFFmpeg } = require('../../utils/ffmpeg');
 
 const ROOT_DIR = path.resolve(__dirname, '../..');
 const PDF_DIR = path.join(ROOT_DIR, 'data', 'pdfs');
+// His services page + number, shown all through every guide (12 Nov 2026).
+const SERVICES = {
+  url: 'https://ratnakarmishra.in/services',
+  label: 'ratnakarmishra.in/services',
+  phone: '+91 93365 81132',
+  tel: '+919336581132',
+};
 
 /**
  * Extract all numbers/currencies/percentages matching the spec.
@@ -252,6 +259,11 @@ function buildHtmlFromTemplate(guideData, youtubeUrl) {
   html = html.replace(/{{BADGE}}/g, guideData.badge || '🔥 ACTIONABLE GUIDE');
   html = html.replace(/{{KEY_TAKEAWAY}}/g, guideData.keyTakeaway || '');
   html = html.replace(/{{YOUTUBE_URL}}/g, youtubeUrl || 'https://www.youtube.com/@ratnakarmishra06');
+  // Services link everywhere (his ask, 12 Nov 2026). Template text, so the number guard does not see it.
+  html = html.replace(/{{SERVICES_URL}}/g, SERVICES.url)
+    .replace(/{{SERVICES_LABEL}}/g, SERVICES.label)
+    .replace(/{{SERVICES_PHONE}}/g, SERVICES.phone)
+    .replace(/{{SERVICES_TEL}}/g, SERVICES.tel);
 
   const sectionsHtml = (guideData.sections || []).map(sec => `
     <div class="section-card">
@@ -259,6 +271,7 @@ function buildHtmlFromTemplate(guideData, youtubeUrl) {
       <ul class="bullets-list">
         ${(sec.bullets || []).map(b => `<li>${b}</li>`).join('\n        ')}
       </ul>
+      <div class="section-services">💼 Want this step done for you? <a href="${SERVICES.url}">${SERVICES.label}</a> · ${SERVICES.phone}</div>
     </div>
   `).join('\n');
 
@@ -406,7 +419,8 @@ async function main() {
 
   // 4. Render HTML to PDF via Playwright
   console.log(`Rendering PDF via Playwright...`);
-  const youtubeUrl = manifest.dm?.link || manifest.youtubeUrl || (manifest.youtube && manifest.youtube.url) || 'https://www.youtube.com/@ratnakarcontent';
+  // dm.pdf.videoUrl: when the DM link is not a video (e.g. a GitHub repo), the PDF's "Watch on YouTube" button uses this.
+  const youtubeUrl = manifest.dm?.pdf?.videoUrl || manifest.dm?.link || manifest.youtubeUrl || (manifest.youtube && manifest.youtube.url) || 'https://www.youtube.com/@ratnakarcontent';
   const htmlContent = buildHtmlFromTemplate(guideData, youtubeUrl);
 
   const pdfSize = await renderPdf(htmlContent, pdfPath);

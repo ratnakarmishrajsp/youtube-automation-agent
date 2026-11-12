@@ -37,8 +37,10 @@ const MOBILE_HEAD = `
     .page-container { max-width: 680px; }
     .download-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
       background: rgba(10, 15, 29, 0.96); border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; }
-    .download-bar a { display: inline-block; width: 100%; max-width: 420px; padding: 14px 18px; border-radius: 12px;
-      background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; text-decoration: none; }
+    .download-bar { display: flex; justify-content: center; gap: 10px; }
+    .download-bar a { display: inline-block; flex: 1; max-width: 260px; padding: 14px 12px; border-radius: 12px;
+      background: #00FF66; color: #0A0F1D; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; text-decoration: none; }
+    .download-bar a.svc { background: #F4B740; }
     @media (max-width: 600px) {
       body { font-size: 15.5px; }
       .header-banner { flex-wrap: wrap; gap: 10px; }
@@ -51,7 +53,8 @@ function exportPage(slug, withPdf) {
   const guide = JSON.parse(fs.readFileSync(guidePath, 'utf8'));
   let html = buildHtmlFromTemplate(guide, videoUrlFor(slug));
   html = html.replace('<meta charset="UTF-8">', `<meta charset="UTF-8">${MOBILE_HEAD}`);
-  html = html.replace('</body>', `  <div class="download-bar"><a href="${WORKER}/pdf/${slug}">⬇️ Download the PDF</a></div>\n</body>`);
+  // Second button: his services page (12 Nov 2026), next to the PDF download on every guide page.
+  html = html.replace('</body>', `  <div class="download-bar"><a href="${WORKER}/pdf/${slug}">⬇️ Download PDF</a><a class="svc" href="https://ratnakarmishra.in/services">💼 My services</a></div>\n</body>`);
   fs.mkdirSync(OUT_DIR, { recursive: true });
   fs.writeFileSync(path.join(OUT_DIR, `${slug}.html`), html, 'utf8');
   if (withPdf) fs.copyFileSync(path.join(PDF_DIR, `${slug}.pdf`), path.join(OUT_DIR, `${slug}.pdf`));

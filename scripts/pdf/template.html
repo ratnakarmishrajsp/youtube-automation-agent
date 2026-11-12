@@ -262,6 +262,32 @@
       font-weight: 800;
       font-size: 12px;
     }
+    /* His services (12 Nov 2026: "guide mein services ka link har jagah"): a strip under the header,
+       a line at the end of every section, a card before the checklist and the footer. */
+    .services-strip {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+      background: rgba(244, 183, 64, 0.1); border: 1px solid rgba(244, 183, 64, 0.55); border-radius: 12px;
+      padding: 10px 16px; margin-bottom: 18px; font-size: 13px; color: #FDE9B8; page-break-inside: avoid;
+    }
+    .services-strip b { color: #F4B740; }
+    .services-strip a { color: #F4B740; font-weight: 700; text-decoration: none; }
+    .section-services {
+      margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(244, 183, 64, 0.35);
+      font-size: 12.5px; color: #CBD5E1;
+    }
+    .section-services a { color: #F4B740; font-weight: 700; text-decoration: none; }
+    .services-card {
+      background: linear-gradient(135deg, rgba(244, 183, 64, 0.14) 0%, rgba(15, 23, 42, 0.9) 70%);
+      border: 1px solid #F4B740; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; page-break-inside: avoid;
+    }
+    .services-card .label { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 12px; color: #F4B740; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px; }
+    .services-card .title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 18px; color: #FFFFFF; margin-bottom: 8px; }
+    .services-card .text { font-size: 13px; color: #CBD5E1; line-height: 1.55; margin-bottom: 12px; }
+    .services-card .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .services-card .btn { display: inline-block; background: #F4B740; color: #0A0F1D; padding: 9px 16px; border-radius: 8px; text-decoration: none;
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; }
+    .services-card .phone { color: #F4B740; font-weight: 700; font-size: 14px; text-decoration: none; }
+    .footer-bar a { color: #F4B740; text-decoration: none; font-weight: 600; }
     .footer-bar {
       margin-top: 24px;
       padding-top: 12px;
@@ -287,6 +313,11 @@
       <div class="badge-tag">{{BADGE}}</div>
     </div>
 
+    <div class="services-strip">
+      <span>💼 <b>Want this done for you?</b> I set it up for your business.</span>
+      <span><a href="{{SERVICES_URL}}">{{SERVICES_LABEL}}</a> · <a href="tel:{{SERVICES_TEL}}">📞 {{SERVICES_PHONE}}</a></span>
+    </div>
+
     <div class="hero-section">
       <h1 class="doc-title">{{TITLE}}</h1>
       <p class="doc-subtitle">{{SUBTITLE}}</p>
@@ -294,6 +325,16 @@
 
     <div class="sections-container">
       {{SECTIONS_HTML}}
+    </div>
+
+    <div class="services-card">
+      <div class="label">💼 Done-for-you services</div>
+      <div class="title">Don't want to set this up yourself?</div>
+      <div class="text">I set it up for you: Meta &amp; Google ads, AI automation, auto-DM, Shopify stores and checkouts, websites, and 1:1 help calls. Pay online, no passwords needed, WhatsApp reply within 30 minutes.</div>
+      <div class="row">
+        <a class="btn" href="{{SERVICES_URL}}">See services &amp; prices → {{SERVICES_LABEL}}</a>
+        <a class="phone" href="tel:{{SERVICES_TEL}}">📞 {{SERVICES_PHONE}}</a>
+      </div>
     </div>
 
     <div class="checklist-card">
@@ -318,7 +359,7 @@
 
     <div class="footer-bar">
       <span>@ratnakarcontent · YouTube: Ratnakar Mishra Digital Marketing</span>
-      <span>Official Resource Guide</span>
+      <span>Services: <a href="{{SERVICES_URL}}">{{SERVICES_LABEL}}</a> · {{SERVICES_PHONE}}</span>
     </div>
   </div>
 </body>
