@@ -1167,5 +1167,38 @@
     "publishedMediaId": "18108768707354670",
     "permalink": "https://www.instagram.com/reel/DfjKL89S8gf/",
     "publishedAt": "2026-11-10T05:31:13+0000"
+  },
+  {
+    "id": 47,
+    "title": "Google Ads automation: connect Claude, Antigravity or Cursor to Google Ads to build campaigns, manage the account, track clicks, CPC and conversions",
+    "caption": "Everyone teaches Meta ads automation. Nobody talks about Google Ads 👇\n\nIf you run any business, Google Ads matters most: your buyers are already searching for what you sell.\n\nNow you can connect Claude, Antigravity or Cursor to your Google Ads account and let AI:\n1️⃣ Build your campaigns\n2️⃣ Manage the whole account\n3️⃣ Show where your clicks come from, your CPC and conversions\n4️⃣ Set up conversion tracking\n\n🔥 Comment \"GOOGLE ADS\" and I'll DM you the full setup guide 📩\n(DMs go to followers only, so follow first)\n\n💼 Want it done for you? ratnakarmishra.in/services\n\n#Reels #GoogleAds #ClaudeAI #AIAutomation #DigitalMarketing #PPC",
+    "scheduledTimeIST": "12-11-2026 09:35:00 IST",
+    "scheduledDate": "12-11-2026",
+    "scheduledTime": "09:35:00",
+    "localVideoPath": "data/shorts/google_ads_automation_v2.mp4",
+    "localCoverPath": "data/shorts/google_ads_automation_cover.jpg",
+    "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/de47767f-c4ff-4fe7-90ea-08b4208c62a7?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-12T04%3A53%3A11Z&rscd=attachment%3B+filename%3Dgoogle_ads_automation_v2.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-12T03%3A53%3A07Z&ske=2026-11-12T04%3A53%3A11Z&sks=b&skv=2018-11-09&sig=LNy9%2BtN7QYXXjvVVjp6YvhDAAkI8pc%2BHM89EcFGDuPk%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NDQ1OTkwOSwibmJmIjoxNzk0NDU2MzA5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.ljO6xVpMfr2pjjhLsNdNrzhUSw1b8xoC9AfvILjqFbA&response-content-disposition=attachment%3B%20filename%3Dgoogle_ads_automation_v2.mp4&response-content-type=application%2Foctet-stream",
+    "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/791c6fdd-973a-4e46-ad7e-bb448fae3978?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-12T04%3A57%3A00Z&rscd=attachment%3B+filename%3Dgoogle_ads_automation_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-12T03%3A56%3A28Z&ske=2026-11-12T04%3A57%3A00Z&sks=b&skv=2018-11-09&sig=SYuErZcAtbt8WUsEgpi%2BaVUyXExA892fZ%2FVvttdbN1c%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NDQ1NjYxMCwibmJmIjoxNzk0NDU2MzEwLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.yVuzlZJ4gLmdag4JBQV7KOnj4CaGV_DwPpZownP3vME&response-content-disposition=attachment%3B%20filename%3Dgoogle_ads_automation_cover.jpg&response-content-type=application%2Foctet-stream",
+    "containerId": "17911733607570332",
+    "status": "PUBLISHED",
+    "isAiGenerated": false,
+    "dm": {
+      "keyword": "GOOGLE ADS",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/google-ads-ai-automation",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Google Ads × AI setup guide (PDF)",
+      "pdf": {
+        "source": "data/shorts/google_ads_automation_v2.mp4",
+        "slug": "google-ads-ai-automation",
+        "title": "Google Ads × AI: connect Claude, Antigravity or Cursor"
+      }
+    },
+    "manifest": "data/reels/2026-11-12-google-ads-automation.json",
+    "createdAt": "2026-11-12T04:06:50.078Z",
+    "attempts": 1,
+    "publishedMediaId": "18135736310509515",
+    "permalink": "https://www.instagram.com/reel/DfoKI-hBpO3/",
+    "publishedAt": "2026-11-12T04:07:12.355Z"
   }
 ]
