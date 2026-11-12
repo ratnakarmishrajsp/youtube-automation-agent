@@ -277,3 +277,17 @@ test('HMAC SHA-256 signature verification passes on valid signature and fails on
   assert.strictEqual(isValid, true);
   assert.notStrictEqual(validSig, invalidSig);
 });
+
+test('direct-delivery reels carry a services line in their one private reply; services: false removes it', () => {
+  const { decideCommentAction: decide, buildServicesMessage, SERVICES_URL } = require('../workers/auto-dm/src/flow.js');
+  const entry = { mediaId: 'm5', keywords: ['post'], followGate: 'none', lang: 'en', youtubeUrl: 'https://example.com/guide' };
+  const args = (e) => ({ comment: { id: 'c5', text: 'POST', from: { id: 'u5', username: 'fan5' }, media: { id: 'm5' } }, registry: [e], kvState: {}, workerHost: 'w.example' });
+  const direct = decide(args(entry));
+  assert.strictEqual(direct.action, 'SEND_DIRECT');
+  assert.ok(direct.privateReply.text.includes('https://example.com/guide'));
+  assert.ok(direct.privateReply.text.endsWith(`💼 Want it done for you? ${SERVICES_URL}`));
+  const off = decide(args({ ...entry, services: false }));
+  assert.ok(!off.privateReply.text.includes(SERVICES_URL));
+  assert.match(buildServicesMessage({ lang: 'en' }), /Services & prices: https:\/\/ratnakarmishra\.in\/services/);
+  assert.match(buildServicesMessage({}), /khud setup/);
+});

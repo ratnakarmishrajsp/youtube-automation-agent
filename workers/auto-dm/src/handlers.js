@@ -6,7 +6,7 @@
 //     plus m: when a "not following yet" reminder goes out;
 //   - logs are buffered in memory and flushed as one key with the poll state (poller.js);
 //   - a refused write is logged and skipped, so the DM still goes out.
-import { decideCommentAction, decideMessageAction } from './flow.js';
+import { decideCommentAction, decideMessageAction, buildServicesMessage } from './flow.js';
 import {
   sendPrivateReply,
   sendDirectMessage,
@@ -463,6 +463,14 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
       }
       await kvDelete(env, `p:id:${senderId}`);
 
+      // Second message: his services page. Queued, not sent now, so it counts toward the next
+      // poll's send budget (MAX_SENDS_PER_POLL) instead of doubling the send rate.
+      if (registryEntry?.services !== false) {
+        await kvPut(env, `${SERVICES_PREFIX}${senderId}`, JSON.stringify({
+          senderId, username, mediaId: pendingState.mediaId, lang: registryEntry?.lang, at: Date.now(),
+        }), { expirationTtl: SERVICES_TTL_S });
+      }
+
       await logEvent(env, {
         type: 'resources_delivered',
         user: username,
@@ -538,6 +546,42 @@ export async function handleMessagesEvent(messagingItem, env, workerHost, regist
     });
   }
   return true;
+}
+
+// Services follow-ups waiting to go out: s:<senderId> -> { senderId, username, mediaId, lang, at, fails }.
+// Instagram allows business messages within 24h of the user's last message; stop trying before that.
+const SERVICES_PREFIX = 's:';
+const SERVICES_TTL_S = 23 * 3600;
+
+/**
+ * Send queued services follow-ups (one DM each), within this poll's send budget.
+ * Called by the poller after pending resource deliveries and before new comments.
+ */
+export async function sendServicesFollowUps(env) {
+  if (!env.AUTO_DM || typeof env.AUTO_DM.list !== 'function') return;
+  const token = env.IG_ACCESS_TOKEN;
+  if (!token) return;
+  const { keys } = await env.AUTO_DM.list({ prefix: SERVICES_PREFIX });
+  for (const { name } of keys) {
+    if (!sendBudgetLeft(env)) return;
+    const job = await env.AUTO_DM.get(name, { type: 'json' });
+    if (!job?.senderId || Date.now() - (job.at || 0) > SERVICES_TTL_S * 1000) {
+      await kvDelete(env, name);
+      continue;
+    }
+    try {
+      await paced(env, () => sendDirectMessage(job.senderId, { text: buildServicesMessage({ lang: job.lang }) }, token));
+      await kvDelete(env, name);
+      await logEvent(env, { type: 'services_sent', user: job.username, mediaId: job.mediaId, result: 'success' });
+    } catch (err) {
+      await pauseForRateLimit(env, err);
+      await logEvent(env, { type: 'services_error', user: job.username, mediaId: job.mediaId, error: err.message });
+      if (isAccountLimit(err)) return;
+      const fails = (job.fails || 0) + 1;
+      if (fails >= MAX_SEND_FAILURES) await kvDelete(env, name);
+      else await kvPut(env, name, JSON.stringify({ ...job, fails }), { expirationTtl: SERVICES_TTL_S });
+    }
+  }
 }
 
 /**

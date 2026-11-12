@@ -99,6 +99,34 @@ export function buildResourcesMessage({ pdfTitle, pdfUrl, pdfDownloadUrl, youtub
   return msg.trim();
 }
 
+// His services page (12 Nov 2026: "auto DM mein services ka second message bhi"). Every DM
+// flow now points people to it: a second message after the resource (follow-gate reels), or a
+// short block in the one private reply (direct reels, where Instagram allows only that message).
+export const SERVICES_URL = 'https://ratnakarmishra.in/services';
+export const SERVICES_PHONE = '+91 93365 81132';
+
+/**
+ * The follow-up DM that goes after the resource, once the user has messaged us
+ * (inside Instagram's 24h window). A registry entry can switch it off with `services: false`.
+ */
+export function buildServicesMessage({ lang } = {}) {
+  if (lang === 'en') {
+    return `💼 Want this set up for your business, done for you?\n\n` +
+      `I set up Meta & Google ads, AI automation, auto-DM, Shopify stores and checkouts, and websites.\n\n` +
+      `👉 Services & prices: ${SERVICES_URL}\n📞 Contact: ${SERVICES_PHONE}`;
+  }
+  return `💼 Ye sab aapke business ke liye main khud setup kar doon?\n\n` +
+    `Meta & Google ads, AI automation, auto-DM, Shopify store/checkout aur website: sab done-for-you.\n\n` +
+    `👉 Services & prices: ${SERVICES_URL}\n📞 Contact: ${SERVICES_PHONE}`;
+}
+
+// Short version for the single private reply of direct-delivery reels.
+export function servicesFooter(lang) {
+  return lang === 'en'
+    ? `💼 Want it done for you? ${SERVICES_URL}`
+    : `💼 Done-for-you setup chahiye? ${SERVICES_URL}`;
+}
+
 /**
  * Pure decision engine for comments events.
  */
@@ -154,7 +182,8 @@ export function decideCommentAction({ comment, registry, kvState, workerHost }) 
 
   // If followGate === "none", deliver immediately
   if (followGate === 'none') {
-    const resourcesMsg = entry.dmMessage || buildResourcesMessage({ pdfTitle, pdfUrl, pdfDownloadUrl, youtubeUrl, resourceLabel, lang: entry.lang, followed: false });
+    let resourcesMsg = entry.dmMessage || buildResourcesMessage({ pdfTitle, pdfUrl, pdfDownloadUrl, youtubeUrl, resourceLabel, lang: entry.lang, followed: false });
+    if (entry.services !== false) resourcesMsg += `\n\n${servicesFooter(entry.lang)}`;
     const replyComment = entry.replyComment || defaultPublicReply;
     return {
       action: 'SEND_DIRECT',

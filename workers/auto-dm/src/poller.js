@@ -8,7 +8,7 @@
 import { graphGet } from './instagram.js';
 import {
   getRegistry, handleCommentsEvent, handleMessagesEvent, logEvent, flushLogs, kvPut, hasPendingInMemory,
-  startRun, sendBudgetLeft, sendsMade, MAX_SEND_FAILURES,
+  startRun, sendBudgetLeft, sendsMade, MAX_SEND_FAILURES, sendServicesFollowUps,
 } from './handlers.js';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -250,7 +250,9 @@ export async function runPoll(env) {
 
   // Pending resource requests take priority over new comment prompts. A Meta
   // send limit in the comments pass must not starve people waiting for a PDF.
-  for (const [name, step] of [['replies', pollReplies], ['comments', pollComments]]) {
+  // The services follow-up (queued when a resource is delivered) goes next.
+  const services = (e) => sendServicesFollowUps(e);
+  for (const [name, step] of [['replies', pollReplies], ['services', services], ['comments', pollComments]]) {
     if (await paused(env)) break;
     try {
       await step(env, workerHost, registry, state, token);

@@ -472,3 +472,50 @@ test('public "Check your DMs" comment replies are off by default; only the priva
   assert.strictEqual(ig.sent.filter((s) => s.body.recipient?.comment_id === 'P1').length, 1);
   assert.ok(!ig.sent.some((s) => s.url.includes('/replies')), 'no public comment reply');
 });
+
+test('after the resource, a services DM goes out on the next run (within the send budget), once', async () => {
+  const kv = memoryKv();
+  kv.list = async ({ prefix } = {}) => ({ keys: [...kv.store.keys()].filter((k) => k.startsWith(prefix || '')).map((name) => ({ name })), list_complete: true });
+  await kv.put('p:id:U1', JSON.stringify({ mediaId: 'M18', commentId: 'C1', username: 'tester', tries: 0, at: NOW - 120e3 }));
+  const conversations = [{
+    updated_time: iso(NOW - 30e3),
+    participants: { data: [{ id: 'OWN', username: 'ratnakarcontent' }, { id: 'U1', username: 'tester' }] },
+    messages: { data: [{ id: 'MID1', message: 'Done', created_time: iso(NOW - 30e3), from: { id: 'U1', username: 'tester' } }] },
+  }];
+  const ig = fakeInstagram({ conversations, follows: true });
+  const toU1 = () => ig.sent.filter((s) => s.body.recipient && s.body.recipient.id === 'U1');
+
+  await runPoll({ ...env(kv), MAX_SENDS_PER_POLL: '1' });
+  assert.strictEqual(toU1().length, 1, 'only the resource in the first run');
+  assert.match(toU1()[0].body.message.text, /guide\/claude-startups/);
+  assert.ok(kv.store.has('s:U1'), 'services follow-up queued');
+
+  await runPoll({ ...env(kv), MAX_SENDS_PER_POLL: '1' });
+  assert.strictEqual(toU1().length, 2);
+  assert.match(toU1()[1].body.message.text, /ratnakarmishra\.in\/services/);
+  assert.match(toU1()[1].body.message.text, /93365 81132/);
+  assert.ok(!kv.store.has('s:U1'));
+
+  await runPoll({ ...env(kv), MAX_SENDS_PER_POLL: '1' });
+  assert.strictEqual(toU1().length, 2, 'services DM sent once');
+});
+
+test('a reel with services: false gets no services follow-up', async () => {
+  const kv = memoryKv();
+  kv.list = async ({ prefix } = {}) => ({ keys: [...kv.store.keys()].filter((k) => k.startsWith(prefix || '')).map((name) => ({ name })), list_complete: true });
+  await kv.put('p:id:U1', JSON.stringify({ mediaId: 'M18', commentId: 'C1', username: 'tester', tries: 0, at: NOW - 120e3 }));
+  const conversations = [{
+    updated_time: iso(NOW - 30e3),
+    participants: { data: [{ id: 'OWN', username: 'ratnakarcontent' }, { id: 'U1', username: 'tester' }] },
+    messages: { data: [{ id: 'MID1', message: 'Done', created_time: iso(NOW - 30e3), from: { id: 'U1', username: 'tester' } }] },
+  }];
+  const registry = [{
+    queueId: 18, mediaId: 'M18', title: 'Claude Startups', keywords: ['claude', 'link'], services: false,
+    youtubeUrl: 'https://youtu.be/x', followGate: 'all', pdfSlug: 'claude-startups', pdfTitle: 'Apply Guide',
+  }];
+  const ig = fakeInstagram({ conversations, follows: true, registry });
+  await runPoll(env(kv));
+  await runPoll(env(kv));
+  assert.strictEqual(ig.sent.filter((s) => s.body.recipient && s.body.recipient.id === 'U1').length, 1);
+  assert.ok(![...kv.store.keys()].some((k) => k.startsWith('s:')));
+});
