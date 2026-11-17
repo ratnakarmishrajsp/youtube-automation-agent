@@ -714,5 +714,21 @@
     "mediaId": "18135736310509515",
     "permalink": "https://www.instagram.com/reel/DfoKI-hBpO3/",
     "publishedAt": "2026-11-12T04:07:12.355Z"
+  },
+  {
+    "queueId": 48,
+    "title": "LIMIT REACHED: AI horror trailer. Claude, ChatGPT and Gemini all hit the usage limit at 2 AM; fix = the handover note trick",
+    "keywords": [
+      "limit",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/ai-limit-handover",
+    "followGate": "all",
+    "pdfSlug": "ai-limit-handover",
+    "pdfTitle": "Limit reached? The handover trick",
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "Handover prompt + free backup AI list (guide)"
   }
 ]

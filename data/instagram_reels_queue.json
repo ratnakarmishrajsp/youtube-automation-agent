@@ -1200,5 +1200,36 @@
     "publishedMediaId": "18135736310509515",
     "permalink": "https://www.instagram.com/reel/DfoKI-hBpO3/",
     "publishedAt": "2026-11-12T04:07:12.355Z"
+  },
+  {
+    "id": 48,
+    "title": "LIMIT REACHED: AI horror trailer. Claude, ChatGPT and Gemini all hit the usage limit at 2 AM; fix = the handover note trick",
+    "caption": "2 AM. Deadline at 10. And every AI says \"limit reached\" 😱👇\n\nThe fix: before you hit the limit, ask for a handover note. Paste it into any other AI and keep working from the same spot.\n\n🔥 Comment \"LIMIT\" and I'll DM you the full handover prompt + a list of free backup AIs 📩\n(DMs go to followers only, so follow first)\n\n💼 Want it done for you? ratnakarmishra.in/services\n\n#Reels #ChatGPT #ClaudeAI #Gemini #AITools #Productivity",
+    "scheduledTimeIST": "17-11-2026 10:35:00 IST",
+    "scheduledDate": "17-11-2026",
+    "scheduledTime": "10:35:00",
+    "localVideoPath": "data/shorts/limit_reached_v1.mp4",
+    "localCoverPath": "data/shorts/limit_reached_cover.jpg",
+    "videoUrl": null,
+    "coverUrl": null,
+    "containerId": null,
+    "status": "READY_TO_PUBLISH",
+    "manualPost": true,
+    "isAiGenerated": true,
+    "dm": {
+      "keyword": "LIMIT",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/ai-limit-handover",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Handover prompt + free backup AI list (guide)",
+      "pdf": {
+        "source": "data/shorts/limit_reached_v1.mp4",
+        "slug": "ai-limit-handover",
+        "title": "Limit reached? The handover trick",
+        "videoUrl": "https://www.youtube.com/@ratnakarmishra06"
+      }
+    },
+    "manifest": "data/reels/2026-11-17-limit-reached.json",
+    "createdAt": "2026-11-17T05:05:14.772Z"
   }
 ]
