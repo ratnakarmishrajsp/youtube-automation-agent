@@ -1268,5 +1268,35 @@
     "publishedMediaId": "17961835845015460",
     "permalink": "https://www.instagram.com/reel/Df3ouopzQo4/",
     "publishedAt": "2026-11-18T04:23:07.492Z"
+  },
+  {
+    "id": 50,
+    "title": "REEL DOCTOR: my reel got 269 views, AI found the mistake (80% skipped in 3 seconds because the opening looked like an ad); insights screenshot + one prompt diagnoses hook, middle or topic",
+    "caption": "My reel got 269 views. AI told me why in seconds 🩺👇\n\n80% of people skipped it in the first 3 seconds, because the opening looked like an ad. My best reel (1.4 lakh views) had only 55% skips.\n\n1️⃣ Open your reel insights\n2️⃣ Screenshot views, skip rate, watch time and shares\n3️⃣ Paste it into ChatGPT or Claude with one prompt\n4️⃣ It tells you if the problem is the hook, the middle or the topic, and writes new hooks\n\n🔥 Comment \"DOCTOR\" and I'll DM you the Reel Doctor prompt 📩\n(DMs go to followers only, so follow first)\n\n💼 Want it done for you? ratnakarmishra.in/services\n\n#Reels #InstagramTips #InstagramGrowth #ChatGPT #ContentCreator #ReelsTips",
+    "scheduledTimeIST": "18-11-2026 15:49:00 IST",
+    "scheduledDate": "18-11-2026",
+    "scheduledTime": "15:49:00",
+    "localVideoPath": "data/shorts/reel_doctor_v1.mp4",
+    "localCoverPath": "data/shorts/reel_doctor_cover.jpg",
+    "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/59f333c1-b799-4d20-aa6a-319499621103?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-18T10%3A54%3A19Z&rscd=attachment%3B+filename%3Dreel_doctor_v1.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-18T09%3A54%3A15Z&ske=2026-11-18T10%3A54%3A19Z&sks=b&skv=2018-11-09&sig=Yr6fHXb1WH%2FaGmZBFkXobiqwrvjKHlleYx3ANm5MSXc%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTAwMDY5MywibmJmIjoxNzk0OTk3MDkzLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.VFa7ne-YiGHm2-oCvTH3yhsL_8D-xO0nzKp6IifM554&response-content-disposition=attachment%3B%20filename%3Dreel_doctor_v1.mp4&response-content-type=application%2Foctet-stream",
+    "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/e0f2f4f8-b9cc-42ca-802c-44ca9943f907?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-18T10%3A54%3A41Z&rscd=attachment%3B+filename%3Dreel_doctor_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-18T09%3A54%3A13Z&ske=2026-11-18T10%3A54%3A41Z&sks=b&skv=2018-11-09&sig=K%2BlOiEDdHQywvglNUeBnjgyokeDzvgalMLrYxbgyiBQ%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NDk5NzM5NCwibmJmIjoxNzk0OTk3MDk0LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.vOeYx17eKwErSltiFZ-cg7Y50neQ9s9aTggQzI8WwA4&response-content-disposition=attachment%3B%20filename%3Dreel_doctor_cover.jpg&response-content-type=application%2Foctet-stream",
+    "containerId": "17912830020570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": true,
+    "dm": {
+      "keyword": "DOCTOR",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/reel-doctor",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "Reel Doctor prompt + how to read your reel insights (guide)",
+      "pdf": {
+        "source": "data/shorts/reel_doctor_v1.mp4",
+        "slug": "reel-doctor",
+        "title": "The Reel Doctor",
+        "videoUrl": "https://www.youtube.com/@ratnakarmishra06"
+      }
+    },
+    "manifest": "data/reels/2026-11-18-reel-doctor.json",
+    "createdAt": "2026-11-18T10:21:24.007Z"
   }
 ]

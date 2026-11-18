@@ -752,5 +752,21 @@
     "mediaId": "17961835845015460",
     "permalink": "https://www.instagram.com/reel/Df3ouopzQo4/",
     "publishedAt": "2026-11-18T04:23:07.492Z"
+  },
+  {
+    "queueId": 50,
+    "title": "REEL DOCTOR: my reel got 269 views, AI found the mistake (80% skipped in 3 seconds because the opening looked like an ad); insights screenshot + one prompt diagnoses hook, middle or topic",
+    "keywords": [
+      "doctor",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/reel-doctor",
+    "followGate": "all",
+    "pdfSlug": "reel-doctor",
+    "pdfTitle": "The Reel Doctor",
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "Reel Doctor prompt + how to read your reel insights (guide)"
   }
 ]
