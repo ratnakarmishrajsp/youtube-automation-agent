@@ -1213,7 +1213,7 @@
     "videoUrl": null,
     "coverUrl": null,
     "containerId": null,
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "manualPost": true,
     "isAiGenerated": true,
     "dm": {
@@ -1230,6 +1230,39 @@
       }
     },
     "manifest": "data/reels/2026-11-17-limit-reached.json",
-    "createdAt": "2026-11-17T05:05:14.772Z"
+    "createdAt": "2026-11-17T05:05:14.772Z",
+    "publishedMediaId": "17967310800248651",
+    "permalink": "https://www.instagram.com/reel/Df1L-I-yeEn/",
+    "publishedAt": "2026-11-17T05:33:26+0000"
+  },
+  {
+    "id": 49,
+    "title": "Phone photo to Instagram ad: one phone photo, Gemini Nano Banana studio shot with the label lock line, Google Flow video, three creatives in one Meta ad set",
+    "caption": "This Instagram ad was just a phone photo 📸👇\n\nNo model. No camera. No studio.\n\n1️⃣ One clean phone photo of your product\n2️⃣ Gemini (Nano Banana) turns it into a studio shot, with one line that keeps your label the same\n3️⃣ Google Flow turns that shot into a video\n4️⃣ Three creatives in one Meta ad set, and Meta finds the winner\n\n🔥 Comment \"AD\" and I'll DM you all 3 prompts 📩\n(DMs go to followers only, so follow first)\n\n💼 Want it done for you? ratnakarmishra.in/services\n\n#Reels #MetaAds #InstagramAds #AIAds #GoogleGemini #SmallBusiness",
+    "scheduledTimeIST": "18-11-2026 09:51:00 IST",
+    "scheduledDate": "18-11-2026",
+    "scheduledTime": "09:51:00",
+    "localVideoPath": "data/shorts/phone_photo_ad_v1.mp4",
+    "localCoverPath": "data/shorts/phone_photo_ad_cover.jpg",
+    "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/24241092-6f9d-4082-b1e2-bbca3257975d?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-18T05%3A21%3A27Z&rscd=attachment%3B+filename%3Dphone_photo_ad_v1.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-18T04%3A21%3A08Z&ske=2026-11-18T05%3A21%3A27Z&sks=b&skv=2018-11-09&sig=gy2jriKZq73n729yb%2FBsR%2BBK8%2ByG608T0G5nP1kXO%2BQ%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NDk3OTMwNiwibmJmIjoxNzk0OTc1NzA2LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.gLIltxCZosYn0YQz5M67DiRrQBx52EZMsYl0BdiTanA&response-content-disposition=attachment%3B%20filename%3Dphone_photo_ad_v1.mp4&response-content-type=application%2Foctet-stream",
+    "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/129003fc-c696-4f22-9c4d-568706a63b60?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-18T05%3A03%3A18Z&rscd=attachment%3B+filename%3Dphone_photo_ad_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-18T04%3A03%3A13Z&ske=2026-11-18T05%3A03%3A18Z&sks=b&skv=2018-11-09&sig=r1GGOgS5eD7ktTI03pOngdp%2BoDs8AqIkPTbV0B0Upec%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NDk3NjAwNywibmJmIjoxNzk0OTc1NzA3LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.AjnSSI8UE7O-OkNYwPJR7DWMMWlY1gWn-LSNGkqfqzw&response-content-disposition=attachment%3B%20filename%3Dphone_photo_ad_cover.jpg&response-content-type=application%2Foctet-stream",
+    "containerId": "17912798727570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": true,
+    "dm": {
+      "keyword": "AD",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/phone-photo-to-instagram-ad",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "All 3 prompts: AI product shot, label lock, photo to video (guide)",
+      "pdf": {
+        "source": "data/shorts/phone_photo_ad_v1.mp4",
+        "slug": "phone-photo-to-instagram-ad",
+        "title": "Phone photo to Instagram ad",
+        "videoUrl": "https://www.youtube.com/@ratnakarmishra06"
+      }
+    },
+    "manifest": "data/reels/2026-11-18-phone-photo-ad.json",
+    "createdAt": "2026-11-18T04:22:27.918Z"
   }
 ]

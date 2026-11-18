@@ -729,6 +729,25 @@
     "dmMessage": null,
     "replyComment": "Sent you a DM! Check your inbox 📩",
     "lang": "en",
-    "resourceLabel": "Handover prompt + free backup AI list (guide)"
+    "resourceLabel": "Handover prompt + free backup AI list (guide)",
+    "mediaId": "17967310800248651",
+    "permalink": "https://www.instagram.com/reel/Df1L-I-yeEn/",
+    "publishedAt": "2026-11-17T05:33:26+0000"
+  },
+  {
+    "queueId": 49,
+    "title": "Phone photo to Instagram ad: one phone photo, Gemini Nano Banana studio shot with the label lock line, Google Flow video, three creatives in one Meta ad set",
+    "keywords": [
+      "ad",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/phone-photo-to-instagram-ad",
+    "followGate": "all",
+    "pdfSlug": "phone-photo-to-instagram-ad",
+    "pdfTitle": "Phone photo to Instagram ad",
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "All 3 prompts: AI product shot, label lock, photo to video (guide)"
   }
 ]
