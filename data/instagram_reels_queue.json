@@ -1315,7 +1315,7 @@
     "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/56d958db-2a61-4c4a-98f6-90566377a556?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-19T09%3A03%3A09Z&rscd=attachment%3B+filename%3Dreel_thief_v2.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-19T08%3A02%3A59Z&ske=2026-11-19T09%3A03%3A09Z&sks=b&skv=2018-11-09&sig=8fwVDdGhuo%2FCaAUY1HXRR%2BKMZlEtFRWJWt4KVRqDfv0%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTA3OTg2NiwibmJmIjoxNzk1MDc2MjY2LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.3aDv2s0ZsVvjr1NSthqU4Z9SyogogBdJVXyzKq9Qxy4&response-content-disposition=attachment%3B%20filename%3Dreel_thief_v2.mp4&response-content-type=application%2Foctet-stream",
     "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/4b5bc2ec-d27f-4dbd-a029-d708d4a289dc?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-19T09%3A14%3A34Z&rscd=attachment%3B+filename%3Dreel_thief_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-19T08%3A14%3A19Z&ske=2026-11-19T09%3A14%3A34Z&sks=b&skv=2018-11-09&sig=Dskb01jXABUP3MVp1b2Wizx6yciS09wpq3e38IS53U0%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTA3NjU2NywibmJmIjoxNzk1MDc2MjY3LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.9s4KWBM5GWwDNoQlr3D7wb-aATBmmBWh2E4tr5AFoEs&response-content-disposition=attachment%3B%20filename%3Dreel_thief_cover.jpg&response-content-type=application%2Foctet-stream",
     "containerId": "17912956752570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": true,
     "dm": {
       "keyword": "FEATURE",
@@ -1331,6 +1331,10 @@
       }
     },
     "manifest": "data/reels/2026-11-19-reel-thief.json",
-    "createdAt": "2026-11-19T08:21:26.286Z"
+    "createdAt": "2026-11-19T08:21:26.286Z",
+    "attempts": 1,
+    "publishedMediaId": "17990467266089341",
+    "permalink": "https://www.instagram.com/reel/Df6o1MkuAu9/",
+    "publishedAt": "2026-11-19T08:21:59.519Z"
   }
 ]
