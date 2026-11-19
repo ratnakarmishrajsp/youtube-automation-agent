@@ -1302,5 +1302,35 @@
     "publishedMediaId": "17871951225663067",
     "permalink": "https://www.instagram.com/reel/Df4RzYHiB-C/",
     "publishedAt": "2026-11-18T10:21:53+0000"
+  },
+  {
+    "id": 51,
+    "title": "THE REEL THIEF: cartoon thief steals your reel, swaps the face and background, goes viral; Instagram's new content protection catches AI-edited copies by your voice; Part 2: edit a Story for 15 minutes without losing views",
+    "caption": "Someone stole your reel and changed the face. Instagram can now catch it 🛡️👇\n\nThieves repost your reel with an AI face and a new background, but they keep YOUR voice. Instagram is testing a new content protection tool that finds those copies by your audio.\n\nPart 2: made a typo in your Story? Don't delete it. You can now edit the text, music and stickers for 15 minutes, and your views stay.\n\n🔥 Comment \"FEATURE\" and I'll DM you how to get a stolen reel removed today 📩\n(DMs go to followers only, so follow first)\n\n#Reels #InstagramTips #InstagramUpdate #ContentCreator #ReelsTips #CreatorTips",
+    "scheduledTimeIST": "19-11-2026 13:48:00 IST",
+    "scheduledDate": "19-11-2026",
+    "scheduledTime": "13:48:00",
+    "localVideoPath": "D:/reel_renders/reel_thief_v2.mp4",
+    "localCoverPath": "D:/reel_renders/reel_thief_cover.jpg",
+    "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/56d958db-2a61-4c4a-98f6-90566377a556?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-19T09%3A03%3A09Z&rscd=attachment%3B+filename%3Dreel_thief_v2.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-19T08%3A02%3A59Z&ske=2026-11-19T09%3A03%3A09Z&sks=b&skv=2018-11-09&sig=8fwVDdGhuo%2FCaAUY1HXRR%2BKMZlEtFRWJWt4KVRqDfv0%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTA3OTg2NiwibmJmIjoxNzk1MDc2MjY2LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.3aDv2s0ZsVvjr1NSthqU4Z9SyogogBdJVXyzKq9Qxy4&response-content-disposition=attachment%3B%20filename%3Dreel_thief_v2.mp4&response-content-type=application%2Foctet-stream",
+    "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/4b5bc2ec-d27f-4dbd-a029-d708d4a289dc?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-19T09%3A14%3A34Z&rscd=attachment%3B+filename%3Dreel_thief_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-19T08%3A14%3A19Z&ske=2026-11-19T09%3A14%3A34Z&sks=b&skv=2018-11-09&sig=Dskb01jXABUP3MVp1b2Wizx6yciS09wpq3e38IS53U0%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTA3NjU2NywibmJmIjoxNzk1MDc2MjY3LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.9s4KWBM5GWwDNoQlr3D7wb-aATBmmBWh2E4tr5AFoEs&response-content-disposition=attachment%3B%20filename%3Dreel_thief_cover.jpg&response-content-type=application%2Foctet-stream",
+    "containerId": "17912956752570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": true,
+    "dm": {
+      "keyword": "FEATURE",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/reel-theft-protection",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "How to get a stolen reel removed + the new Story edit (guide)",
+      "pdf": {
+        "source": "D:/reel_renders/reel_thief_v2.mp4",
+        "slug": "reel-theft-protection",
+        "title": "Stolen Reel? Get It Removed",
+        "videoUrl": "https://www.youtube.com/@ratnakarmishra06"
+      }
+    },
+    "manifest": "data/reels/2026-11-19-reel-thief.json",
+    "createdAt": "2026-11-19T08:21:26.286Z"
   }
 ]
