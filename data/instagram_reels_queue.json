@@ -1349,7 +1349,7 @@
     "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/43d553fc-4c2b-4e27-a559-2a746d26b975?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-25T05%3A03%3A30Z&rscd=attachment%3B+filename%3Dshopify_apps_v1.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-25T04%3A03%3A09Z&ske=2026-11-25T05%3A03%3A30Z&sks=b&skv=2018-11-09&sig=Okev1wXxLUEL%2Fi8qyH5zEIhxXVwY7P7a9EZe5r97DG8%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTU4MzcyOSwibmJmIjoxNzk1NTgwMTI5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.W1ehSL0T8L4dFHOITcmozJrkGYqFh4iJ8O17987xUeU&response-content-disposition=attachment%3B%20filename%3Dshopify_apps_v1.mp4&response-content-type=application%2Foctet-stream",
     "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/dac980bb-c83c-4fe9-b166-b2e6e570e0bd?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-25T05%3A08%3A54Z&rscd=attachment%3B+filename%3Dshopify_apps_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-25T04%3A08%3A41Z&ske=2026-11-25T05%3A08%3A54Z&sks=b&skv=2018-11-09&sig=vWbIqjXlI9gCP3QHCUOnsFebn4fId5eQlQLLUe4kDeU%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTU4MDQzMCwibmJmIjoxNzk1NTgwMTMwLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.VU679_HFUwk4TGZTCbghye0TN6PC9T6iX4qUiypxG60&response-content-disposition=attachment%3B%20filename%3Dshopify_apps_cover.jpg&response-content-type=application%2Foctet-stream",
     "containerId": "17913786318570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": true,
     "dm": {
       "keyword": "APPS",
@@ -1365,6 +1365,10 @@
       }
     },
     "manifest": "data/reels/2026-11-25-shopify-apps.json",
-    "createdAt": "2026-11-25T04:17:45.720Z"
+    "createdAt": "2026-11-25T04:17:45.720Z",
+    "attempts": 1,
+    "publishedMediaId": "18388209931238276",
+    "permalink": "https://www.instagram.com/reel/DgJpw14hc6l/",
+    "publishedAt": "2026-11-25T04:18:20.325Z"
   }
 ]
