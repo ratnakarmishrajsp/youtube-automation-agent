@@ -790,5 +790,21 @@
     "mediaId": "17990467266089341",
     "permalink": "https://www.instagram.com/reel/Df6o1MkuAu9/",
     "publishedAt": "2026-11-19T08:21:59.519Z"
+  },
+  {
+    "queueId": 52,
+    "title": "APPS: stop paying for 5 Shopify apps (countdown timer, free shipping bar, sticky add to cart, size chart, frequently bought together); Claude builds each in your brand colours, paste into the theme, monthly app bill zero",
+    "keywords": [
+      "apps",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/shopify-apps-one-prompt",
+    "followGate": "all",
+    "pdfSlug": "shopify-apps-one-prompt",
+    "pdfTitle": "5 Shopify Apps, One Prompt",
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "All 5 Shopify app prompts + where to paste them (guide)"
   }
 ]

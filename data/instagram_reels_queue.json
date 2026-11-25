@@ -1336,5 +1336,35 @@
     "publishedMediaId": "17990467266089341",
     "permalink": "https://www.instagram.com/reel/Df6o1MkuAu9/",
     "publishedAt": "2026-11-19T08:21:59.519Z"
+  },
+  {
+    "id": 52,
+    "title": "APPS: stop paying for 5 Shopify apps (countdown timer, free shipping bar, sticky add to cart, size chart, frequently bought together); Claude builds each in your brand colours, paste into the theme, monthly app bill zero",
+    "caption": "Stop paying for 5 Shopify apps. One prompt does it 🛒👇\n\nCountdown timer, free shipping bar, sticky add to cart, size chart and frequently bought together. Each one is a separate app with its own monthly bill.\n\nI asked Claude to build each one in my brand colours, pasted the code into my theme, and it went live. No app bill, and a lighter store, because no extra app code loads.\n\n🔥 Comment \"APPS\" and I'll DM you all 5 prompts + where to paste them 📩\n(DMs go to followers only, so follow first)\n\n💼 Want it done for you? ratnakarmishra.in/services\n\n#Reels #Shopify #ShopifyTips #ClaudeAI #Ecommerce #ShopifyStore",
+    "scheduledTimeIST": "25-11-2026 09:46:00 IST",
+    "scheduledDate": "25-11-2026",
+    "scheduledTime": "09:46:00",
+    "localVideoPath": "../Main Channel Video/reels/3_final/claude/shopify_apps_v1.mp4",
+    "localCoverPath": "data/shorts/shopify_apps_cover.jpg",
+    "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/43d553fc-4c2b-4e27-a559-2a746d26b975?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-25T05%3A03%3A30Z&rscd=attachment%3B+filename%3Dshopify_apps_v1.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-25T04%3A03%3A09Z&ske=2026-11-25T05%3A03%3A30Z&sks=b&skv=2018-11-09&sig=Okev1wXxLUEL%2Fi8qyH5zEIhxXVwY7P7a9EZe5r97DG8%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTU4MzcyOSwibmJmIjoxNzk1NTgwMTI5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.W1ehSL0T8L4dFHOITcmozJrkGYqFh4iJ8O17987xUeU&response-content-disposition=attachment%3B%20filename%3Dshopify_apps_v1.mp4&response-content-type=application%2Foctet-stream",
+    "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/dac980bb-c83c-4fe9-b166-b2e6e570e0bd?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-25T05%3A08%3A54Z&rscd=attachment%3B+filename%3Dshopify_apps_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-25T04%3A08%3A41Z&ske=2026-11-25T05%3A08%3A54Z&sks=b&skv=2018-11-09&sig=vWbIqjXlI9gCP3QHCUOnsFebn4fId5eQlQLLUe4kDeU%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTU4MDQzMCwibmJmIjoxNzk1NTgwMTMwLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.VU679_HFUwk4TGZTCbghye0TN6PC9T6iX4qUiypxG60&response-content-disposition=attachment%3B%20filename%3Dshopify_apps_cover.jpg&response-content-type=application%2Foctet-stream",
+    "containerId": "17913786318570332",
+    "status": "READY_TO_PUBLISH",
+    "isAiGenerated": true,
+    "dm": {
+      "keyword": "APPS",
+      "link": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/shopify-apps-one-prompt",
+      "followGate": "all",
+      "lang": "en",
+      "resourceLabel": "All 5 Shopify app prompts + where to paste them (guide)",
+      "pdf": {
+        "source": "C:/Users/Ratnakar/Desktop/Main Channel Video/reels/3_final/claude/shopify_apps_v1.mp4",
+        "slug": "shopify-apps-one-prompt",
+        "title": "5 Shopify Apps, One Prompt",
+        "videoUrl": "https://www.youtube.com/@ratnakarmishra06"
+      }
+    },
+    "manifest": "data/reels/2026-11-25-shopify-apps.json",
+    "createdAt": "2026-11-25T04:17:45.720Z"
   }
 ]
