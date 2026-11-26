@@ -1383,7 +1383,7 @@
     "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/16d8bc2a-db5c-404e-b32d-baeaf45da458?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-26T10%3A09%3A49Z&rscd=attachment%3B+filename%3Dclient_change_v1.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-26T09%3A09%3A27Z&ske=2026-11-26T10%3A09%3A49Z&sks=b&skv=2018-11-09&sig=Tf7PTEsbHw%2BRaycwtiqSJ3TX8f4zFjgJ7jMC%2FNz0vvs%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTY4ODQyMiwibmJmIjoxNzk1Njg0ODIyLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.NpLzGwTjRi0BBo9vuaL-VDPSkbRjc6FRMi24jIoGwy0&response-content-disposition=attachment%3B%20filename%3Dclient_change_v1.mp4&response-content-type=application%2Foctet-stream",
     "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/b1396a83-d805-4e21-ba11-b349c2423516?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-26T10%3A07%3A54Z&rscd=attachment%3B+filename%3Dclient_change_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-26T09%3A07%3A12Z&ske=2026-11-26T10%3A07%3A54Z&sks=b&skv=2018-11-09&sig=F5peSQDXlqFA8yHteFhOmLO8BVlYia%2FGrG0tt4ef3%2FY%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTY4NTEyMywibmJmIjoxNzk1Njg0ODIzLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.8hJHWTZwTWVklV1H2Q2kies2Sbr6RCPgtYL3Pi6m_zg&response-content-disposition=attachment%3B%20filename%3Dclient_change_cover.jpg&response-content-type=application%2Foctet-stream",
     "containerId": "17913949317570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": true,
     "dm": {
       "keyword": "CLIENT",
@@ -1399,6 +1399,10 @@
       }
     },
     "manifest": "data/reels/2026-11-26-client-change.json",
-    "createdAt": "2026-11-26T09:21:07.162Z"
+    "createdAt": "2026-11-26T09:21:07.162Z",
+    "attempts": 1,
+    "publishedMediaId": "18080550110757787",
+    "permalink": "https://www.instagram.com/reel/DgMxRM2BvuR/",
+    "publishedAt": "2026-11-26T09:21:33.231Z"
   }
 ]
