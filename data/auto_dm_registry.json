@@ -809,5 +809,21 @@
     "mediaId": "18388209931238276",
     "permalink": "https://www.instagram.com/reel/DgJpw14hc6l/",
     "publishedAt": "2026-11-25T04:18:20.325Z"
+  },
+  {
+    "queueId": 53,
+    "title": "CLIENT: \"just one small change\", version 17 at 2 AM; all the client's notes in one ChatGPT prompt, 10 versions in one go, client picks #3, 17 rounds become 1",
+    "keywords": [
+      "client",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/client-ten-versions",
+    "followGate": "all",
+    "pdfSlug": "client-ten-versions",
+    "pdfTitle": "Ten Versions, One Round",
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "The 10-versions prompt + client feedback template (guide)"
   }
 ]
