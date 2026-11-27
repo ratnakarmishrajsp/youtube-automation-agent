@@ -31,7 +31,8 @@ function extractNumbers(text) {
  */
 function validateGuideNumbersAndBrands(guideData, transcriptText) {
   const guideString = JSON.stringify(guideData);
-  const guideNumbers = extractNumbers(guideString);
+  // Digits inside links (course IDs, tracking IDs) are not claims, so links are left out of the number check.
+  const guideNumbers = extractNumbers(guideString.replace(/https?:\/\/[^\s"'\\<>]+/g, ' '));
   const transcriptNumbers = new Set(extractNumbers(transcriptText));
 
   // Also build normalized versions of numbers for flexible matching (e.g. 21X -> 21, ₹1499 -> 1499)
