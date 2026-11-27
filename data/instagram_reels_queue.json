@@ -1451,7 +1451,7 @@
     "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/cfd084bc-64eb-4739-93a7-1dccc6841e8c?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-27T07%3A02%3A45Z&rscd=attachment%3B+filename%3DRatnakar_Services_Reel_v3.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-27T06%3A02%3A27Z&ske=2026-11-27T07%3A02%3A45Z&sks=b&skv=2018-11-09&sig=LGOHOFxN61UoSVlnOX9ddORfsWPimjCRCQYzPaZFNzU%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTc2MzMzOSwibmJmIjoxNzk1NzU5NzM5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.3vbRM2N2xfGAr56XKZQYXQ5T4W2L51rdkrsUtH3d738&response-content-disposition=attachment%3B%20filename%3DRatnakar_Services_Reel_v3.mp4&response-content-type=application%2Foctet-stream",
     "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/b50eccf2-8c13-4c93-9f05-5ee188e53278?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-27T06%3A51%3A13Z&rscd=attachment%3B+filename%3Dservices_launch_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-27T05%3A50%3A18Z&ske=2026-11-27T06%3A51%3A13Z&sks=b&skv=2018-11-09&sig=%2FGU6IOiqPkVPfcwM56ITQgb2B7%2Bu%2FJQqik7ajKZ%2BOew%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTc2MDA0MiwibmJmIjoxNzk1NzU5NzQyLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.PTOij39SY0Th2eATm9svqRWNukBab6Cc0XS2wW6_tmc&response-content-disposition=attachment%3B%20filename%3Dservices_launch_cover.jpg&response-content-type=application%2Foctet-stream",
     "containerId": "17914066413570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "FAILED",
     "isAiGenerated": false,
     "dm": {
       "keyword": "SERVICES",
@@ -1462,6 +1462,8 @@
       "services": false
     },
     "manifest": "data/reels/2026-11-27-services-launch.json",
-    "createdAt": "2026-11-27T06:09:39.623Z"
+    "createdAt": "2026-11-27T06:09:39.623Z",
+    "attempts": 3,
+    "lastError": "Cancelled on purpose 27 Nov: duplicate. This reel is already on Instagram from his phone (12 Nov, DfpQwVfyja2). Never publish."
   }
 ]
