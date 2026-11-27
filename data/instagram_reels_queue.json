@@ -1417,7 +1417,7 @@
     "videoUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/3d7d972c-3be8-41fe-aa24-a934ecbcf26c?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-27T06%3A29%3A30Z&rscd=attachment%3B+filename%3Dlaptop_claude_v1.mp4&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-27T05%3A29%3A00Z&ske=2026-11-27T06%3A29%3A30Z&sks=b&skv=2018-11-09&sig=K5Dfsre%2FTM89dOBllWsv8RWFtkcbi3P2fICRr8PWnMY%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTc2MTk5OSwibmJmIjoxNzk1NzU4Mzk5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.VwwaVEILdcIti1o0TPcbblb1ilZlv2HCbQ2q88Zlbtc&response-content-disposition=attachment%3B%20filename%3Dlaptop_claude_v1.mp4&response-content-type=application%2Foctet-stream",
     "coverUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1391761063/1fcfb6a5-9061-456e-80db-cf875e6c706e?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-27T06%3A27%3A51Z&rscd=attachment%3B+filename%3Dlaptop_claude_cover.jpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-27T05%3A26%3A55Z&ske=2026-11-27T06%3A27%3A51Z&sks=b&skv=2018-11-09&sig=G52e%2B3rfnjyJNKjtpDHIldCwWPmZFKb1X0Jh5kaQNiE%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NTc1ODcwMCwibmJmIjoxNzk1NzU4NDAwLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.bvMlU4KwL-DQhMnahk3EmPlLIU6TRiM53qpQqxDoAvw&response-content-disposition=attachment%3B%20filename%3Dlaptop_claude_cover.jpg&response-content-type=application%2Foctet-stream",
     "containerId": "17914064634570332",
-    "status": "READY_TO_PUBLISH",
+    "status": "PUBLISHED",
     "isAiGenerated": true,
     "dm": {
       "keyword": "LAPTOP",
@@ -1433,6 +1433,10 @@
       }
     },
     "manifest": "data/reels/2026-11-27-laptop-claude.json",
-    "createdAt": "2026-11-27T05:47:37.577Z"
+    "createdAt": "2026-11-27T05:47:37.577Z",
+    "attempts": 1,
+    "publishedMediaId": "17876015907640852",
+    "permalink": "https://www.instagram.com/reel/DgO9oOKiEUB/",
+    "publishedAt": "2026-11-27T05:48:03.853Z"
   }
 ]
