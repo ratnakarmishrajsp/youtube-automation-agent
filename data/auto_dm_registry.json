@@ -828,5 +828,21 @@
     "mediaId": "18080550110757787",
     "permalink": "https://www.instagram.com/reel/DgMxRM2BvuR/",
     "publishedAt": "2026-11-26T09:21:33.231Z"
+  },
+  {
+    "queueId": 54,
+    "title": "LAPTOP: my laptop is working, I'm not; Claude uses the computer by itself, one line opens a competitor's site, puts every product and price in a sheet and flags where I'm pricier; only the apps you allow",
+    "keywords": [
+      "laptop",
+      "link"
+    ],
+    "youtubeUrl": "https://ratnakar-auto-dm.ratnakar-auto-dm.workers.dev/guide/laptop-claude-computer-use",
+    "followGate": "all",
+    "pdfSlug": "laptop-claude-computer-use",
+    "pdfTitle": "Let Claude Use Your Computer",
+    "dmMessage": null,
+    "replyComment": "Sent you a DM! Check your inbox 📩",
+    "lang": "en",
+    "resourceLabel": "How to let Claude use your computer + 10 safe tasks (guide)"
   }
 ]
